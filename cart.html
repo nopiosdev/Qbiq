@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - Glass Designer</title>
+    
+    <!-- lib -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Sarabun:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+
+    <link rel="stylesheet" href="lib/bootstrap/v_5.1/bootstrap.min.css" />
+    <script src="lib/bootstrap/v_5.1/bootstrap.bundle.min.js"></script>
+    <script src="lib/jquery/v_3.7.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/responsive.css" />
+
+    <script src="assets/js/script.js"></script>
+
+    <style>
+        .sarabun-thin { font-family: "Sarabun", sans-serif;font-weight: 100;font-style: normal; }
+        .sarabun-extralight { font-family: "Sarabun", sans-serif;font-weight: 200;font-style: normal; }
+        .sarabun-light { font-family: "Sarabun", sans-serif;font-weight: 300;font-style: normal; }
+        .sarabun-regular { font-family: "Sarabun", sans-serif;font-weight: 400;font-style: normal; }
+        .sarabun-medium { font-family: "Sarabun", sans-serif;font-weight: 500;font-style: normal; }
+        .sarabun-semibold { font-family: "Sarabun", sans-serif;font-weight: 600;font-style: normal; }
+        .sarabun-bold { font-family: "Sarabun", sans-serif;font-weight: 700;font-style: normal; }
+        .sarabun-extrabold { font-family: "Sarabun", sans-serif;font-weight: 800;font-style: normal; }
+        .sarabun-thin-italic { font-family: "Sarabun", sans-serif;font-weight: 100;font-style: italic; }
+        .sarabun-extralight-italic { font-family: "Sarabun", sans-serif;font-weight: 200;font-style: italic; }
+        .sarabun-light-italic { font-family: "Sarabun", sans-serif;font-weight: 300;font-style: italic; }
+        .sarabun-regular-italic { font-family: "Sarabun", sans-serif;font-weight: 400;font-style: italic; }
+        .sarabun-medium-italic { font-family: "Sarabun", sans-serif;font-weight: 500;font-style: italic; }
+        .sarabun-semibold-italic { font-family: "Sarabun", sans-serif;font-weight: 600;font-style: italic; }
+        .sarabun-bold-italic { font-family: "Sarabun", sans-serif;font-weight: 700;font-style: italic; }
+        .sarabun-extrabold-italic { font-family: "Sarabun", sans-serif;font-weight: 800;font-style: italic; }
+
+        .header{}
+        .upper-header{display: block;width: 100%;background-color: #1F3942;color: #fff;padding: 0px 50px;}
+        .upper-header ul{display: block;align-items: center;list-style: none;width: 100%;padding: 0px;margin: 0px;}
+        .upper-header ul li{display: inline-flex;font-size: 14px;min-height: 40px;margin-right: 20px; align-items: center;gap: 7px;}
+        .upper-header ul li:last-child{ margin-right: 0px; }
+        .main-header{padding: 0px 50px;}
+
+        .custom-green-btn{ background-color: #447384;color: #fff; }
+
+    </style>
+
+</head>
+<body>
+    <div class="header shadow-lg border border-bottom-1">
+        <div class="upper-header">
+            <ul>
+                <li>
+                    <img src="assets/image/circle-check-big.png" alt="circle-check-big.png" />
+                    <span>Binnen 24 werkdagen geleverd</span>
+                </li>
+                <li>
+                    <img src="assets/image/circle-check-big.png" alt="circle-check-big.png" />
+                    <span>6 jaar garantie</span>
+                </li>
+                <li>
+                    <img src="assets/image/circle-check-big.png" alt="circle-check-big.png" />
+                    <span>Eenvouding to bestellen</span>
+                </li>
+
+                <li class="float-end me-4">
+                    <img src="assets/image/lang-flag.png"  style="max-width: 24px;width: 100%;"/>
+                </li>
+                <li class="float-end"> 
+                    <span>Nieuws</span>
+                </li>
+                <li class="float-end me-4"> 
+                    <span>Contact</span>
+                </li>
+                
+            </ul>
+        </div>
+        <div class="main-header">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="index.html"><img src="assets/image/logo.png" class="img-fluid" /></a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-center" id="navbarNavAltMarkup">
+                        <div class="navbar-nav gap-5">
+                            <a class="nav-link active" aria-current="page" href="#">Producten</a>
+                            <a class="nav-link" href="#">Portfolio</a>
+                            <a class="nav-link" href="#">Duurzaam</a>
+                            <a class="nav-link disabled">Over ons</a>
+                        </div>
+                    </div>
+                    <div class="d-inline-flex align-items-center gap-1">
+                        <a class="nav-link btn custom-green-btn" aria-current="page" href="javascript:void(0)" style="border-radius: 7px;">Configurator</a>
+                        <a href="javascript:void(0)" class="btn p-2 border rounded-3 d-flex align-items-center">
+                            <img src="assets/image/user-round.png" alt="user-round">
+                        </a>
+                        <a href="cart.html" class="btn p-2 border rounded-3 d-flex align-items-center">
+                            <img src="assets/image/shopping-cart.png" alt="user-round">
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <!-- shopping cart page -->
+    <div class="shopping-cart">
+        <div class="cart-section">
+            <div class="container px-3">
+                <div clas="row">
+                    <div class="col-md-12 px-0 pt-5 pb-5 d-flex align-items-center justify-content-between">
+                        <h2 class="display-3 fw-bold">Winkelwagen</h2>
+                        <button type="button" class="btn btn-transparent fw-bold rounded-3 border border-1 border-secondary p-2 px-3 mt-2">Nog een wand samenstellen</button>
+                    </div>
+                </div>
+                <div id="cartItemList" class="d-block w-100">
+                    <div class="d-flex w-100 cart-item border border-start-0 border-end-0 border-bottom-0 border-top-1 pt-4">
+                        <div class="col-lg-2 col-md-2 col-sm-12 d-flex align-items-start justify-content-center">
+                            <img src="assets/image/no-img.png" alt="no-img" class="img-fluid w-75 mx-auto" />
+                        </div>
+                        <div class="col-lg-10 col-md-10 col-sm-12 pe-3">
+                            <div class="row mb-3">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <h4 class="h5 fw-bold">iQ structural 100</h4>
+                                    <label class="fs-6">2400mm x 7000mm</label>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <div class="d-flex align-items-start w-100 mb-1">
+                                        <div class="col-lg-4 col-md-4 col-4">
+                                            <label class="fs-6 fw-bold">Glassoort:</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-7 col-7">
+                                            <span>10.76 mm dikte</span>
+                                        </div> 
+                                    </div>
+                                    <div class="d-flex align-items-start w-100 mb-1"> 
+                                        <div class="col-lg-4 col-md-4 col-4">
+                                            <label class="fs-6 fw-bold">Deurunits:</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-7 col-7">
+                                            <span>Hardglazen deur van 10 mm in een DK42 blokkozijn</span>
+                                        </div> 
+                                    </div>
+                                    <div class="d-flex align-items-start w-100 mb-1"> 
+                                        <div class="col-lg-4 col-md-4 col-4">
+                                            <label class="fs-6 fw-bold">Draairichting:</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-7 col-7">
+                                            <span>Linksdraaiend</span>
+                                        </div> 
+                                    </div>
+                                    <div class="d-flex align-items-start w-100 mb-1"> 
+                                        <div class="col-lg-4 col-md-4 col-4">
+                                            <label class="fs-6 fw-bold">Valdorpel:</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-7 col-7">
+                                            <span>Wel valdorpel</span>
+                                        </div> 
+                                    </div>
+                                    <div class="d-flex align-items-start w-100 mb-1"> 
+                                        <div class="col-lg-4 col-md-4 col-4">
+                                            <label class="fs-6 fw-bold">Slot:</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-7 col-7">
+                                            <span>Standaard slot</span>
+                                        </div>
+                                    </div> 
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <div class="d-flex align-items-start w-100 mb-1">
+                                        <div class="col-lg-4 col-md-4 col-4">
+                                            <label class="fs-6 fw-bold">Deurkruk:</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-7 col-7">
+                                            <span>Standaard deurkruk</span>
+                                        </div> 
+                                    </div>
+                                    <div class="d-flex align-items-start w-100 mb-1"> 
+                                        <div class="col-lg-4 col-md-4 col-4">
+                                            <label class="fs-6 fw-bold">Kozijnkleur:</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-7 col-7">
+                                            <span>Ultrareine zone wit</span>
+                                        </div> 
+                                    </div>
+                                    <div class="d-flex align-items-start w-100 mb-1"> 
+                                        <div class="col-lg-4 col-md-4 col-4">
+                                            <label class="fs-6 fw-bold">Afwerking:</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-7 col-7">
+                                            <span>30% afwerking</span>
+                                        </div> 
+                                    </div>
+                                    <div class="d-flex align-items-start w-100 mb-1"> 
+                                        <div class="col-lg-4 col-md-4 col-4">
+                                            <label class="fs-6 fw-bold">Inmeten:</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-7 col-7">
+                                            <span>Zelf inmeten</span>
+                                        </div> 
+                                    </div>
+                                    <div class="d-flex align-items-start w-100 mb-1"> 
+                                        <div class="col-lg-4 col-md-4 col-4">
+                                            <label class="fs-6 fw-bold">Bezorging:</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-7 col-7">
+                                            <span>Bezorgen</span>
+                                        </div>
+                                    </div> 
+                                </div> 
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-lg-12 col-md-12 col-12 px-1">
+                                    <button type="button" class="d-flex align-items-center btn p-1 text text-orange">Details inklappen <span class="material-icons">remove</span> </button>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <span class="qty-field border border-secondary rounded-3">
+                                    <span class="btn sub-qty d-flex align-items-center justify-content-center p-0">
+                                        <span class="material-icons">remove</span>
+                                    </span>
+                                    <input type="number" class="d-block no-updown-arrow qty-input-field border-0 text-center" value="0" min="0" />
+                                    <span class="btn plus-qty d-flex align-items-center justify-content-center p-0">
+                                        <span class="material-icons">add</span>
+                                    </span>
+                                </span>
+                                <span class="text text-dark fs-4">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="cart-summary-section">
+            <div class="row w-100">
+                <div class="col-lg-10 px-0 mx-auto">
+                    <div class="d-block w-100 mb-4">
+                        <h5 class="h4 fw-bold">Overzicht</h5>
+                    </div>
+                    <ul class="list-group border-0 w-100">
+                        <li class="d-flex align-items-center justify-content-between w-100 mb-1">
+                            <span class="fs-5 text-secondary fw-light">Subtotaal (excl. BTW)</span>
+                            <span class="fs-5 text-secondary fw-light">€<span id="cartsubTotal"></span> </span>
+                        </li>
+                        <li class="d-flex align-items-center justify-content-between w-100 mb-1">
+                            <span class="fs-5 text-secondary fw-light">Verzendkosten</span>
+                            <span class="fs-5 text-secondary fw-light">0</span>
+                        </li>
+                        <li class="d-flex align-items-center justify-content-between w-100 mb-1">
+                            <span class="fs-5 text-secondary fw-light">BTW</span>
+                            <span class="fs-5 text-secondary fw-light">0</span>
+                        </li>
+                        <hr>
+                        <li class="d-flex align-items-center justify-content-between w-100 mb-1">
+                            <span class="fs-5 text-dark fw-bold">Totaal</span>
+                            <span class="fs-5 text-dark fw-bold">€<span id="cartTotal"></span> </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    $(function(){
+        loadCartItems();
+    })
+</script>
+
+</body>
+</html>

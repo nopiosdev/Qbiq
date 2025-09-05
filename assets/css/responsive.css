@@ -1,0 +1,23 @@
+@media (max-width: 1440px){
+    .glass-frame{ zoom: 1; }
+}
+@media (max-width: 1240px){
+    /* steps-nav css start */
+    .steps-nav ul{ justify-content: left; }
+    /* designer-canvas css start */
+    .glass-designer .designer-canvas{ width: 60%; }
+    /* designer-controller css start */
+    .glass-designer .designer-controller{ width: 40%; }
+}
+@media (max-width: 768px){
+    /* glass-designer css start */
+    .glass-designer{ height: auto;min-height: 100vh; }
+    /* designer-canvas css start */
+    .glass-designer .designer-canvas{ width: 100%; }
+    /* designer-controller css start */
+    .glass-designer .designer-controller{ width: 100%; }
+}
+
+@media (max-height: 800px){
+    .glass-frame{ zoom: 1.1; }
+}

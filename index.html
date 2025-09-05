@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glass Designer</title>
+    
+    <!-- lib -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Sarabun:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+
+    <link rel="stylesheet" href="lib/bootstrap/v_5.1/bootstrap.min.css" />
+    <script src="lib/bootstrap/v_5.1/bootstrap.bundle.min.js"></script>
+    <script src="lib/jquery/v_3.7.1/jquery.min.js"></script>
+
+    <!-- html2canvas script -->
+    <script src='lib/canvas2html/html2canvas.js'></script>
+
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/responsive.css" />
+
+    <script src="assets/js/script.js"></script>
+
+    <style>
+        .sarabun-thin { font-family: "Sarabun", sans-serif;font-weight: 100;font-style: normal; }
+        .sarabun-extralight { font-family: "Sarabun", sans-serif;font-weight: 200;font-style: normal; }
+        .sarabun-light { font-family: "Sarabun", sans-serif;font-weight: 300;font-style: normal; }
+        .sarabun-regular { font-family: "Sarabun", sans-serif;font-weight: 400;font-style: normal; }
+        .sarabun-medium { font-family: "Sarabun", sans-serif;font-weight: 500;font-style: normal; }
+        .sarabun-semibold { font-family: "Sarabun", sans-serif;font-weight: 600;font-style: normal; }
+        .sarabun-bold { font-family: "Sarabun", sans-serif;font-weight: 700;font-style: normal; }
+        .sarabun-extrabold { font-family: "Sarabun", sans-serif;font-weight: 800;font-style: normal; }
+        .sarabun-thin-italic { font-family: "Sarabun", sans-serif;font-weight: 100;font-style: italic; }
+        .sarabun-extralight-italic { font-family: "Sarabun", sans-serif;font-weight: 200;font-style: italic; }
+        .sarabun-light-italic { font-family: "Sarabun", sans-serif;font-weight: 300;font-style: italic; }
+        .sarabun-regular-italic { font-family: "Sarabun", sans-serif;font-weight: 400;font-style: italic; }
+        .sarabun-medium-italic { font-family: "Sarabun", sans-serif;font-weight: 500;font-style: italic; }
+        .sarabun-semibold-italic { font-family: "Sarabun", sans-serif;font-weight: 600;font-style: italic; }
+        .sarabun-bold-italic { font-family: "Sarabun", sans-serif;font-weight: 700;font-style: italic; }
+        .sarabun-extrabold-italic { font-family: "Sarabun", sans-serif;font-weight: 800;font-style: italic; }
+
+        .header{}
+        .upper-header{display: block;width: 100%;background-color: #1F3942;color: #fff;padding: 0px 50px;}
+        .upper-header ul{display: block;align-items: center;list-style: none;width: 100%;padding: 0px;margin: 0px;}
+        .upper-header ul li{display: inline-flex;font-size: 14px;min-height: 40px;margin-right: 20px; align-items: center;gap: 7px;}
+        .upper-header ul li:last-child{ margin-right: 0px; }
+        .main-header{padding: 0px 50px;}
+
+        .custom-green-btn{ background-color: #447384;color: #fff; }
+
+    </style>
+
+</head>
+<body>
+    <div class="header shadow-lg border border-bottom-1">
+        <div class="upper-header">
+            <ul>
+                <li>
+                    <img src="assets/image/circle-check-big.png" alt="circle-check-big.png" />
+                    <span>Binnen 24 werkdagen geleverd</span>
+                </li>
+                <li>
+                    <img src="assets/image/circle-check-big.png" alt="circle-check-big.png" />
+                    <span>6 jaar garantie</span>
+                </li>
+                <li>
+                    <img src="assets/image/circle-check-big.png" alt="circle-check-big.png" />
+                    <span>Eenvouding to bestellen</span>
+                </li>
+
+                <li class="float-end me-4">
+                    <img src="assets/image/lang-flag.png"  style="max-width: 24px;width: 100%;"/>
+                </li>
+                <li class="float-end"> 
+                    <span>Nieuws</span>
+                </li>
+                <li class="float-end me-4"> 
+                    <span>Contact</span>
+                </li>
+                
+            </ul>
+        </div>
+        <div class="main-header">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="index.html"><img src="assets/image/logo.png" class="img-fluid" /></a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-center" id="navbarNavAltMarkup">
+                        <div class="navbar-nav gap-5">
+                            <a class="nav-link active" aria-current="page" href="#">Producten</a>
+                            <a class="nav-link" href="#">Portfolio</a>
+                            <a class="nav-link" href="#">Duurzaam</a>
+                            <a class="nav-link disabled">Over ons</a>
+                        </div>
+                    </div>
+                    <div class="d-inline-flex align-items-center gap-1">
+                        <a class="nav-link btn custom-green-btn" aria-current="page" href="javascript:void(0)" style="border-radius: 7px;">Configurator</a>
+                        <a href="javascript:void(0)" class="btn p-2 border rounded-3 d-flex align-items-center">
+                            <img src="assets/image/user-round.png" alt="user-round">
+                        </a>
+                        <a href="cart.html" class="btn p-2 border rounded-3 d-flex align-items-center">
+                            <img src="assets/image/shopping-cart.png" alt="user-round">
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div id="glassDesigner" class="glass-designer">
+        <div class="designer-canvas">
+            <div class="steps-nav">
+                <ul>
+                    <li class="step-nav-1 active" data-step="1">
+                        <span class="material-icons arrow">chevron_right</span>
+                        <span class="step-text">
+                            <span class="position-relative  badge rounded-pill fw-light">1</span>
+                            <span class="position-relative  badge complete rounded-pill fw-light justify-content-center align-items-center"><span class="material-icons">check</span></span>
+                            Uitvoering 
+                        </span>
+                    </li>
+                    <li class="step-nav-2" data-step="2">
+                        <span class="material-icons arrow">chevron_right</span>
+                        <span class="step-text">
+                            <span class="position-relative  badge rounded-pill fw-light">2</span>
+                            <span class="position-relative  badge complete rounded-pill fw-light justify-content-center align-items-center"><span class="material-icons">check</span></span>
+                            Glas 
+                        </span>
+                    </li>
+                    <li class="step-nav-3" data-step="3">
+                        <span class="material-icons arrow">chevron_right</span>
+                        <span class="step-text">
+                            <span class="position-relative badge rounded-pill fw-light">3</span>
+                            <span class="position-relative  badge complete rounded-pill fw-light justify-content-center align-items-center"><span class="material-icons">check</span></span>
+                            Deuren 
+                        </span>
+                    </li>
+                    <li class="step-nav-4" data-step="4">
+                        <span class="material-icons arrow">chevron_right</span>
+                        <span class="step-text">
+                            <span class="position-relative  badge rounded-pill fw-light">4</span>
+                            <span class="position-relative  badge complete rounded-pill fw-light justify-content-center align-items-center"><span class="material-icons">check</span></span>
+                            Afwerking 
+                        </span>
+                    </li>
+                    <li class="step-nav-5" data-step="5">
+                        <span class="material-icons arrow">chevron_right</span>
+                        <span class="step-text">
+                            <span class="position-relative  badge rounded-pill fw-light">5</span>
+                            <span class="position-relative  badge complete rounded-pill fw-light justify-content-center align-items-center"><span class="material-icons">check</span></span>
+                            Afronding 
+                        </span>
+                    </li>
+                </ul>
+            </div>
+            <div class="design-panel">
+                <div id="glassFrame" class="glass-frame">
+                    <div class="glass-item"></div>
+                </div>
+                <div id="canvasResult" class="d-none"></div>
+                <div id="imgResult" class="d-none"></div>
+            </div>
+        </div>
+        <div class="designer-controller">
+            <form class="d-flex flex-column flex-nowrap w-100 h-100">
+                <div class="steps-wrapper d-block h-100 w-100">
+                    <div class="step step-1 w-100 p-3 px-4 active" data-step="1">
+                        <div class="heading d-block mb-4">
+                            <h5 class="fw-bold">Step 1 - Uitvoering</h5>
+                            <p>Bepaal de maatvoering en type glaswand die jij nodig hebt</p>
+                        </div> 
+
+                        <div class="rounded-3 border border-1 bg-light w-100 p-3 mb-3">
+                            <div class="d-flex align-items-center justify-content-between w-100 mb-3">
+                                <h6 class="fw-bold">Maatvoering</h6>
+                                <button type="button" class="btn p-0 d-flex align-items-center text-orange" data-bs-toggle="tooltip" data-bs-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">
+                                    <span class="material-icons">info_outline</span>
+                                </button>
+                            </div>
+                            <div class="d-block w-100 mb-3">
+                              <label for="width" class="form-label" style="color: #447384;">Breedte</label>
+                              <input type="number" class="form-control placeholder-right no-updown-arrow field wall-width-field" id="width" name="width" placeholder="mm" min="200" max="7000" required /> 
+                              <span class="text-secondary" style="font-size: 14px;">Min 200 mm, max 7000 mm</span>
+                            </div> 
+                            <div class="d-block w-100 mb-3">
+                              <label for="length" class="form-label" style="color: #447384;">Lengte</label>
+                              <input type="number" class="form-control placeholder-right no-updown-arrow field wall-length-field" id="length" name="length" placeholder="mm" min="200" max="3000" required />
+                              <span class="text-secondary" style="font-size: 14px;">Min 200 mm, max 3000 mm</span>
+                            </div> 
+                        </div>
+        
+                        <div class="info-box rounded-3 border w-100 p-3 mb-3 mb-3 text-secondary" style="border-color: #dadada">
+                            Zorg ervoor dat je uiterst nauwkeurig meet, tot op de millimeter. Er is slechts een kleine marge beschikbaar: 8 mm in de hoogte en 4 mm in de breedte. Dit is essentieel om een perfecte pasvorm te garanderen.
+                        </div> 
+        
+                        <div class="d-block w-100 mb-3 p-3 border border-1 rounded-3 bg-light w-100 mb-3 radio-fields">
+                            <div class="d-flex align-items-center justify-content-between w-100 mb-3">
+                                <h6 class="fw-bold">Soort wand</h6>
+                                <button type="button" class="btn p-0 d-flex align-items-center text-orange" data-bs-toggle="tooltip" data-bs-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">
+                                    <span class="material-icons">info_outline</span>
+                                </button>
+                            </div>
+                            <div class="row wall-type-fields radio-check-field field" data-name="walltype" data-type="radio" required="true">
+                                <div class="col-lg-6 col-md-6 col-6 px-2">
+                                    <label for="walltype1" class="p-0 pb-2 custom-radio w-100">
+                                        <input class="d-none walltype-field" type="radio" name="walltype" id="walltype1" value="120" data-label="IQ Single 120" />  
+                                        <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
+                                            <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €<span class="count">0</span>,-</span>
+                                            <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
+                                                <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                <span class="material-icons check-icon checked rounded-circle bg-orange text-white">check</span>
+                                            </span>
+                                        </span>
+                                        <span class="d-block option-text lh-1">IQ Single 120</span>
+                                    </label> 
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-6 px-2">
+                                    <label for="walltype2" class="p-0 pb-2 custom-radio w-100">
+                                        <input class="d-none walltype-field" type="radio" name="walltype" id="walltype2" value="100" data-label="IQ Structural 100" />  
+                                        <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
+                                            <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €<span class="count">0</span>,-</span>
+                                            <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
+                                                <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                <span class="material-icons check-icon checked rounded-circle bg-orange text-white">check</span>
+                                            </span>
+                                        </span>
+                                        <span class="d-block option-text lh-1">IQ Structural 100</span>
+                                    </label> 
+                                </div> 
+                            </div>
+                        </div>
+     
+                    </div>
+                    <div class="step step-2 w-100 p-3 px-4" data-step="2">
+                        <div class="heading d-block mb-4">
+                            <h5 class="fw-bold">Step 2 - Glas</h5> 
+                            <p>Kies het gewenste glas voor de fijne uitstraling en functionaliteit.</p>
+                        </div>
+                        <div class="d-block w-100 p-3 border border-1 rounded-3 bg-light w-100 mb-3">
+                            <div class="d-flex align-items-center justify-content-between w-100 mb-3">
+                                <h6 class="fw-bold">Glassoorten</h6>
+                                <button type="button" class="btn p-0 d-flex align-items-center text-orange" data-bs-toggle="tooltip" data-bs-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">
+                                    <span class="material-icons">info_outline</span>
+                                </button>
+                            </div>
+                            <div class="row radio-check-field field" data-name="glasstype" data-type="radio" required="true">
+                                <div class="col-lg-6 col-md-6 col-6 px-2">
+                                    <label for="glasstype1" class="p-0 pb-2 custom-radio w-100">
+                                        <input class="d-none glasstype-field" type="radio" name="glasstype" id="glasstype1" value="30" data-label="10.76 mm dikte" />  
+                                        <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
+                                            <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €<span class="count">30</span>,-</span>
+                                            <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
+                                                <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                <span class="material-icons check-icon checked rounded-circle bg-orange text-white">check</span>
+                                            </span>
+                                        </span>
+                                        <span class="d-block option-text lh-1">10.76 mm dikte</span>
+                                    </label> 
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-6 px-2">
+                                    <label for="glasstype2" class="p-0 pb-2 custom-radio w-100">
+                                        <input class="d-none glasstype-field" type="radio" name="glasstype" id="glasstype2" value="70" data-soundproofing="true" data-label="10.76 mm + akoestische folie voor geluiddemping" />  
+                                        <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
+                                            <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €<span class="count">70</span>,-</span>
+                                            <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
+                                                <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                <span class="material-icons check-icon checked rounded-circle bg-orange text-white">check</span>
+                                            </span>
+                                        </span>
+                                        <span class="d-block option-text lh-1">10.76 mm + akoestische folie voor geluiddemping</span>
+                                    </label> 
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-6 px-2">
+                                    <label for="glasstype3" class="p-0 pb-2 custom-radio w-100">
+                                        <input class="d-none glasstype-field" type="radio" name="glasstype" id="glasstype3" value="80" data-label="12.76 mm dikte" />  
+                                        <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
+                                            <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €<span class="count">80</span>,-</span>
+                                            <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
+                                                <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                <span class="material-icons check-icon checked rounded-circle bg-orange text-white">check</span>
+                                            </span>
+                                        </span>
+                                        <span class="d-block option-text lh-1">12.76 mm dikte</span>
+                                    </label> 
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-6 px-2">
+                                    <label for="glasstype4" class="p-0 pb-2 custom-radio w-100">
+                                        <input class="d-none glasstype-field" type="radio" name="glasstype" id="glasstype4" value="140" data-soundproofing="true" data-label="12.76 mm + akoestische folie voor geluiddemping" />  
+                                        <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
+                                            <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €<span class="count">140</span>,-</span>
+                                            <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
+                                                <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                <span class="material-icons check-icon checked rounded-circle bg-orange text-white">check</span>
+                                            </span>
+                                        </span>
+                                        <span class="d-block option-text lh-1">12.76 mm + akoestische folie voor geluiddemping</span>
+                                    </label> 
+                                </div>  
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="step step-3 w-100 p-3 px-4" data-step="3">
+                        <div class="heading d-block mb-4">
+                            <h5 class="fw-bold">Step 3 - Deuren</h5> 
+                            <p>Kies de deurstijl die past bij jouw design en gebruiksgemak.</p>
+                        </div>
+
+                        <div class="d-block w-100 p-3 border border-1 rounded-3 bg-light w-100 mb-3">
+                            <div class="d-flex align-items-center justify-content-between w-100 mb-3">
+                                <h6 class="fw-bold">Deurunits</h6>
+                                <button type="button" class="btn p-0 d-flex align-items-center text-orange" data-bs-toggle="tooltip" data-bs-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">
+                                    <span class="material-icons">info_outline</span>
+                                </button>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-lg-6 col-md-6 col-6 px-2">
+                                    <label for="doorunits1" class="p-0 pb-2 custom-radio w-100">
+                                        <input class="d-none doorunits-field" type="radio" name="doorunits" id="doorunits1" value="0" checked />  
+                                        <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
+                                            <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €0,-</span>
+                                            <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
+                                                <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                <span class="material-icons check-icon checked rounded-circle bg-orange text-white">check</span>
+                                            </span>
+                                        </span>
+                                        <span class="d-block option-text lh-1">Geen deur</span>
+                                    </label> 
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-6 px-2">
+                                    <label for="doorunits2" class="p-0 pb-2 custom-radio w-100">
+                                        <input class="d-none doorunits-field" type="radio" name="doorunits" id="doorunits2" value="700" />  
+                                        <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
+                                            <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €700,-</span>
+                                            <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
+                                                <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                <span class="material-icons check-icon checked rounded-circle bg-orange text-white">check</span>
+                                            </span>
+                                        </span>
+                                        <span class="d-block option-text lh-1">Hardglazen deur van 10mm in een DK42 blokkozijn</span>
+                                    </label> 
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-6 px-2">
+                                    <label for="doorunits3" class="p-0 pb-2 custom-radio w-100">
+                                        <input class="d-none doorunits-field" type="radio" name="doorunits" id="doorunits3" value="724" />  
+                                        <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
+                                            <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €724,-</span>
+                                            <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
+                                                <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                <span class="material-icons check-icon checked rounded-circle bg-orange text-white">check</span>
+                                            </span>
+                                        </span>
+                                        <span class="d-block option-text lh-1">Hardglazen deur van 12mm in een DK42 blokkozijn</span>
+                                    </label> 
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-6 px-2">
+                                    <label for="doorunits4" class="p-0 pb-2 custom-radio w-100">
+                                        <input class="d-none doorunits-field" type="radio" name="doorunits" id="doorunits4" value="820" />  
+                                        <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
+                                            <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €820,-</span>
+                                            <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
+                                                <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                <span class="material-icons check-icon checked rounded-circle bg-orange text-white">check</span>
+                                            </span>
+                                        </span>
+                                        <span class="d-block option-text lh-1">Hardglazen deur van 12mm in een DK42 blokkozijn</span>
+                                    </label> 
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-none w-100 door-units-options">
+                            <!-- doordimensions -->
+                            <div class="d-block w-100 p-3 border border-1 rounded-3 bg-light w-100 mb-3">
+                                <div class="d-flex align-items-center justify-content-between w-100 mb-3">
+                                    <h6 class="fw-bold">Maatvoering deur</h6>
+                                    <button type="button" class="btn p-0 d-flex align-items-center text-orange" data-bs-toggle="tooltip" data-bs-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">
+                                        <span class="material-icons">info_outline</span>
+                                    </button>
+                                </div>
+                                <div class="d-block w-100 mb-3">
+                                  <label for="breedte" class="form-label" style="color: #447384;">Breedte</label>
+                                  <input type="number" class="form-control placeholder-right no-updown-arrow field doordimensions-field" id="doordimensions" value="900" placeholder="mm" min="900" max="1100">
+                                  <span class="text-secondary" style="font-size: 14px;">Min 900 mm, max 1100 mm</span>
+                                </div> 
+                            </div>
+    
+                            <!-- doorplacement -->
+                            <div class="d-block w-100 p-3 border border-1 rounded-3 bg-light w-100 mb-3">
+                                <div class="d-flex align-items-center justify-content-between w-100 mb-3">
+                                    <h6 class="fw-bold">Plaatsing deur</h6>
+                                    <button type="button" class="btn p-0 d-flex align-items-center text-orange" data-bs-toggle="tooltip" data-bs-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">
+                                        <span class="material-icons">info_outline</span>
+                                    </button>
+                                </div>
+                                <div class="d-flex w-100 mb-0 align-items-center gap-5">
+                                    <label for="doorplacement1" class="p-0 custom-radio w-auto">
+                                        <input class="d-none doorplacement-field" type="radio" name="doorplacement" id="doorplacement1" checked value="center" data-label="Midden" />  
+                                        <span class="position-relative checkmark form-check w-100 p-0 d-flex align-items-center gap-2">
+                                            <span class="d-inline-flex align-items-center justify-content-center bottom-0">
+                                                <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                <span class="material-icons check-icon checked rounded-circle border text-white border-orange bg-orange">check</span>
+                                            </span>
+                                            <span class=" fs-6 fw-light">Midden</span>
+                                        </span> 
+                                    </label>
+                                    <label for="doorplacement2" class="p-0 custom-radio w-auto">
+                                        <input class="d-none doorplacement-field" type="radio" name="doorplacement" id="doorplacement2" value="left" data-label="Linkerkant" />  
+                                        <span class="position-relative checkmark form-check w-100 p-0 d-flex align-items-center gap-2">
+                                            <span class="d-inline-flex align-items-center justify-content-center bottom-0">
+                                                <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                <span class="material-icons check-icon checked rounded-circle border text-white border-orange bg-orange">check</span>
+                                            </span>
+                                            <span class=" fs-6 fw-light">Linkerkant</span>
+                                        </span> 
+                                    </label>
+                                    <label for="doorplacement3" class="p-0 custom-radio w-auto">
+                                        <input class="d-none doorplacement-field" type="radio" name="doorplacement" id="doorplacement3" value="right" data-label="Rechterkant" />  
+                                        <span class="position-relative checkmark form-check w-100 p-0 d-flex align-items-center gap-2">
+                                            <span class="d-inline-flex align-items-center justify-content-center bottom-0">
+                                                <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                <span class="material-icons check-icon checked rounded-circle border text-white border-orange bg-orange">check</span>
+                                            </span>
+                                            <span class=" fs-6 fw-light">Rechterkant</span>
+                                        </span> 
+                                    </label>
+                                </div> 
+                                <div class="d-none w-100 door-offset-box mt-3">
+                                    <div class="d-block w-100">
+                                        <label for="glassBetweenDoorTinkerSide" class="p-0 custom-radio w-auto">
+                                            <input class="d-none glass-between-door-tinker-side-field" type="checkbox" name="glassBetweenDoorTinkerSide" id="glassBetweenDoorTinkerSide" />  
+                                            <span class="position-relative checkmark form-check w-100 p-0 d-flex align-items-center gap-2">
+                                                <span class="d-inline-flex align-items-center justify-content-center bottom-0">
+                                                    <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                    <span class="material-icons check-icon checked rounded-circle border text-white border-orange bg-orange">check</span>
+                                                </span>
+                                                <span class=" fs-6 fw-light">Voeg glas toe tussen de deur en tinker zijkant</span>
+                                            </span> 
+                                        </label>
+                                    </div>
+                                    <div class="d-none w-100 mt-3 mb-2 door-offset-field-box">
+                                        <div class="d-block w-100">
+                                            <label for="dooroffset" class="form-label" style="color: #447384;">Afstand van linker zijkant</label>
+                                            <input type="number" class="form-control placeholder-right no-updown-arrow field door-offset-field" name="dooroffset" id="dooroffset" value="300" placeholder="mm" min="300" max="900" data-label="300 mm offset toepassen" required />
+                                            <span class="text-secondary" style="font-size: 14px;">Min 300 mm, max 900 mm</span>
+                                        </div>
+                                        <div class="d-none w-100 mt-3 divide-glasses-evenly-field-box">
+                                            <label for="divideGlassesEvenly" class="p-0 custom-radio w-auto">
+                                                <input class="d-none divide-glasses-evenly-field" type="checkbox" name="divideGlassesEvenly" id="divideGlassesEvenly" />  
+                                                <span class="position-relative checkmark form-check w-100 p-0 d-flex align-items-center gap-2">
+                                                    <span class="d-inline-flex align-items-center justify-content-center bottom-0">
+                                                        <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                        <span class="material-icons check-icon checked rounded-circle border text-white border-orange bg-orange">check</span>
+                                                    </span>
+                                                    <span class=" fs-6 fw-light">Verdeel de glazen evenredig</span>
+                                                </span> 
+                                            </label>
+                                        </div>
+                                        <!-- <div class="d-block w-100">
+                                            <label for="dooroffset" class="p-0 custom-radio w-auto">
+                                                <input class="d-none door-offset-field" type="checkbox" name="dooroffset" id="dooroffset" value="300" data-label="300 mm offset toepassen" />  
+                                                <span class="position-relative checkmark form-check w-100 p-0 d-flex align-items-center gap-2">
+                                                    <span class="d-inline-flex align-items-center justify-content-center bottom-0">
+                                                        <span class="material-icons check-icon uncheck rounded-3 border bg-white text-white">radio_button_unchecked</span>
+                                                        <span class="material-icons check-icon checked rounded-3 bg-orange text-white">check</span>
+                                                    </span>
+                                                    <span class=" fs-6 fw-light">300 mm offset toepassen</span>
+                                                </span> 
+                                            </label>
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <!-- directionofrotation -->
+                            <div class="d-block w-100 p-3 border border-1 rounded-3 bg-light w-100 mb-3">
+                                <div class="d-flex align-items-center justify-content-between w-100 mb-3">
+                                    <h6 class="fw-bold">Draairichting</h6>
+                                    <button type="button" class="btn p-0 d-flex align-items-center text-orange" data-bs-toggle="tooltip" data-bs-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">
+                                        <span class="material-icons">info_outline</span>
+                                    </button>
+                                </div>
+                                <div class="d-flex w-100  align-items-center gap-5">
+                                    <label for="directionofrotation1" class="p-0 custom-radio w-auto">
+                                        <input class="d-none directionofrotation-field" type="radio" name="directionofrotation" id="directionofrotation1" checked value="left" data-label="Linksdraaiend" />  
+                                        <span class="position-relative checkmark form-check w-100 p-0 d-flex align-items-center gap-2">
+                                            <span class="d-inline-flex align-items-center justify-content-center bottom-0">
+                                                <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                <span class="material-icons check-icon checked rounded-circle border text-white border-orange bg-orange">check</span>
+                                            </span>
+                                            <span class=" fs-6 fw-light">Linksdraaiend</span>
+                                        </span> 
+                                    </label>
+                                    <label for="directionofrotation2" class="p-0 custom-radio w-auto">
+                                        <input class="d-none directionofrotation-field" type="radio" name="directionofrotation" id="directionofrotation2" value="right" data-label="Rechtsdraaiend" />  
+                                        <span class="position-relative checkmark form-check w-100 p-0 d-flex align-items-center gap-2">
+                                            <span class="d-inline-flex align-items-center justify-content-center bottom-0">
+                                                <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                <span class="material-icons check-icon checked rounded-circle border text-white border-orange bg-orange">check</span>
+                                            </span>
+                                            <span class=" fs-6 fw-light">Rechtsdraaiend</span>
+                                        </span> 
+                                    </label> 
+                                </div>  
+                            </div>
+    
+                            <!-- doorsill -->
+                            <div class="d-block w-100 p-3 border border-1 rounded-3 bg-light w-100 mb-3">
+                                <div class="d-flex align-items-center justify-content-between w-100 mb-3">
+                                    <h6 class="fw-bold">valdorpel</h6>
+                                    <button type="button" class="btn p-0 d-flex align-items-center text-orange" data-bs-toggle="tooltip" data-bs-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">
+                                        <span class="material-icons">info_outline</span>
+                                    </button>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-lg-6 col-md-6 col-6 px-2">
+                                        <label for="dropsill1" class="p-0 pb-2 custom-radio w-100">
+                                            <input class="d-none doorsill-field" type="radio" name="doorsill" id="dropsill1" value="0" checked data-label="Geen valdorpel" />  
+                                            <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
+                                                <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €0,-</span>
+                                                <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
+                                                    <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                    <span class="material-icons check-icon checked rounded-circle bg-orange text-white">check</span>
+                                                </span>
+                                            </span>
+                                            <span class="d-block option-text lh-1">Geen valdorpel</span>
+                                        </label> 
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-6 px-2">
+                                        <label for="dropsill2" class="p-0 pb-2 custom-radio w-100">
+                                            <input class="d-none doorsill-field" type="radio" name="doorsill" id="dropsill2" value="100" data-label="valdorpel" />  
+                                            <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
+                                                <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €100,-</span>
+                                                <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
+                                                    <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                    <span class="material-icons check-icon checked rounded-circle bg-orange text-white">check</span>
+                                                </span>
+                                            </span>
+                                            <span class="d-block option-text lh-1">valdorpel</span>
+                                        </label> 
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <!-- lock -->
+                            <div class="d-block w-100 p-3 border border-1 rounded-3 bg-light w-100 mb-3">
+                                <div class="d-flex align-items-center justify-content-between w-100 mb-3">
+                                    <h6 class="fw-bold">Slot</h6>
+                                    <button type="button" class="btn p-0 d-flex align-items-center text-orange" data-bs-toggle="tooltip" data-bs-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">
+                                        <span class="material-icons">info_outline</span>
+                                    </button>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-lg-6 col-md-6 col-6 px-2">
+                                        <label for="lock1" class="p-0 pb-2 custom-radio w-100">
+                                            <input class="d-none lock-field" type="radio" name="lock" id="lock1" value="0" checked data-label="Standaardslot" />  
+                                            <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
+                                                <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €0,-</span>
+                                                <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
+                                                    <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                    <span class="material-icons check-icon checked rounded-circle bg-orange text-white">check</span>
+                                                </span>
+                                            </span>
+                                            <span class="d-block option-text lh-1">Standaardslot</span>
+                                        </label> 
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-6 px-2">
+                                        <label for="lock2" class="p-0 pb-2 custom-radio w-100">
+                                            <input class="d-none lock-field" type="radio" name="lock" id="lock2" value="25" data-label="Ander Slot" />  
+                                            <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
+                                                <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €25,-</span>
+                                                <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
+                                                    <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                    <span class="material-icons check-icon checked rounded-circle bg-orange text-white">check</span>
+                                                </span>
+                                            </span>
+                                            <span class="d-block option-text lh-1">Ander Slot</span>
+                                        </label> 
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- door handle -->
+                            <div class="d-block w-100 p-3 border border-1 rounded-3 bg-light w-100 mb-3">
+                                <div class="d-flex align-items-center justify-content-between w-100 mb-3">
+                                    <h6 class="fw-bold">Deurkruk</h6>
+                                    <button type="button" class="btn p-0 d-flex align-items-center text-orange" data-bs-toggle="tooltip" data-bs-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">
+                                        <span class="material-icons">info_outline</span>
+                                    </button>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-lg-4 col-md-4 col-6 px-2">
+                                        <label for="doorhandle1" class="p-0 pb-2 custom-radio w-100">
+                                            <input class="d-none doorhandle-field" type="radio" name="doorhandle" id="doorhandle1" value="0" data-handle="standard_door-handle.svg" checked data-label="Standaard deurkruk" />  
+                                            <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
+                                                <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €0,-</span>
+                                                <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
+                                                    <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                    <span class="material-icons check-icon checked rounded-circle bg-orange text-white">check</span>
+                                                </span>
+                                            </span>
+                                            <span class="d-block option-text lh-1">Standaard deurkruk</span>
+                                        </label> 
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-6 px-2">
+                                        <label for="doorhandle2" class="p-0 pb-2 custom-radio w-100">
+                                            <input class="d-none doorhandle-field" type="radio" name="doorhandle" id="doorhandle2" value="5" data-handle="stainless_steel_door-handle.svg" data-label="Leona Glas RVS deurkruk" />  
+                                            <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
+                                                <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €5,-</span>
+                                                <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
+                                                    <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                    <span class="material-icons check-icon checked rounded-circle bg-orange text-white">check</span>
+                                                </span>
+                                            </span>
+                                            <span class="d-block option-text lh-1">Leona Glas RVS deurkruk</span>
+                                        </label> 
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-6 px-2">
+                                        <label for="doorhandle3" class="p-0 pb-2 custom-radio w-100">
+                                            <input class="d-none doorhandle-field" type="radio" name="doorhandle" id="doorhandle3" value="15" data-handle="stainless_steel_door-handle.svg" data-label="Tavira Glas RVS deurkruk" />  
+                                            <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
+                                                <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €15,-</span>
+                                                <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
+                                                    <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                    <span class="material-icons check-icon checked rounded-circle bg-orange text-white">check</span>
+                                                </span>
+                                            </span>
+                                            <span class="d-block option-text lh-1">Tavira Glas RVS deurkruk</span>
+                                        </label> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="step step-4 w-100 p-3 px-4" data-step="4">
+                        <div class="heading d-block mb-4">
+                            <h5 class="fw-bold">Step 4 - Afwerking</h5> 
+                            <p>Personaliseer de afwerking voor een look die in jouw ruimte past.</p>
+                        </div>
+                        <div class="d-block w-100 mb-3 p-3 border border-1 rounded-3 bg-light w-100 mb-3">
+                            <div class="d-flex align-items-center justify-content-between w-100 mb-3">
+                                <h6 class="fw-bold">Kozijn kleur</h6>
+                                <button type="button" class="btn p-0 d-flex align-items-center text-orange" data-bs-toggle="tooltip" data-bs-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">
+                                    <span class="material-icons">info_outline</span>
+                                </button>
+                            </div>
+                            <div class="d-block w-100 mb-2">
+                                <span class="d-flex align-items-center form-control rounded-3 p-0 pe-2">
+                                    <input type="text" placeholder="Zoek op kleur of RAL-code" class="form-control border-0 shadow-none search-color-field">
+                                    <span class="icon d-flex align-items-center">
+                                        <span class="material-icons">search</span>
+                                    </span>
+                                </span>
+                            </div>
+                            <div class="d-block w-100 mb-3">
+                                <label for="lengte" class="form-label" style="color: #447384;">Kleuren zoeken</label>
+                                <div class="d-block">
+                                    <div class="accordion custom-accordion find-color-accordion" id="accordionExample"></div>
+                                </div>
+                            </div>  
+                        </div>
+                        <!-- Finish color -->
+                        <div class="d-block w-100 p-3 border border-1 rounded-3 bg-light w-100 mb-3">
+                            <div class="d-flex align-items-center justify-content-between w-100 mb-3">
+                                <h6 class="fw-bold">Afwerking kleur</h6>
+                                <button type="button" class="btn p-0 d-flex align-items-center text-orange" data-bs-toggle="tooltip" data-bs-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">
+                                    <span class="material-icons">info_outline</span>
+                                </button>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-lg-4 col-md-4 col-6 px-2">
+                                    <label for="finishcolor1" class="p-0 pb-2 custom-radio w-100">
+                                        <input class="d-none finishcolor-field" type="radio" name="finishcolor" id="finishcolor1" value="0" checked data-label="30% glansgraad" />  
+                                        <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
+                                            <!-- <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €0,-</span> -->
+                                            <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
+                                                <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                <span class="material-icons check-icon checked rounded-circle bg-orange text-white">check</span>
+                                            </span>
+                                        </span>
+                                        <span class="d-block option-text lh-1">30% glansgraad</span>
+                                    </label> 
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-6 px-2">
+                                    <label for="finishcolor2" class="p-0 pb-2 custom-radio w-100">
+                                        <input class="d-none finishcolor-field" type="radio" name="finishcolor" id="finishcolor2" value="5" data-label="70% glansgraad" />  
+                                        <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
+                                            <!-- <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €5,-</span> -->
+                                            <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
+                                                <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                <span class="material-icons check-icon checked rounded-circle bg-orange text-white">check</span>
+                                            </span>
+                                        </span>
+                                        <span class="d-block option-text lh-1">70% glansgraad</span>
+                                    </label> 
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-6 px-2">
+                                    <label for="finishcolor3" class="p-0 pb-2 custom-radio w-100">
+                                        <input class="d-none finishcolor-field" type="radio" name="finishcolor" id="finishcolor3" value="15" data-label="Fine Structure" />  
+                                        <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
+                                            <!-- <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €15,-</span> -->
+                                            <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
+                                                <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                <span class="material-icons check-icon checked rounded-circle bg-orange text-white">check</span>
+                                            </span>
+                                        </span>
+                                        <span class="d-block option-text lh-1">Fine Structure</span>
+                                    </label> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step step-5 w-100 p-3 px-4" data-step="5">
+                        <div class="heading d-block mb-4">
+                            <h5 class="fw-bold">Step 5 - Afronding</h5> 
+                            <p>Bepaal de laatste opties en bevestig jouw bestelling.</p>
+                        </div>
+                        <div class="d-block w-100 mb-3 p-3 border border-1 rounded-3 bg-light w-100 mb-3">
+                            <div class="d-flex align-items-center justify-content-between w-100 mb-3">
+                                <h6 class="fw-bold">Inmeten</h6>
+                                <button type="button" class="btn p-0 d-flex align-items-center text-orange" data-bs-toggle="tooltip" data-bs-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">
+                                    <span class="material-icons">info_outline</span>
+                                </button>
+                            </div>
+                            <div class="row"> 
+                                <div class="col-lg-6 col-md-6 col-6 px-2">
+                                    <label for="measuring1" class="p-0 pb-2 custom-radio w-100">
+                                        <input class="d-none measuring-field" type="radio" name="measuring" id="measuring1" value="0" checked data-label="Zelf inmeten" />  
+                                        <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
+                                            <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €0,-</span>
+                                            <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
+                                                <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                <span class="material-icons check-icon checked rounded-circle bg-orange text-white">check</span>
+                                            </span>
+                                        </span>
+                                        <span class="d-block option-text lh-1">Zelf inmeten</span>
+                                    </label> 
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-6 px-2">
+                                    <label for="measuring2" class="p-0 pb-2 custom-radio w-100">
+                                        <input class="d-none measuring-field" type="radio" name="measuring" id="measuring2" value="200" data-label="Qbiq laten inmeten" />  
+                                        <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
+                                            <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €200,-</span>
+                                            <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
+                                                <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                <span class="material-icons check-icon checked rounded-circle bg-orange text-white">check</span>
+                                            </span>
+                                        </span>
+                                        <span class="d-block option-text lh-1">Qbiq laten inmeten</span>
+                                    </label> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-block w-100 mb-3 p-3 border border-1 rounded-3 bg-light w-100 mb-3">
+                            <div class="d-flex align-items-center justify-content-between w-100 mb-3">
+                                <h6 class="fw-bold">Bezorging</h6>
+                                <button type="button" class="btn p-0 d-flex align-items-center text-orange" data-bs-toggle="tooltip" data-bs-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">
+                                    <span class="material-icons">info_outline</span>
+                                </button>
+                            </div>
+                            <div class="row mb-3"> 
+                                <div class="col-lg-6 col-md-6 col-6 px-2">
+                                    <label for="delivery1" class="p-0 pb-2 custom-radio w-100">
+                                        <input class="d-none delivery-field" type="radio" name="delivery" id="delivery1" value="0" checked data-label="Afhalen" />  
+                                        <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
+                                            <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €0,-</span>
+                                            <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
+                                                <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                <span class="material-icons check-icon checked rounded-circle bg-orange text-white">check</span>
+                                            </span>
+                                        </span>
+                                        <span class="d-block option-text lh-1">Afhalen</span>
+                                    </label> 
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-6 px-2">
+                                    <label for="delivery2" class="p-0 pb-2 custom-radio w-100">
+                                        <input class="d-none delivery-field" type="radio" name="delivery" id="delivery2" value="200" data-label="Bezorgen" />  
+                                        <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
+                                            <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €200,-</span>
+                                            <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
+                                                <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                <span class="material-icons check-icon checked rounded-circle bg-orange text-white">check</span>
+                                            </span>
+                                        </span>
+                                        <span class="d-block option-text lh-1">Bezorgen</span>
+                                    </label> 
+                                </div>
+                            </div>
+                            <div class="d-none w-100 mb-3 address-zipcode-box"><hr/>
+                                <span class="d-flex align-items-center form-control rounded-3 p-0 pe-2">
+                                    <input type="text" placeholder="Kies de postcode van jouw afleveradres" class="form-control text-uppercase address-zipcode-field field border-0 shadow-none">
+                                    <span class="icon d-flex align-items-center">
+                                        <span class="material-icons">search</span>
+                                    </span>
+                                </span> 
+                            </div>  
+                        </div> 
+                        <div class="info-box rounded-3 border w-100 p-3 mb-3 mb-3 text-secondary bg-white address-zipcode-box d-none" style="border-color: #dadada">
+                            We vragen jouw postcode om te controleren of we met onze trekker-oplegger-combinatie op jouw locatie kunnen leveren. In sommige gebieden, zoals stadskernen en woonerven, is dit helaas niet mogelijk. Als dit het geval is, nemen we contact met je op om samen een alternatieve oplossing te bespreken.
+                        </div> 
+                    </div>
+                </div> 
+                <div class="step-controller d-flex flex-wrap align-items-center w-100 p-3 px-4 border border-end-0 border-start-0 border-top-1">
+                    <div class="d-block text-end w-100">
+                        <span class="price-info fs-6">Voor <span class="text-orange fw-bold fs-5">€<span class="form-total">0</span>,- </span><small class="text-muted">excl. BTW</small></span>
+                    </div> 
+                    <div class="d-flex w-100 justify-content-between align-items-center mt-4 gap-2">
+                        <button type="button" class="btn border border-secondary previous-step-btn d-flex align-items-center justify-content-center p-2 px-3">
+                            <span class="material-icons">arrow_back</span>
+                        </button> 
+                        <button type="button" disabled class="btn btn-primary btn-orange next-step-btn w-100 d-flex align-items-center justify-content-center p-2 gap-1">Volgende stap <span class="material-icons arrow fs-6">arrow_forward</span></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
