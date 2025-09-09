@@ -595,6 +595,7 @@ function GlassDoor(){
 function formValidation(formNode = null, onlyClear = false){ 
     $(".error-span").remove();
     $(formNode+" .field").removeClass("border-danger");
+    $(".design-frame-wrapper").removeClass("blur");
 
     if(onlyClear == false){
         $(formNode+" .field").each(function(){
@@ -632,7 +633,12 @@ function formValidation(formNode = null, onlyClear = false){
             }  
             
         });
-        return $(formNode+" .error-span").length > 0 ? false : true;
+        var validateStatus = $(formNode+" .error-span").length > 0 ? false : true;
+        
+        if(!validateStatus){
+            $(".design-frame-wrapper").addClass("blur");
+        }
+        return validateStatus;
     }
     
 }
@@ -772,6 +778,10 @@ function calcTotal(addtoCart = false){
         });
     } 
 }
+function setDimention(wallWidth = 0, wallHeight = 0){
+    $(".wall-width-dimension").attr("data-content",wallWidth != 0 ? ""+wallWidth+" mm" : "");
+    $(".wall-height-dimension").attr("data-content", wallHeight != 0 ? ""+wallHeight+" mm" : "");
+}
 function createGlassPanel(){  
 
     // Calculation:
@@ -781,6 +791,7 @@ function createGlassPanel(){
 
     var door_unit = $(".doorunits-field:checked").length > 0 ? Number($(".doorunits-field:checked").val()):0;
     var doorPlacement = $(".doorplacement-field:checked").length > 0 ? $(".doorplacement-field:checked").val() : $(".doorplacement-field").eq(0).val();
+    var doorType = $(".doortype-field:checked").length > 0 ? $(".doortype-field:checked").val() : $(".doortype-field").eq(0).val();
     
     var doorWidth = Number($(".doordimensions-field").val()) > 0 ? Number($(".doordimensions-field").val()) : Number($(".doordimensions-field").attr("min"));
 
@@ -817,6 +828,7 @@ function createGlassPanel(){
                 "min-width": (per_Panel_width * scale) + "px",
                 "min-height": (wallHeightMm * scale) + "px"
                 });
+                //panelDiv.addClass("panel").attr("data-panel",per_Panel_width+"mm");
                 $(".design-panel .glass-frame").append(panelDiv);
         } 
         // Create the fractional (partial) panel if needed (only if there is a remainder)
@@ -827,6 +839,7 @@ function createGlassPanel(){
                 "min-width": partialWidth + "px",
                 "min-height": (wallHeightMm * scale) + "px"
                 });
+                //partialPanelDiv.addClass("panel").attr("data-panel",(Math.ceil(partialWidth / 100) * 100)+"mm");
             $(".design-panel .glass-frame").append(partialPanelDiv);
         }
         cost = calculatedPanelCount * panelPrice;
@@ -939,12 +952,22 @@ function createGlassPanel(){
                 GlassPanel_NODE.addClass("panel").attr("data-panel",slot.width+"mm");
             }
             else if(slot.type === "door"){ 
+                var doorHTML = "";
                 var findColorAccordion_li_active = $(".find-color-accordion ul li.active");
                 var doorsill_field_value = Number($(".doorsill-field:checked").val());
                 var directionofrotation = $(".directionofrotation-field:checked").val();
                     GlassPanel_NODE.addClass("door").attr("data-door",slot.width+"mm");
-                    GlassPanel_NODE.addClass(directionofrotation);
-                    GlassPanel_NODE.html(GlassDoor());
+                    GlassPanel_NODE.find(".door").css("--door-color", "#333");
+
+                    if(doorType.toLowerCase() == "singledoor"){
+                        GlassPanel_NODE.addClass(directionofrotation);   
+                        doorHTML = GlassDoor(); 
+                    }
+                    if(doorType.toLowerCase() == "doubledoor"){
+                        GlassPanel_NODE.addClass("double-door");
+                        doorHTML = GlassDoor()+GlassDoor(); 
+                    }
+                    GlassPanel_NODE.html(doorHTML); 
                     
                     GlassPanel_NODE.removeClass("door-sill");
                     if(doorsill_field_value > 0){
@@ -958,6 +981,7 @@ function createGlassPanel(){
                         GlassPanel_NODE.find(".door-handle img").attr("src",doorHandle_src);
                     }
                     if(findColorAccordion_li_active.length > 0){
+                        GlassPanel_NODE.find(".door").css("--door-color", findColorAccordion_li_active.attr("data-color"));
                         GlassPanel_NODE.css({"background-color": findColorAccordion_li_active.attr("data-color")});
                         GlassPanel_NODE.find(".door-glass").css({"border-color": findColorAccordion_li_active.attr("data-color")});
                         $(".design-panel .glass-frame").css({"border-color": findColorAccordion_li_active.attr("data-color")});
@@ -971,6 +995,7 @@ function createGlassPanel(){
             $(".design-panel .glass-frame").append(GlassPanel_NODE);
         });
     }
+    setDimention(wallWidthMm, wallHeightMm);
     calcTotal();
 }
 function validateCurrentStep(){
@@ -1063,7 +1088,7 @@ $(document).on("change",".walltype-field, .glasstype-field",function(){
     var that = $(this);
     calcTotal();
 });
-$(document).on("change keyup",".doorunits-field, .doordimensions-field, .doorplacement-field, .door-offset-field, .glass-between-door-tinker-side-field, .divide-glasses-evenly-field, .directionofrotation-field",function(e){
+$(document).on("change keyup",".doorunits-field, .doordimensions-field, .doorplacement-field, .door-offset-field, .glass-between-door-tinker-side-field, .divide-glasses-evenly-field, .doortype-field, .directionofrotation-field",function(e){
     var that = $(this);
     var valid = false;
 
@@ -1093,6 +1118,9 @@ $(document).on("change keyup",".doorunits-field, .doordimensions-field, .doorpla
     } 
     if(that.hasClass("doordimensions-field")){  
         valid = formValidation(".step.step-"+step);
+        if(Number($(".doordimensions-field").val()) > Number($(".doordimensions-field").attr("max"))){
+            $(".doordimensions-field").val($(".doordimensions-field").attr("min")).change();
+        }
         if(Number(that.val()) > 0 && (Number(that.val()) > Number(that.attr("min")) && Number(that.val()) < Number(that.attr("max")))){  
             valid = true;
         }    
@@ -1142,6 +1170,18 @@ $(document).on("change keyup",".doorunits-field, .doordimensions-field, .doorpla
     if(that.hasClass("divide-glasses-evenly-field")){
         valid = true;
     }
+    if(that.hasClass("doortype-field")){
+        $(".doordimensions-field").attr("max",that.attr("data-doormax"));
+        $(".doordimensions-field").attr("min",that.attr("data-doormin"));
+        $(".doordimensions-field").change();
+        $(".doordimensions-field").parent().find(".text-hint").html("Min "+that.attr("data-doormin")+" mm, max "+that.attr("data-doormax")+" mm");        
+        $(".directionofrotation-block").removeClass("d-block").addClass("d-none");
+        $(".directionofrotation-block").find(".directionofrotation:first").prop("checked",true).change();
+        if(that.val() == "singledoor"){ 
+            $(".directionofrotation-block").removeClass("d-none").addClass("d-block");
+        }
+        valid = true;
+    }
     if(that.hasClass("directionofrotation-field")){  
         $(".glass-frame .glass-item.door").addClass(that.val() == "left" ? "left":"right").removeClass(that.val() == "left" ? "right":"left");
     } 
@@ -1165,12 +1205,14 @@ $(document).on("change keyup click",".doorsill-field, .lock-field, .doorhandle-f
         // Check if the clicked li is already active
         if (that.hasClass("active")) {
             that.removeClass("active");  // Remove active if it's already active
+            $(".glass-frame .glass-item.door .door").css("--door-color", "#333");
             $(".glass-frame .glass-item.door").css({"background-color": ""});
             $(".glass-frame .glass-item.door .door-glass").removeAttr("style");
             $(".design-panel .glass-frame").removeAttr("style");
         } else {
             $(".find-color-accordion ul li").removeClass("active");  // Remove active from all
             that.addClass("active");  // Add active to clicked li
+            $(".glass-frame .glass-item.door .door").css("--door-color", that.attr("data-color"));
             $(".glass-frame .glass-item.door").css({"background-color": that.attr("data-color")});
             $(".glass-frame .glass-item.door .door-glass").css({"border-color": that.attr("data-color")});
             $(".design-panel .glass-frame").css({"border-color": that.attr("data-color")});

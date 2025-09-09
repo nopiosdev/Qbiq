@@ -40,8 +40,7 @@
         .sarabun-semibold-italic { font-family: "Sarabun", sans-serif;font-weight: 600;font-style: italic; }
         .sarabun-bold-italic { font-family: "Sarabun", sans-serif;font-weight: 700;font-style: italic; }
         .sarabun-extrabold-italic { font-family: "Sarabun", sans-serif;font-weight: 800;font-style: italic; }
-
-        .header{}
+ 
         .upper-header{display: block;width: 100%;background-color: #1F3942;color: #fff;padding: 0px 50px;}
         .upper-header ul{display: block;align-items: center;list-style: none;width: 100%;padding: 0px;margin: 0px;}
         .upper-header ul li{display: inline-flex;font-size: 14px;min-height: 40px;margin-right: 20px; align-items: center;gap: 7px;}
@@ -157,11 +156,15 @@
                 </ul>
             </div>
             <div class="design-panel">
-                <div id="glassFrame" class="glass-frame">
-                    <div class="glass-item"></div>
+                <div class="design-frame-wrapper">
+                    <span class="dimension wall-width-dimension" data-content=""></span>
+                    <span class="dimension wall-height-dimension" data-content=""></span>
+                    <div id="glassFrame" class="glass-frame" >
+                        <div class="glass-item"></div>
+                    </div>
+                    <div id="canvasResult" class="d-none"></div>
+                    <div id="imgResult" class="d-none"></div>
                 </div>
-                <div id="canvasResult" class="d-none"></div>
-                <div id="imgResult" class="d-none"></div>
             </div>
         </div>
         <div class="designer-controller">
@@ -383,10 +386,10 @@
                                 <div class="d-block w-100 mb-3">
                                   <label for="breedte" class="form-label" style="color: #447384;">Breedte</label>
                                   <input type="number" class="form-control placeholder-right no-updown-arrow field doordimensions-field" id="doordimensions" value="900" placeholder="mm" min="900" max="1100">
-                                  <span class="text-secondary" style="font-size: 14px;">Min 900 mm, max 1100 mm</span>
+                                  <span class="text-secondary text-hint" style="font-size: 14px;">Min 900 mm, max 1100 mm</span>
                                 </div> 
-                            </div>
-    
+                            </div> 
+                            
                             <!-- doorplacement -->
                             <div class="d-block w-100 p-3 border border-1 rounded-3 bg-light w-100 mb-3">
                                 <div class="d-flex align-items-center justify-content-between w-100 mb-3">
@@ -473,9 +476,41 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- double door -->
+                            <div class="d-block w-100 p-3 border border-1 rounded-3 bg-light w-100 mb-3">
+                                <div class="d-flex align-items-center justify-content-between w-100 mb-3">
+                                    <h6 class="fw-bold">dubbele deur</h6>
+                                    <button type="button" class="btn p-0 d-flex align-items-center text-orange" data-bs-toggle="tooltip" data-bs-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">
+                                        <span class="material-icons">info_outline</span>
+                                    </button>
+                                </div>
+                                <div class="d-flex w-100 mb-0 align-items-center gap-5">
+                                    <label for="doortype1" class="p-0 custom-radio w-auto">
+                                        <input class="d-none doortype-field" type="radio" name="doortype" id="doortype1" checked value="singledoor" data-doormin="900" data-doormax="1100" data-label="singledoor" />  
+                                        <span class="position-relative checkmark form-check w-100 p-0 d-flex align-items-center gap-2">
+                                            <span class="d-inline-flex align-items-center justify-content-center bottom-0">
+                                                <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                <span class="material-icons check-icon checked rounded-circle border text-white border-orange bg-orange">check</span>
+                                            </span>
+                                            <span class=" fs-6 fw-light">enkele deur</span>
+                                        </span> 
+                                    </label>
+                                    <label for="doortype2" class="p-0 custom-radio w-auto">
+                                        <input class="d-none doortype-field" type="radio" name="doortype" id="doortype2" value="doubledoor" data-doormin="900" data-doormax="2000" data-label="doubledoor" />  
+                                        <span class="position-relative checkmark form-check w-100 p-0 d-flex align-items-center gap-2">
+                                            <span class="d-inline-flex align-items-center justify-content-center bottom-0">
+                                                <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                <span class="material-icons check-icon checked rounded-circle border text-white border-orange bg-orange">check</span>
+                                            </span>
+                                            <span class=" fs-6 fw-light">dubbele deur</span>
+                                        </span> 
+                                    </label>
+                                </div> 
+                            </div>
     
                             <!-- directionofrotation -->
-                            <div class="d-block w-100 p-3 border border-1 rounded-3 bg-light w-100 mb-3">
+                            <div class="d-block w-100 p-3 directionofrotation-block border border-1 rounded-3 bg-light w-100 mb-3">
                                 <div class="d-flex align-items-center justify-content-between w-100 mb-3">
                                     <h6 class="fw-bold">Draairichting</h6>
                                     <button type="button" class="btn p-0 d-flex align-items-center text-orange" data-bs-toggle="tooltip" data-bs-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">
@@ -552,7 +587,7 @@
                                         <span class="material-icons">info_outline</span>
                                     </button>
                                 </div>
-                                <div class="row mb-3">
+                                <div class="row mb-3 radio-check-field field" data-name="lock" data-type="radio" required="true">
                                     <div class="col-lg-6 col-md-6 col-6 px-2">
                                         <label for="lock1" class="p-0 pb-2 custom-radio w-100">
                                             <input class="d-none lock-field" type="radio" name="lock" id="lock1" value="0" checked data-label="Standaardslot" />  
@@ -590,7 +625,7 @@
                                         <span class="material-icons">info_outline</span>
                                     </button>
                                 </div>
-                                <div class="row mb-3">
+                                <div class="row mb-3 radio-check-field field" data-name="doorhandle" data-type="radio" required="true">
                                     <div class="col-lg-4 col-md-4 col-6 px-2">
                                         <label for="doorhandle1" class="p-0 pb-2 custom-radio w-100">
                                             <input class="d-none doorhandle-field" type="radio" name="doorhandle" id="doorhandle1" value="0" data-handle="standard_door-handle.svg" checked data-label="Standaard deurkruk" />  
