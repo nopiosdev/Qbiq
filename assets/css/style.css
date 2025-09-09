@@ -104,6 +104,10 @@
 /* sound-proofing */
 input[data-soundproofing="true"] ~ .checkmark{background-image: url(/assets/image/volume-off.svg);background-position: bottom right;background-position-x: 94%;background-position-y: 85%;background-repeat: no-repeat;}
 
+.small-panel.glass-item .sound-proof{ right: 0px; }
+
+/* rotate-dimension */
+.rotate-dimension:before{ transform: translate(-50%,-50%) rotate(-90deg); }
 
 /* door css */
 .glass-item.door{display: flex;align-items: stretch;flex-direction: column;height: 100%;padding: 0px 3px 0px 3px;background: #333;}

@@ -821,36 +821,129 @@ function createGlassPanel(){
     var cost;
     
     /* if there is no door */
-    if(door_unit == 0){
-        for(i = 0; i<fullPanelCount; i++){ 
-            var panelDiv = $(GlassPanel());
-                panelDiv.css({
-                "min-width": (per_Panel_width * scale) + "px",
-                "min-height": (wallHeightMm * scale) + "px"
-                });
-                //panelDiv.addClass("panel").attr("data-panel",per_Panel_width+"mm");
-                $(".design-panel .glass-frame").append(panelDiv);
-        } 
-        // Create the fractional (partial) panel if needed (only if there is a remainder)
-        if (fractionalPart > 0) {
-            var partialWidth = per_Panel_width * fractionalPart * scale; // width proportional to the fractional part
-            var partialPanelDiv = $(GlassPanel());
-                partialPanelDiv.css({
-                "min-width": partialWidth + "px",
-                "min-height": (wallHeightMm * scale) + "px"
-                });
-                //partialPanelDiv.addClass("panel").attr("data-panel",(Math.ceil(partialWidth / 100) * 100)+"mm");
-            $(".design-panel .glass-frame").append(partialPanelDiv);
-        }
-        cost = calculatedPanelCount * panelPrice;
-    }
+    // if(door_unit == 0){
+    //     for(i = 0; i<fullPanelCount; i++){ 
+    //         var panelDiv = $(GlassPanel());
+    //             panelDiv.css({
+    //             "min-width": (per_Panel_width * scale) + "px",
+    //             "min-height": (wallHeightMm * scale) + "px"
+    //             });
+    //             //panelDiv.addClass("panel").attr("data-panel",per_Panel_width+"mm");
+    //             $(".design-panel .glass-frame").append(panelDiv);
+    //     } 
+    //     // Create the fractional (partial) panel if needed (only if there is a remainder)
+    //     if (fractionalPart > 0) {
+    //         var partialWidth = per_Panel_width * fractionalPart * scale; // width proportional to the fractional part
+    //         var partialPanelDiv = $(GlassPanel());
+    //             partialPanelDiv.css({
+    //             "min-width": partialWidth + "px",
+    //             "min-height": (wallHeightMm * scale) + "px"
+    //             });
+    //             //partialPanelDiv.addClass("panel").attr("data-panel",(Math.ceil(partialWidth / 100) * 100)+"mm");
+    //         $(".design-panel .glass-frame").append(partialPanelDiv);
+    //     }
+    //     cost = calculatedPanelCount * panelPrice;
+    // }
     /* else if there is a door */
-    else if(door_unit > 0){
+    // else if(door_unit > 0){
 
-        if(doorPlacement == "center"){
-            // For door center, effective panel count remains = calculatedPanelCount - 1.
-            var effCount = calculatedPanelCount - 1;   // e.g., 5 - 1 = 4
-            var panelsSum = wallWidthMm - doorWidth;  // e.g., 3800 - doorWidth
+        /*if there is a door*/
+        if(door_unit > 0){
+            if(doorPlacement == "center"){
+                // For door center, effective panel count remains = calculatedPanelCount - 1.
+                var effCount = calculatedPanelCount - 1;   // e.g., 5 - 1 = 4
+                var panelsSum = wallWidthMm - doorWidth;  // e.g., 3800 - doorWidth
+                var panels = redistributePanels(panelsSum, effCount);
+                // For center door, split panels into left and right halves.
+                var leftCount = Math.floor(effCount / 2);
+                var leftPanels = panels.slice(0, leftCount);
+                var rightPanels = panels.slice(leftCount);
+                // Final order: left panels, then door, then right panels.
+                for(var i = 0; i < leftPanels.length; i++){
+                    finalSlots.push({ type: "panel", width: leftPanels[i] });
+                }
+                finalSlots.push({ type: "door", width: doorWidth });
+                for(var i = 0; i < rightPanels.length; i++){
+                    // Only add if width > 0 (in case the remainder became 0)
+                    if(rightPanels[i] > 0)
+                    finalSlots.push({ type: "panel", width: rightPanels[i] });
+                }
+            } else if(doorPlacement == "left"){
+                if(!offsetEnabled){  
+                    // Door left without offset: effective panels = calculatedPanelCount - 1.
+                    var effCount = calculatedPanelCount - 1;  
+                    var panelsSum = wallWidthMm - doorWidth;
+                    var panels = redistributePanels(panelsSum, effCount);
+                    // For door left, final order: door slot first, then panels.
+                    finalSlots.push({ type: "door", width: doorWidth });
+                    for(var i = 0; i < panels.length; i++){
+                      // In the raw adjustment, the extra needed is (doorWidth - PANEL_WIDTH) which is implicitly subtracted from the first panel of the panels array.
+                      if(panels[i] > 0){
+                        finalSlots.push({ type: "panel", width: panels[i] });
+                      }
+                    }
+                }
+                else { 
+                    // Door left with offset: effective panels = calcPanels - 2.
+                    var effCount = calculatedPanelCount - 2; // e.g., 5 - 2 = 3 panels
+                    var panelsSum = wallWidthMm - (doorWidth + doorOffset);
+                    var panels = redistributePanels(panelsSum, effCount);
+                    // Final order: [offset slot, door slot, then panels]
+                    finalSlots.push({ type: "offset", width: divideGlassesEvenly ? (doorOffset/2) : doorOffset });
+                    finalSlots.push({ type: "door", width: doorWidth }); 
+                    
+                    for(var i = 0; i < panels.length; i++){
+                        if(panels[i] > 0){
+                            finalSlots.push({ type: "panel", width: panels[i] });
+                        }
+                    }
+                    if(divideGlassesEvenly){
+                        finalSlots.push({ type: "offset", width: divideGlassesEvenly ? (doorOffset/2) : doorOffset });
+                    }
+                }
+            } else if(doorPlacement == "right"){
+                if(!offsetEnabled){
+                    // For door right without offset: effective panels = calculatedPanelCount - 1.
+                    var effCount = calculatedPanelCount - 1;
+                    var panelsSum = wallWidthMm - doorWidth;
+                    var panels = redistributePanels(panelsSum, effCount);
+                    // For right door (without offset), we “rotate” the panels so that the smallest (partial) panel appears first.
+                    panels = rotateToMin(panels);
+                    // Final order: panels then door slot.
+                    for(var i = 0; i < panels.length; i++){
+                        if(panels[i] > 0){
+                            finalSlots.push({ type: "panel", width: panels[i] });
+                        }
+                    }
+                    finalSlots.push({ type: "door", width: doorWidth });
+                }
+                else {
+                    // For door right with offset: effective panels = calcPanels - 2.
+                    var effCount = calculatedPanelCount - 2;
+                    var panelsSum = wallWidthMm - (doorWidth + doorOffset);
+                    var panels = redistributePanels(panelsSum, effCount);
+                    panels = rotateToMin(panels);
+                    // Final order: panels then door slot then offset slot.
+                    if(divideGlassesEvenly){
+                        finalSlots.push({ type: "offset", width: divideGlassesEvenly ? (doorOffset/2) : doorOffset });
+                    }
+                    for(var i = 0; i < panels.length; i++){
+                        if(panels[i] > 0){
+                            finalSlots.push({ type: "panel", width: panels[i] });
+                        }
+                    }
+                    
+                    finalSlots.push({ type: "door", width: doorWidth });
+                    finalSlots.push({ type: "offset", width: divideGlassesEvenly ? (doorOffset/2) : doorOffset });
+                }
+            }
+            cost = ((calculatedPanelCount - 1) * panelPrice) + door_unit;
+        } 
+        /* else if there is no door */
+        else if(door_unit == 0){
+            // For effective panel count remains = calculatedPanelCount.
+            var effCount = calculatedPanelCount;   // e.g., 5 
+            var panelsSum = wallWidthMm; 
             var panels = redistributePanels(panelsSum, effCount);
             // For center door, split panels into left and right halves.
             var leftCount = Math.floor(effCount / 2);
@@ -860,83 +953,13 @@ function createGlassPanel(){
             for(var i = 0; i < leftPanels.length; i++){
                 finalSlots.push({ type: "panel", width: leftPanels[i] });
             }
-            finalSlots.push({ type: "door", width: doorWidth });
             for(var i = 0; i < rightPanels.length; i++){
                 // Only add if width > 0 (in case the remainder became 0)
                 if(rightPanels[i] > 0)
                 finalSlots.push({ type: "panel", width: rightPanels[i] });
             }
-        } else if(doorPlacement == "left"){
-            if(!offsetEnabled){  
-                // Door left without offset: effective panels = calculatedPanelCount - 1.
-                var effCount = calculatedPanelCount - 1;  
-                var panelsSum = wallWidthMm - doorWidth;
-                var panels = redistributePanels(panelsSum, effCount);
-                // For door left, final order: door slot first, then panels.
-                finalSlots.push({ type: "door", width: doorWidth });
-                for(var i = 0; i < panels.length; i++){
-                  // In the raw adjustment, the extra needed is (doorWidth - PANEL_WIDTH) which is implicitly subtracted from the first panel of the panels array.
-                  if(panels[i] > 0){
-                    finalSlots.push({ type: "panel", width: panels[i] });
-                  }
-                }
-            }
-            else { 
-                // Door left with offset: effective panels = calcPanels - 2.
-                var effCount = calculatedPanelCount - 2; // e.g., 5 - 2 = 3 panels
-                var panelsSum = wallWidthMm - (doorWidth + doorOffset);
-                var panels = redistributePanels(panelsSum, effCount);
-                // Final order: [offset slot, door slot, then panels]
-                finalSlots.push({ type: "offset", width: divideGlassesEvenly ? (doorOffset/2) : doorOffset });
-                finalSlots.push({ type: "door", width: doorWidth }); 
-                
-                for(var i = 0; i < panels.length; i++){
-                    if(panels[i] > 0){
-                        finalSlots.push({ type: "panel", width: panels[i] });
-                    }
-                }
-                if(divideGlassesEvenly){
-                    finalSlots.push({ type: "offset", width: divideGlassesEvenly ? (doorOffset/2) : doorOffset });
-                }
-            }
-        } else if(doorPlacement == "right"){
-            if(!offsetEnabled){
-                // For door right without offset: effective panels = calculatedPanelCount - 1.
-                var effCount = calculatedPanelCount - 1;
-                var panelsSum = wallWidthMm - doorWidth;
-                var panels = redistributePanels(panelsSum, effCount);
-                // For right door (without offset), we “rotate” the panels so that the smallest (partial) panel appears first.
-                panels = rotateToMin(panels);
-                // Final order: panels then door slot.
-                for(var i = 0; i < panels.length; i++){
-                    if(panels[i] > 0){
-                        finalSlots.push({ type: "panel", width: panels[i] });
-                    }
-                }
-                finalSlots.push({ type: "door", width: doorWidth });
-            }
-            else {
-                // For door right with offset: effective panels = calcPanels - 2.
-                var effCount = calculatedPanelCount - 2;
-                var panelsSum = wallWidthMm - (doorWidth + doorOffset);
-                var panels = redistributePanels(panelsSum, effCount);
-                panels = rotateToMin(panels);
-                // Final order: panels then door slot then offset slot.
-                if(divideGlassesEvenly){
-                    finalSlots.push({ type: "offset", width: divideGlassesEvenly ? (doorOffset/2) : doorOffset });
-                }
-                for(var i = 0; i < panels.length; i++){
-                    if(panels[i] > 0){
-                        finalSlots.push({ type: "panel", width: panels[i] });
-                    }
-                }
-                
-                finalSlots.push({ type: "door", width: doorWidth });
-                finalSlots.push({ type: "offset", width: divideGlassesEvenly ? (doorOffset/2) : doorOffset });
-            }
+            cost = ((calculatedPanelCount - 1) * panelPrice);
         }
-
-        cost = ((calculatedPanelCount - 1) * panelPrice) + door_unit;
          
         
         finalSlots.forEach(function(slot){
@@ -948,6 +971,12 @@ function createGlassPanel(){
               "max-width": widthPx + "px",
               "max-height": (wallHeightMm * scale) + "px"
             });
+            if(widthPx <= 27){
+                GlassPanel_NODE.addClass("small-panel");
+            }
+            if(widthPx <= 50){
+                GlassPanel_NODE.addClass("rotate-dimension");
+            }
             if(slot.type === "panel"){
                 GlassPanel_NODE.addClass("panel").attr("data-panel",slot.width+"mm");
             }
@@ -994,7 +1023,7 @@ function createGlassPanel(){
                 
             $(".design-panel .glass-frame").append(GlassPanel_NODE);
         });
-    }
+    // }
     setDimention(wallWidthMm, wallHeightMm);
     calcTotal();
 }
