@@ -2,6 +2,7 @@
 var step = 1;
 var scale = 0.1;
 var per_Panel_width = 900; // 900mm – per mm 0.17px = 900 x 0.17 = 153px
+var per_Panel_minWidth = 200; // 300mm – per mm 0.17px = 300 x 0.17 = 51px
 var per_Panel_height = 3000; // 3000mm – per mm 0.12px = 3000 x 0.12 = 360px;
 var file_path = window.location.protocol == "file:" ? "assets/image/":"/assets/image/";
 
@@ -580,6 +581,7 @@ function PanelColorListItem(color = "#000", name = "Black Color", ral = "0001"){
 }
 function GlassPanel(){
     return `<div class="glass-item">
+        <span class="support-block"></span>
         <img src="${file_path}volume-off.svg" class="sound-proof img-fluid" />
     </div>`;
 }
@@ -656,9 +658,19 @@ function redistributePanels(total, count) {
     if(count === 1) { panels.push(total); return panels; }
     // Set first (count - 1) panels to full PANEL_WIDTH
     for(var i = 0; i < count - 1; i++){
-      panels.push(900);
+      panels.push(per_Panel_width);
     }
-    var last = total - 900 * (count - 1);
+    var last = total - per_Panel_width * (count - 1);
+    if(last < per_Panel_minWidth) {
+        // If last panel is too small, borrow from previous panels
+        var deficit = per_Panel_minWidth - last;
+        last = per_Panel_minWidth;
+        for(var i = count - 2; i >= 0 && deficit > 0; i--){
+            var borrow = Math.min(deficit, panels[i] - per_Panel_minWidth);
+            panels[i] -= borrow;
+            deficit -= borrow;
+        }
+    }
     panels.push(last);
     return panels;
 }
@@ -668,7 +680,91 @@ function rotateToMin(arr) {
     var idx = arr.indexOf(min);
     return arr.slice(idx).concat(arr.slice(0, idx));
 }
+function junctionCount(){
+    var junction = 0;
+    var calculatedPanelCount = calcPanelCount();
+    var doorunits = $(".doorunits-field:checked").val() != undefined ? Number($(".doorunits-field:checked").val()) : 0; 
+    if(doorunits > 0){
+        if(calculatedPanelCount > 2){
+            if($(".doorplacement-field:checked").val() != "center"){
+                //console.log("not center ",calculatedPanelCount - 1);
+                junction = calculatedPanelCount - 1;
+            } else{
+                //console.log("center ",calculatedPanelCount - 2);
+                junction = calculatedPanelCount - 2;
+            }
+        } else{
+            if($(".doorplacement-field:checked").val() != "center"){
+                //console.log("not center ",calculatedPanelCount - 1);
+                junction = calculatedPanelCount - 1;
+            } else{
+                //console.log("center ",calculatedPanelCount - 2);
+                junction = calculatedPanelCount - 2;
+            }
+        }
+
+    } else{
+        junction = calculatedPanelCount - 1;
+    }
+
+    return junction;
+}
 function calcTotalData(wallWidthMm, wallHeightMm, frameTotal){
+    var billOfMaterials = [];
+    var calculatedPanelCount = calcPanelCount();
+    var doorunits = $(".doorunits-field:checked").val() != undefined ? Number($(".doorunits-field:checked").val()) : 0; 
+
+    var totalTrackLength = (wallWidthMm * 2) + (wallHeightMm * 2);
+    var tracksDimensionsText = "Top + Left + bottom + Right";
+    if(doorunits > 0){
+        totalTrackLength = totalTrackLength - (Number($(".doordimensions-field").val()) * 2);
+        tracksDimensionsText = "Left + Right";
+        if(!$(".glass-between-door-tinker-side-field").prop("checked") && ($(".doorplacement-field:checked").val() == "left" || $(".doorplacement-field:checked").val() == "right")){
+            totalTrackLength = totalTrackLength - wallHeightMm;
+            if($(".doorplacement-field:checked").val() == "left"){
+                tracksDimensionsText = "Top + bottom + Right";
+            }
+            else if($(".doorplacement-field:checked").val() == "right"){
+                tracksDimensionsText = "Top + Left + bottom";
+            } 
+        }  
+    }
+
+    var $track = $(".track-field:checked");  
+    var $beading = $(".beading-field:checked");  
+    var $junction = $(".junction-field:checked");
+    var $supportblock = $(".supportblock-field:checked");
+        billOfMaterials = [
+            {
+                "item": "Tracks ("+tracksDimensionsText+")",
+                "basis": totalTrackLength,
+                "qty": Math.ceil(totalTrackLength / $track.attr("data-tracklength")),
+                "unitprice": $track.val(),
+                "subtotal": $track.length > 0 ? Math.ceil(totalTrackLength / $track.attr("data-tracklength")) * $track.val() : 0
+            },
+            {
+                "item": "Beading ("+tracksDimensionsText+")",
+                "basis": totalTrackLength,
+                "qty": Math.ceil(totalTrackLength / $beading.attr("data-beadinglength")),
+                "unitprice": $beading.val(),
+                "subtotal": $beading.length > 0 ? Math.ceil(totalTrackLength / $beading.attr("data-beadinglength")) * $beading.val() : 0
+            },
+            {
+                "item": "Junctions (vertical seams)",
+                "basis": junctionCount() * wallHeightMm,
+                "qty": Math.ceil((junctionCount() * wallHeightMm) / $junction.attr("data-junctionlength")),
+                "unitprice": $junction.val(),
+                "subtotal": $junction.length > 0 ? Math.ceil((junctionCount() * wallHeightMm) / $junction.attr("data-junctionlength")) * $junction.val() : 0
+            },
+            {
+                "item": "Support Blocks",
+                "basis": "pcs",
+                "qty": (junctionCount() * 2),
+                "unitprice": $supportblock.val(),
+                "subtotal": $supportblock.length > 0 ? (junctionCount() * 2) * $supportblock.val() : 0
+            }
+        ];
+
     return {
         "id": Math.random().toString(36).substr(2, 8),
         "framephoto": $("#imgResult img").attr("src")??"",
@@ -685,6 +781,7 @@ function calcTotalData(wallWidthMm, wallHeightMm, frameTotal){
         "finishcolor": $(".finishcolor-field:checked").attr("data-label")??"",
         "measuring": $(".measuring-field:checked").attr("data-label")??"",
         "delivery": $(".delivery-field:checked").attr("data-label")??"",
+        "billOfMaterials": billOfMaterials,
         "framequantity" : 1,
         "frametotal": frameTotal
     };
@@ -725,32 +822,104 @@ function calcTotal(addtoCart = false){
     var doorunits = $(".doorunits-field:checked").val() != undefined ? Number($(".doorunits-field:checked").val()) : 0; 
 
     var totalPanels = (calculatedPanelCount * wallType) + (calculatedPanelCount * glasstype);
+
+    $(".design-panel .glass-frame .support-block").css("--block-color", $(".panel-frame-color.active").attr("data-color") != undefined ? $(".panel-frame-color.active").attr("data-color") : "#333");
     
-    $(".glasstype-field").each(function(){
-        var that = $(this);
-        var doorUnit_Substract_Panel = doorunits > 0 ? glasstype : 0;
-            that.parents("label").find(".count").html((Number(that.val()) * calculatedPanelCount)); 
-    }); 
+    $(".design-panel .glass-frame").removeClass("door-on-left door-on-right door-has-offset");
+    if(doorunits > 0 ){
+        if($(".doorplacement-field:checked").val() == "left"){
+            $(".design-panel .glass-frame").addClass("door-on-left");
+        }
+        if($(".doorplacement-field:checked").val() == "right"){
+            $(".design-panel .glass-frame").addClass("door-on-right");
+        }
+        if($(".glass-between-door-tinker-side-field").prop("checked")){
+            $(".design-panel .glass-frame").addClass("door-has-offset");
+        }
+    }
+
     $(".walltype-field").each(function(){
         var that = $(this);
         var doorUnit_Substract_Panel = doorunits > 0 ? wallType : 0;
             that.parents("label").find(".count").html((Number(that.val()) * calculatedPanelCount));
     });
+    $(".glasstype-field").each(function(){
+        var that = $(this);
+        var doorUnit_Substract_Panel = doorunits > 0 ? glasstype : 0;
+            that.parents("label").find(".count").html((Number(that.val()) * calculatedPanelCount)); 
+    }); 
+
+    var totalTrackLength = (wallWidthMm * 2) + (wallHeightMm * 2);
+    if(doorunits > 0){
+        totalTrackLength = totalTrackLength - (Number($(".doordimensions-field").val()) * 2);
+        if(!$(".glass-between-door-tinker-side-field").prop("checked") && ($(".doorplacement-field:checked").val() == "left" || $(".doorplacement-field:checked").val() == "right")){
+            totalTrackLength = totalTrackLength - wallHeightMm;
+        }  
+    }
+
+    $(".track-field").each(function(){
+        var that = $(this);  
+        var trackLength = Number(that.attr("data-tracklength") != undefined ? that.attr("data-tracklength"): 0);
+        if(trackLength > 0){ 
+            that.parents("label").find(".count").html(Math.ceil(totalTrackLength / trackLength) * that.val());
+        }
+    }); 
+    $(".beading-field").each(function(){
+        var that = $(this);  
+        var beadingLength = Number(that.attr("data-beadinglength") != undefined ? that.attr("data-beadinglength"): 0);
+        if(beadingLength > 0){ 
+            that.parents("label").find(".count").html(Math.ceil(totalTrackLength / beadingLength) * that.val());
+        }
+    }); 
+    $(".junction-field").each(function(){
+        var that = $(this);  
+        var junctionLength = Number(that.attr("data-junctionlength") != undefined ? that.attr("data-junctionlength"): 0);
+        if(junctionLength > 0){ 
+            that.parents("label").find(".count").html(Math.ceil((junctionCount() * wallHeightMm) / junctionLength) * that.val());
+        }
+    });
+    $(".supportblock-field").each(function(){
+        var that = $(this);   
+        // that.parents("label").find(".count").html(((calculatedPanelCount - 1) * 2) * that.val());
+        that.parents("label").find(".count").html((junctionCount() * 2) * that.val());
+    }); 
+
+    if($(".track-field:checked").length > 0){
+        $(".glass-frame").addClass("track");
+    }
+    if($(".beading-field:checked").length > 0){
+        $(".glass-frame").addClass("beading");
+    }
+    if($(".junction-field:checked").length > 0){
+        $(".glass-frame").addClass("junction");
+    }
+    if($(".supportblock-field:checked").length > 0){
+        $(".glass-frame").addClass("supportblock");
+    }
+    
 
     if(doorunits > 0){ 
         var dropsill_value = $(".doorsill-field:checked").val() != undefined ? Number($(".doorsill-field:checked").val()) : 0;
         var lock_value = $(".lock-field:checked").val() != undefined ? Number($(".lock-field:checked").val()) : 0;
         var doorhandle_value = $(".doorhandle-field:checked").val() != undefined ? Number($(".doorhandle-field:checked").val()) : 0;
             doorunits = doorunits + dropsill_value + lock_value + doorhandle_value;
-            if(Number($(".doorunits-field:checked").val()) > 0){
-                //totalPanels = totalPanels - wallType - glasstype;
-            }
-            
+        if(Number($(".doorunits-field:checked").val()) > 0){
+            //totalPanels = totalPanels - wallType - glasstype;
+        }
     } 
+
+    var trackValue = $(".track-field:checked").length > 0 ? Math.ceil(totalTrackLength / $(".track-field:checked").attr("data-tracklength")) * $(".track-field:checked").val() : 0;
+    var beadingValue = $(".beading-field:checked").length > 0 ? Math.ceil(totalTrackLength / $(".beading-field:checked").attr("data-beadinglength")) * $(".beading-field:checked").val() : 0;
+
+    //var junctionValue = $(".junction-field:checked").length > 0 ? Math.ceil(((calculatedPanelCount - 1) * wallHeightMm) / $(".junction-field:checked").attr("data-junctionlength")) * $(".junction-field:checked").val() : 0;
+    var junctionValue = $(".junction-field:checked").length > 0 ? Math.ceil((junctionCount() * wallHeightMm) / $(".junction-field:checked").attr("data-junctionlength")) * $(".junction-field:checked").val() : 0;
+    //var supportValue = $(".supportblock-field:checked").length > 0 ? ((calculatedPanelCount - 1) * 2) * $(".supportblock-field:checked").val() : 0;
+    var supportValue = $(".supportblock-field:checked").length > 0 ? (junctionCount() * 2) * $(".supportblock-field:checked").val() : 0;
+    var otherAccessories = trackValue + beadingValue + junctionValue + supportValue;
 
     var measuring = $(".measuring-field:checked").val() != undefined ? Number($(".measuring-field:checked").val()) : 0;
     var delivery = $(".delivery-field:checked").val() != undefined ? Number($(".delivery-field:checked").val()) : 0;
-    var frameTotal = totalPanels + doorunits + measuring + delivery;
+    var frameTotal = totalPanels + otherAccessories + doorunits + measuring + delivery;
 
     $(".form-total").html(frameTotal);
 
@@ -773,7 +942,7 @@ function calcTotal(addtoCart = false){
                 var cart_item_data = calcTotalData(wallWidthMm, wallHeightMm, frameTotal);
                 storedCartItems.push(cart_item_data);
                 localStorage.setItem("cartItems", JSON.stringify(storedCartItems));
-                window.location.replace("cart.html");
+                //window.location.replace("cart.html");
             }
         });
     } 
@@ -781,6 +950,27 @@ function calcTotal(addtoCart = false){
 function setDimention(wallWidth = 0, wallHeight = 0){
     $(".wall-width-dimension").attr("data-content",wallWidth != 0 ? ""+wallWidth+" mm" : "");
     $(".wall-height-dimension").attr("data-content", wallHeight != 0 ? ""+wallHeight+" mm" : "");
+}
+function setWallSizing(){ 
+    var wall_Attr = {};
+    if($(".walltype-field:checked").prop("checked")){
+        wall_Attr = $(".walltype-field:checked").data();
+        //console.log("wall_Attr | ",wall_Attr);
+        var $wallWidth = $(".wall-width-field");
+        var $wallHeight = $(".wall-length-field");
+            $wallWidth.attr("min", wall_Attr.minwidth);
+            $wallWidth.attr("max", wall_Attr.maxwidth);
+
+            $wallHeight.attr("min", wall_Attr.minheight);
+            $wallHeight.attr("max", wall_Attr.maxheight);
+
+            per_Panel_width = wall_Attr.panelwidth;
+            per_Panel_minWidth = wall_Attr.minwidth;
+            per_Panel_height = wall_Attr.maxheight;
+
+            $wallWidth.parent().find(".sizing-width-hint").html(`Min ${wall_Attr.minwidth} mm, max ${wall_Attr.maxwidth} mm`);
+            $wallHeight.parent().find(".sizing-length-hint").html(`Min ${wall_Attr.minheight} mm, max ${wall_Attr.maxheight} mm`);
+    }
 }
 function createGlassPanel(){  
 
@@ -814,136 +1004,18 @@ function createGlassPanel(){
     // Panels array: first (calcPanels - 1) full, last = wallWidth - (calcPanels-1)*PANEL_WIDTH.
     var finalSlots = []; // Each element will be an object {type: "panel"|"door"|"offset", width: mm}
     
-    $(".design-panel .glass-frame").html(""); 
+    $(".design-panel .glass-frame").html("");  
 
     
     // Cost is based on calcPanels full panels with one replaced by the door.
     var cost;
     
-    /* if there is no door */
-    // if(door_unit == 0){
-    //     for(i = 0; i<fullPanelCount; i++){ 
-    //         var panelDiv = $(GlassPanel());
-    //             panelDiv.css({
-    //             "min-width": (per_Panel_width * scale) + "px",
-    //             "min-height": (wallHeightMm * scale) + "px"
-    //             });
-    //             //panelDiv.addClass("panel").attr("data-panel",per_Panel_width+"mm");
-    //             $(".design-panel .glass-frame").append(panelDiv);
-    //     } 
-    //     // Create the fractional (partial) panel if needed (only if there is a remainder)
-    //     if (fractionalPart > 0) {
-    //         var partialWidth = per_Panel_width * fractionalPart * scale; // width proportional to the fractional part
-    //         var partialPanelDiv = $(GlassPanel());
-    //             partialPanelDiv.css({
-    //             "min-width": partialWidth + "px",
-    //             "min-height": (wallHeightMm * scale) + "px"
-    //             });
-    //             //partialPanelDiv.addClass("panel").attr("data-panel",(Math.ceil(partialWidth / 100) * 100)+"mm");
-    //         $(".design-panel .glass-frame").append(partialPanelDiv);
-    //     }
-    //     cost = calculatedPanelCount * panelPrice;
-    // }
-    /* else if there is a door */
-    // else if(door_unit > 0){
-
-        /*if there is a door*/
-        if(door_unit > 0){
-            if(doorPlacement == "center"){
-                // For door center, effective panel count remains = calculatedPanelCount - 1.
-                var effCount = calculatedPanelCount - 1;   // e.g., 5 - 1 = 4
-                var panelsSum = wallWidthMm - doorWidth;  // e.g., 3800 - doorWidth
-                var panels = redistributePanels(panelsSum, effCount);
-                // For center door, split panels into left and right halves.
-                var leftCount = Math.floor(effCount / 2);
-                var leftPanels = panels.slice(0, leftCount);
-                var rightPanels = panels.slice(leftCount);
-                // Final order: left panels, then door, then right panels.
-                for(var i = 0; i < leftPanels.length; i++){
-                    finalSlots.push({ type: "panel", width: leftPanels[i] });
-                }
-                finalSlots.push({ type: "door", width: doorWidth });
-                for(var i = 0; i < rightPanels.length; i++){
-                    // Only add if width > 0 (in case the remainder became 0)
-                    if(rightPanels[i] > 0)
-                    finalSlots.push({ type: "panel", width: rightPanels[i] });
-                }
-            } else if(doorPlacement == "left"){
-                if(!offsetEnabled){  
-                    // Door left without offset: effective panels = calculatedPanelCount - 1.
-                    var effCount = calculatedPanelCount - 1;  
-                    var panelsSum = wallWidthMm - doorWidth;
-                    var panels = redistributePanels(panelsSum, effCount);
-                    // For door left, final order: door slot first, then panels.
-                    finalSlots.push({ type: "door", width: doorWidth });
-                    for(var i = 0; i < panels.length; i++){
-                      // In the raw adjustment, the extra needed is (doorWidth - PANEL_WIDTH) which is implicitly subtracted from the first panel of the panels array.
-                      if(panels[i] > 0){
-                        finalSlots.push({ type: "panel", width: panels[i] });
-                      }
-                    }
-                }
-                else { 
-                    // Door left with offset: effective panels = calcPanels - 2.
-                    var effCount = calculatedPanelCount - 2; // e.g., 5 - 2 = 3 panels
-                    var panelsSum = wallWidthMm - (doorWidth + doorOffset);
-                    var panels = redistributePanels(panelsSum, effCount);
-                    // Final order: [offset slot, door slot, then panels]
-                    finalSlots.push({ type: "offset", width: divideGlassesEvenly ? (doorOffset/2) : doorOffset });
-                    finalSlots.push({ type: "door", width: doorWidth }); 
-                    
-                    for(var i = 0; i < panels.length; i++){
-                        if(panels[i] > 0){
-                            finalSlots.push({ type: "panel", width: panels[i] });
-                        }
-                    }
-                    if(divideGlassesEvenly){
-                        finalSlots.push({ type: "offset", width: divideGlassesEvenly ? (doorOffset/2) : doorOffset });
-                    }
-                }
-            } else if(doorPlacement == "right"){
-                if(!offsetEnabled){
-                    // For door right without offset: effective panels = calculatedPanelCount - 1.
-                    var effCount = calculatedPanelCount - 1;
-                    var panelsSum = wallWidthMm - doorWidth;
-                    var panels = redistributePanels(panelsSum, effCount);
-                    // For right door (without offset), we “rotate” the panels so that the smallest (partial) panel appears first.
-                    panels = rotateToMin(panels);
-                    // Final order: panels then door slot.
-                    for(var i = 0; i < panels.length; i++){
-                        if(panels[i] > 0){
-                            finalSlots.push({ type: "panel", width: panels[i] });
-                        }
-                    }
-                    finalSlots.push({ type: "door", width: doorWidth });
-                }
-                else {
-                    // For door right with offset: effective panels = calcPanels - 2.
-                    var effCount = calculatedPanelCount - 2;
-                    var panelsSum = wallWidthMm - (doorWidth + doorOffset);
-                    var panels = redistributePanels(panelsSum, effCount);
-                    panels = rotateToMin(panels);
-                    // Final order: panels then door slot then offset slot.
-                    if(divideGlassesEvenly){
-                        finalSlots.push({ type: "offset", width: divideGlassesEvenly ? (doorOffset/2) : doorOffset });
-                    }
-                    for(var i = 0; i < panels.length; i++){
-                        if(panels[i] > 0){
-                            finalSlots.push({ type: "panel", width: panels[i] });
-                        }
-                    }
-                    
-                    finalSlots.push({ type: "door", width: doorWidth });
-                    finalSlots.push({ type: "offset", width: divideGlassesEvenly ? (doorOffset/2) : doorOffset });
-                }
-            }
-            cost = ((calculatedPanelCount - 1) * panelPrice) + door_unit;
-        } 
-        /* else if there is no door */
-        else if(door_unit == 0){
-            // For effective panel count remains = calculatedPanelCount.
-            var effCount = calculatedPanelCount;   // e.g., 5 
-            var panelsSum = wallWidthMm; 
+    /*if there is a door*/
+    if(door_unit > 0){
+        if(doorPlacement == "center"){
+            // For door center, effective panel count remains = calculatedPanelCount - 1.
+            var effCount = calculatedPanelCount - 1;   // e.g., 5 - 1 = 4
+            var panelsSum = wallWidthMm - doorWidth;  // e.g., 3800 - doorWidth
             var panels = redistributePanels(panelsSum, effCount);
             // For center door, split panels into left and right halves.
             var leftCount = Math.floor(effCount / 2);
@@ -953,77 +1025,168 @@ function createGlassPanel(){
             for(var i = 0; i < leftPanels.length; i++){
                 finalSlots.push({ type: "panel", width: leftPanels[i] });
             }
+            finalSlots.push({ type: "door", width: doorWidth });
             for(var i = 0; i < rightPanels.length; i++){
                 // Only add if width > 0 (in case the remainder became 0)
                 if(rightPanels[i] > 0)
                 finalSlots.push({ type: "panel", width: rightPanels[i] });
             }
-            cost = ((calculatedPanelCount - 1) * panelPrice);
+        } else if(doorPlacement == "left"){
+            if(!offsetEnabled){  
+                // Door left without offset: effective panels = calculatedPanelCount - 1.
+                var effCount = calculatedPanelCount - 1;  
+                var panelsSum = wallWidthMm - doorWidth;
+                var panels = redistributePanels(panelsSum, effCount);
+                // For door left, final order: door slot first, then panels.
+                finalSlots.push({ type: "door", width: doorWidth });
+                for(var i = 0; i < panels.length; i++){
+                    // In the raw adjustment, the extra needed is (doorWidth - PANEL_WIDTH) which is implicitly subtracted from the first panel of the panels array.
+                    if(panels[i] > 0){
+                    finalSlots.push({ type: "panel", width: panels[i] });
+                    }
+                }
+            }
+            else { 
+                // Door left with offset: effective panels = calcPanels - 2.
+                var effCount = calculatedPanelCount - 2; // e.g., 5 - 2 = 3 panels
+                var panelsSum = wallWidthMm - (doorWidth + doorOffset);
+                var panels = redistributePanels(panelsSum, effCount);
+                // Final order: [offset slot, door slot, then panels]
+                finalSlots.push({ type: "offset", width: divideGlassesEvenly ? (doorOffset/2) : doorOffset });
+                finalSlots.push({ type: "door", width: doorWidth }); 
+                
+                for(var i = 0; i < panels.length; i++){
+                    if(panels[i] > 0){
+                        finalSlots.push({ type: "panel", width: panels[i] });
+                    }
+                }
+                if(divideGlassesEvenly){
+                    finalSlots.push({ type: "offset", width: divideGlassesEvenly ? (doorOffset/2) : doorOffset });
+                }
+            }
+        } else if(doorPlacement == "right"){
+            if(!offsetEnabled){
+                // For door right without offset: effective panels = calculatedPanelCount - 1.
+                var effCount = calculatedPanelCount - 1;
+                var panelsSum = wallWidthMm - doorWidth;
+                var panels = redistributePanels(panelsSum, effCount);
+                // For right door (without offset), we “rotate” the panels so that the smallest (partial) panel appears first.
+                panels = rotateToMin(panels);
+                // Final order: panels then door slot.
+                for(var i = 0; i < panels.length; i++){
+                    if(panels[i] > 0){
+                        finalSlots.push({ type: "panel", width: panels[i] });
+                    }
+                }
+                finalSlots.push({ type: "door", width: doorWidth });
+            }
+            else {
+                // For door right with offset: effective panels = calcPanels - 2.
+                var effCount = calculatedPanelCount - 2;
+                var panelsSum = wallWidthMm - (doorWidth + doorOffset);
+                var panels = redistributePanels(panelsSum, effCount);
+                panels = rotateToMin(panels);
+                // Final order: panels then door slot then offset slot.
+                if(divideGlassesEvenly){
+                    finalSlots.push({ type: "offset", width: divideGlassesEvenly ? (doorOffset/2) : doorOffset });
+                }
+                for(var i = 0; i < panels.length; i++){
+                    if(panels[i] > 0){
+                        finalSlots.push({ type: "panel", width: panels[i] });
+                    }
+                }
+                
+                finalSlots.push({ type: "door", width: doorWidth });
+                finalSlots.push({ type: "offset", width: divideGlassesEvenly ? (doorOffset/2) : doorOffset });
+            }
         }
-         
+        cost = ((calculatedPanelCount - 1) * panelPrice) + door_unit;
+    } 
+    /* else if there is no door */
+    else if(door_unit == 0){
+        // For effective panel count remains = calculatedPanelCount.
+        var effCount = calculatedPanelCount;   // e.g., 5 
+        var panelsSum = wallWidthMm; 
+        var panels = redistributePanels(panelsSum, effCount);
+        // For center door, split panels into left and right halves.
+        var leftCount = Math.floor(effCount / 2);
+        var leftPanels = panels.slice(0, leftCount);
+        var rightPanels = panels.slice(leftCount);
+        // Final order: left panels, then door, then right panels.
+        for(var i = 0; i < leftPanels.length; i++){
+            finalSlots.push({ type: "panel", width: leftPanels[i] });
+        }
+        for(var i = 0; i < rightPanels.length; i++){
+            // Only add if width > 0 (in case the remainder became 0)
+            if(rightPanels[i] > 0)
+            finalSlots.push({ type: "panel", width: rightPanels[i] });
+        }
+        cost = ((calculatedPanelCount - 1) * panelPrice);
+    }
         
-        finalSlots.forEach(function(slot){
-            var GlassPanel_NODE = $(GlassPanel());
-            var widthPx = slot.width * scale;
-            GlassPanel_NODE.css({
-              "min-width": widthPx + "px",
-              "min-height": (wallHeightMm * scale) + "px",
-              "max-width": widthPx + "px",
-              "max-height": (wallHeightMm * scale) + "px"
-            });
-            if(widthPx <= 27){
-                GlassPanel_NODE.addClass("small-panel");
-            }
-            if(widthPx <= 50){
-                GlassPanel_NODE.addClass("rotate-dimension");
-            }
-            if(slot.type === "panel"){
-                GlassPanel_NODE.addClass("panel").attr("data-panel",slot.width+"mm");
-            }
-            else if(slot.type === "door"){ 
-                var doorHTML = "";
-                var findColorAccordion_li_active = $(".find-color-accordion ul li.active");
-                var doorsill_field_value = Number($(".doorsill-field:checked").val());
-                var directionofrotation = $(".directionofrotation-field:checked").val();
-                    GlassPanel_NODE.addClass("door").attr("data-door",slot.width+"mm");
-                    GlassPanel_NODE.find(".door").css("--door-color", "#333");
-
-                    if(doorType.toLowerCase() == "singledoor"){
-                        GlassPanel_NODE.addClass(directionofrotation);   
-                        doorHTML = GlassDoor(); 
-                    }
-                    if(doorType.toLowerCase() == "doubledoor"){
-                        GlassPanel_NODE.addClass("double-door");
-                        doorHTML = GlassDoor()+GlassDoor(); 
-                    }
-                    GlassPanel_NODE.html(doorHTML); 
-                    
-                    GlassPanel_NODE.removeClass("door-sill");
-                    if(doorsill_field_value > 0){
-                        GlassPanel_NODE.addClass("door-sill")
-                    }
-                    if($(".doorhandle-field:checked").length > 0){ 
-                        var doorHandle_src = file_path+$(".doorhandle-field:checked").attr("data-handle");
-                        if(new RegExp("http").test($(".doorhandle-field:checked").attr("data-handle"))){
-                            doorHandle_src = $(".doorhandle-field:checked").attr("data-handle"); 
-                        }
-                        GlassPanel_NODE.find(".door-handle img").attr("src",doorHandle_src);
-                    }
-                    if(findColorAccordion_li_active.length > 0){
-                        GlassPanel_NODE.find(".door").css("--door-color", findColorAccordion_li_active.attr("data-color"));
-                        GlassPanel_NODE.css({"background-color": findColorAccordion_li_active.attr("data-color")});
-                        GlassPanel_NODE.find(".door-glass").css({"border-color": findColorAccordion_li_active.attr("data-color")});
-                        $(".design-panel .glass-frame").css({"border-color": findColorAccordion_li_active.attr("data-color")});
-                    }
-                
-            }
-            else if(slot.type === "offset"){
-                GlassPanel_NODE.addClass("offset").attr("data-offset",slot.width+"mm");
-            }
-                
-            $(".design-panel .glass-frame").append(GlassPanel_NODE);
+    
+    finalSlots.forEach(function(slot){
+        var GlassPanel_NODE = $(GlassPanel());
+        var widthPx = slot.width * scale;
+        GlassPanel_NODE.css({
+            "min-width": widthPx + "px",
+            "min-height": (wallHeightMm * scale) + "px",
+            "max-width": widthPx + "px",
+            "max-height": (wallHeightMm * scale) + "px"
         });
-    // }
+        if(widthPx <= 27){
+            GlassPanel_NODE.addClass("small-panel");
+        }
+        if(widthPx <= 50){
+            GlassPanel_NODE.addClass("rotate-dimension");
+        }
+        if(slot.type === "panel"){
+            GlassPanel_NODE.addClass("panel").attr("data-panel",slot.width+"mm");
+        }
+        else if(slot.type === "door"){ 
+            var doorHTML = "";
+            var findColorAccordion_li_active = $(".find-color-accordion ul li.active");
+            var doorsill_field_value = Number($(".doorsill-field:checked").val());
+            var directionofrotation = $(".directionofrotation-field:checked").val();
+                GlassPanel_NODE.addClass("door").attr("data-door",slot.width+"mm");
+                GlassPanel_NODE.find(".door").css("--door-color", "#333");
+
+                if(doorType.toLowerCase() == "singledoor"){
+                    GlassPanel_NODE.addClass(directionofrotation);   
+                    doorHTML = GlassDoor(); 
+                }
+                if(doorType.toLowerCase() == "doubledoor"){
+                    GlassPanel_NODE.addClass("double-door");
+                    doorHTML = GlassDoor()+GlassDoor(); 
+                }
+                GlassPanel_NODE.html(doorHTML); 
+                
+                GlassPanel_NODE.removeClass("door-sill");
+                if(doorsill_field_value > 0){
+                    GlassPanel_NODE.addClass("door-sill")
+                }
+                if($(".doorhandle-field:checked").length > 0){ 
+                    var doorHandle_src = file_path+$(".doorhandle-field:checked").attr("data-handle");
+                    if(new RegExp("http").test($(".doorhandle-field:checked").attr("data-handle"))){
+                        doorHandle_src = $(".doorhandle-field:checked").attr("data-handle"); 
+                    }
+                    GlassPanel_NODE.find(".door-handle img").attr("src",doorHandle_src);
+                }
+                if(findColorAccordion_li_active.length > 0){
+                    GlassPanel_NODE.find(".door").css("--door-color", findColorAccordion_li_active.attr("data-color"));
+                    GlassPanel_NODE.css({"background-color": findColorAccordion_li_active.attr("data-color")});
+                    GlassPanel_NODE.find(".door-glass").css({"border-color": findColorAccordion_li_active.attr("data-color")});
+                    $(".design-panel .glass-frame").css({"outline-color": findColorAccordion_li_active.attr("data-color")});
+                }
+            
+        }
+        else if(slot.type === "offset"){
+            GlassPanel_NODE.addClass("offset").attr("data-offset",slot.width+"mm");
+        }
+            
+        $(".design-panel .glass-frame").append(GlassPanel_NODE);
+    });
+        
     setDimention(wallWidthMm, wallHeightMm);
     calcTotal();
 }
@@ -1113,9 +1276,22 @@ $(document).on("keyup",".wall-width-field, .wall-length-field",function(){
         createGlassPanel()
     }
 });    
-$(document).on("change",".walltype-field, .glasstype-field",function(){
+$(document).on("change",".walltype-field, .glasstype-field, .track-field, .beading-field, .junction-field, .supportblock-field",function(){
     var that = $(this);
-    calcTotal();
+    /* calculate */
+    if(that.hasClass("walltype-field")){
+        if($(".wall-dimensions-block").is(":visible")){
+            calcTotal();
+        }
+        $(".wall-dimensions-block").removeClass("d-none");
+        setWallSizing(); 
+        if(Number($(".wall-width-field").val()) > 0 || Number($(".wall-length-field").val()) > 0){
+            $(".wall-width-field").keyup();
+        }
+    }  
+    else{ 
+        calcTotal();
+    }  
 });
 $(document).on("change keyup",".doorunits-field, .doordimensions-field, .doorplacement-field, .door-offset-field, .glass-between-door-tinker-side-field, .divide-glasses-evenly-field, .doortype-field, .directionofrotation-field",function(e){
     var that = $(this);
@@ -1244,8 +1420,8 @@ $(document).on("change keyup click",".doorsill-field, .lock-field, .doorhandle-f
             $(".glass-frame .glass-item.door .door").css("--door-color", that.attr("data-color"));
             $(".glass-frame .glass-item.door").css({"background-color": that.attr("data-color")});
             $(".glass-frame .glass-item.door .door-glass").css({"border-color": that.attr("data-color")});
-            $(".design-panel .glass-frame").css({"border-color": that.attr("data-color")});
-        }
+            $(".design-panel .glass-frame").css({"outline-color": that.attr("data-color")}); 
+        } 
     }
     else if(that.hasClass("doorhandle-field")){
         $(".glass-frame .glass-item.door").find(".door-handle img").attr("src",file_path+that.attr("data-handle"));

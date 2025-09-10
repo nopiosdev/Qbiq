@@ -176,29 +176,6 @@
                             <p>Bepaal de maatvoering en type glaswand die jij nodig hebt</p>
                         </div> 
 
-                        <div class="rounded-3 border border-1 bg-light w-100 p-3 mb-3">
-                            <div class="d-flex align-items-center justify-content-between w-100 mb-3">
-                                <h6 class="fw-bold">Maatvoering</h6>
-                                <button type="button" class="btn p-0 d-flex align-items-center text-orange" data-bs-toggle="tooltip" data-bs-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">
-                                    <span class="material-icons">info_outline</span>
-                                </button>
-                            </div>
-                            <div class="d-block w-100 mb-3">
-                              <label for="width" class="form-label" style="color: #447384;">Breedte</label>
-                              <input type="number" class="form-control placeholder-right no-updown-arrow field wall-width-field" id="width" name="width" placeholder="mm" min="200" max="7000" required /> 
-                              <span class="text-secondary" style="font-size: 14px;">Min 200 mm, max 7000 mm</span>
-                            </div> 
-                            <div class="d-block w-100 mb-3">
-                              <label for="length" class="form-label" style="color: #447384;">Lengte</label>
-                              <input type="number" class="form-control placeholder-right no-updown-arrow field wall-length-field" id="length" name="length" placeholder="mm" min="200" max="3000" required />
-                              <span class="text-secondary" style="font-size: 14px;">Min 200 mm, max 3000 mm</span>
-                            </div> 
-                        </div>
-        
-                        <div class="info-box rounded-3 border w-100 p-3 mb-3 mb-3 text-secondary" style="border-color: #dadada">
-                            Zorg ervoor dat je uiterst nauwkeurig meet, tot op de millimeter. Er is slechts een kleine marge beschikbaar: 8 mm in de hoogte en 4 mm in de breedte. Dit is essentieel om een perfecte pasvorm te garanderen.
-                        </div> 
-        
                         <div class="d-block w-100 mb-3 p-3 border border-1 rounded-3 bg-light w-100 mb-3 radio-fields">
                             <div class="d-flex align-items-center justify-content-between w-100 mb-3">
                                 <h6 class="fw-bold">Soort wand</h6>
@@ -209,7 +186,7 @@
                             <div class="row wall-type-fields radio-check-field field" data-name="walltype" data-type="radio" required="true">
                                 <div class="col-lg-6 col-md-6 col-6 px-2">
                                     <label for="walltype1" class="p-0 pb-2 custom-radio w-100">
-                                        <input class="d-none walltype-field" type="radio" name="walltype" id="walltype1" value="120" data-label="IQ Single 120" />  
+                                        <input class="d-none walltype-field" type="radio" name="walltype" id="walltype1" value="120" data-label="IQ Single 120" data-panelwidth="900" data-minwidth="200" data-maxwidth="7000" data-minheight="200" data-maxheight="3000" />  
                                         <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
                                             <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €<span class="count">0</span>,-</span>
                                             <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
@@ -222,7 +199,7 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-6 px-2">
                                     <label for="walltype2" class="p-0 pb-2 custom-radio w-100">
-                                        <input class="d-none walltype-field" type="radio" name="walltype" id="walltype2" value="100" data-label="IQ Structural 100" />  
+                                        <input class="d-none walltype-field" type="radio" name="walltype" id="walltype2" value="100" data-label="IQ Structural 100" data-panelwidth="1200" data-minwidth="350" data-maxwidth="4800" data-minheight="350" data-maxheight="2700" />  
                                         <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
                                             <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €<span class="count">0</span>,-</span>
                                             <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
@@ -235,6 +212,33 @@
                                 </div> 
                             </div>
                         </div>
+
+                        <div class="wall-dimensions-block w-100 d-none">
+                            <div class="rounded-3 border border-1 bg-light w-100 p-3 mb-3">
+                                <div class="d-flex align-items-center justify-content-between w-100 mb-3">
+                                    <h6 class="fw-bold">Maatvoering</h6>
+                                    <button type="button" class="btn p-0 d-flex align-items-center text-orange" data-bs-toggle="tooltip" data-bs-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">
+                                        <span class="material-icons">info_outline</span>
+                                    </button>
+                                </div>
+                                <div class="d-block w-100 mb-3">
+                                  <label for="width" class="form-label" style="color: #447384;">Breedte</label>
+                                  <input type="number" class="form-control placeholder-right no-updown-arrow field wall-width-field" id="width" name="width" placeholder="mm" min="200" max="7000" required /> 
+                                  <span class="text-secondary sizing-width-hint" style="font-size: 14px;">Min 200 mm, max 7000 mm</span>
+                                </div> 
+                                <div class="d-block w-100 mb-3">
+                                  <label for="length" class="form-label" style="color: #447384;">Lengte</label>
+                                  <input type="number" class="form-control placeholder-right no-updown-arrow field wall-length-field" id="length" name="length" placeholder="mm" min="200" max="3000" required />
+                                  <span class="text-secondary sizing-length-hint" style="font-size: 14px;">Min 200 mm, max 3000 mm</span>
+                                </div> 
+                            </div>
+            
+                            <div class="info-box rounded-3 border w-100 p-3 mb-3 mb-3 text-secondary" style="border-color: #dadada">
+                                Zorg ervoor dat je uiterst nauwkeurig meet, tot op de millimeter. Er is slechts een kleine marge beschikbaar: 8 mm in de hoogte en 4 mm in de breedte. Dit is essentieel om een perfecte pasvorm te garanderen.
+                            </div> 
+                        </div>
+        
+
      
                     </div>
                     <div class="step step-2 w-100 p-3 px-4" data-step="2">
@@ -304,6 +308,152 @@
                                 </div>  
                             </div>
                         </div> 
+
+                        
+                        <div class="d-block beading-block w-100 p-3 border border-1 rounded-3 bg-light w-100 mb-3">
+                            <div class="d-flex align-items-center justify-content-between w-100 mb-3">
+                                <h6 class="fw-bold">Beading</h6>
+                                <button type="button" class="btn p-0 d-flex align-items-center text-orange" data-bs-toggle="tooltip" data-bs-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">
+                                    <span class="material-icons">info_outline</span>
+                                </button>
+                            </div>
+                            <div class="row radio-check-field field" data-name="beading" data-type="radio" required="true">
+                                <div class="col-lg-6 col-md-6 col-6 px-2">
+                                    <label for="beading1" class="p-0 pb-2 custom-radio w-100">
+                                        <input class="d-none beading-field" type="radio" name="beading" id="beading1" value="100" data-beadinglength="1000" data-label="Standerd 100" />  
+                                        <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
+                                            <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €<span class="count">0</span>,-</span>
+                                            <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
+                                                <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                <span class="material-icons check-icon checked rounded-circle bg-orange text-white">check</span>
+                                            </span>
+                                        </span>
+                                        <span class="d-block option-text lh-1">Standerd 100</span>
+                                    </label> 
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-6 px-2">
+                                    <label for="beading2" class="p-0 pb-2 custom-radio w-100">
+                                        <input class="d-none beading-field" type="radio" name="beading" id="beading2" value="250" data-beadinglength="1500"  data-label="Premium 250" />  
+                                        <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
+                                            <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €<span class="count">0</span>,-</span>
+                                            <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
+                                                <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                <span class="material-icons check-icon checked rounded-circle bg-orange text-white">check</span>
+                                            </span>
+                                        </span>
+                                        <span class="d-block option-text lh-1">Premium 200</span>
+                                    </label> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-block track-block w-100 p-3 border border-1 rounded-3 bg-light w-100 mb-3">
+                            <div class="d-flex align-items-center justify-content-between w-100 mb-3">
+                                <h6 class="fw-bold">Track</h6>
+                                <button type="button" class="btn p-0 d-flex align-items-center text-orange" data-bs-toggle="tooltip" data-bs-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">
+                                    <span class="material-icons">info_outline</span>
+                                </button>
+                            </div>
+                            <div class="row radio-check-field field" data-name="track" data-type="radio" required="true">
+                                <div class="col-lg-6 col-md-6 col-6 px-2">
+                                    <label for="track1" class="p-0 pb-2 custom-radio w-100">
+                                        <input class="d-none track-field" type="radio" name="track" id="track1" value="100" data-tracklength="1000" data-label="Standerd 100" />  
+                                        <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
+                                            <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €<span class="count">0</span>,-</span>
+                                            <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
+                                                <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                <span class="material-icons check-icon checked rounded-circle bg-orange text-white">check</span>
+                                            </span>
+                                        </span>
+                                        <span class="d-block option-text lh-1">Standerd 100</span>
+                                    </label> 
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-6 px-2">
+                                    <label for="track2" class="p-0 pb-2 custom-radio w-100">
+                                        <input class="d-none track-field" type="radio" name="track" id="track2" value="250" data-tracklength="1500"  data-label="Premium 250" />  
+                                        <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
+                                            <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €<span class="count">0</span>,-</span>
+                                            <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
+                                                <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                <span class="material-icons check-icon checked rounded-circle bg-orange text-white">check</span>
+                                            </span>
+                                        </span>
+                                        <span class="d-block option-text lh-1">Premium 200</span>
+                                    </label> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-block junction-block w-100 p-3 border border-1 rounded-3 bg-light w-100 mb-3">
+                            <div class="d-flex align-items-center justify-content-between w-100 mb-3">
+                                <h6 class="fw-bold">Junction</h6>
+                                <button type="button" class="btn p-0 d-flex align-items-center text-orange" data-bs-toggle="tooltip" data-bs-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">
+                                    <span class="material-icons">info_outline</span>
+                                </button>
+                            </div>
+                            <div class="row radio-check-field field" data-name="junction" data-type="radio" required="true">
+                                <div class="col-lg-6 col-md-6 col-6 px-2">
+                                    <label for="junction1" class="p-0 pb-2 custom-radio w-100">
+                                        <input class="d-none junction-field" type="radio" name="junction" id="junction1" value="100" data-junctionlength="1000" data-label="Standerd 100" />  
+                                        <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
+                                            <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €<span class="count">0</span>,-</span>
+                                            <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
+                                                <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                <span class="material-icons check-icon checked rounded-circle bg-orange text-white">check</span>
+                                            </span>
+                                        </span>
+                                        <span class="d-block option-text lh-1">Standerd 100</span>
+                                    </label> 
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-6 px-2">
+                                    <label for="junction2" class="p-0 pb-2 custom-radio w-100">
+                                        <input class="d-none junction-field" type="radio" name="junction" id="junction2" value="200" data-junctionlength="2000"  data-label="Premium 200" />  
+                                        <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
+                                            <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €<span class="count">0</span>,-</span>
+                                            <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
+                                                <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                <span class="material-icons check-icon checked rounded-circle bg-orange text-white">check</span>
+                                            </span>
+                                        </span>
+                                        <span class="d-block option-text lh-1">Premium 200</span>
+                                    </label> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-block supportblock-block w-100 p-3 border border-1 rounded-3 bg-light w-100 mb-3">
+                            <div class="d-flex align-items-center justify-content-between w-100 mb-3">
+                                <h6 class="fw-bold">Support Block</h6>
+                                <button type="button" class="btn p-0 d-flex align-items-center text-orange" data-bs-toggle="tooltip" data-bs-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">
+                                    <span class="material-icons">info_outline</span>
+                                </button>
+                            </div>
+                            <div class="row radio-check-field field" data-name="supportblock" data-type="radio" required="true">
+                                <div class="col-lg-6 col-md-6 col-6 px-2">
+                                    <label for="supportblock1" class="p-0 pb-2 custom-radio w-100">
+                                        <input class="d-none supportblock-field" type="radio" name="supportblock" id="supportblock1" value="100" data-label="Standerd 100" />  
+                                        <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
+                                            <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €<span class="count">0</span>,-</span>
+                                            <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
+                                                <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                <span class="material-icons check-icon checked rounded-circle bg-orange text-white">check</span>
+                                            </span>
+                                        </span>
+                                        <span class="d-block option-text lh-1">Standerd 100</span>
+                                    </label> 
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-6 px-2">
+                                    <label for="supportblock2" class="p-0 pb-2 custom-radio w-100">
+                                        <input class="d-none supportblock-field" type="radio" name="supportblock" id="supportblock2" value="200" data-label="Premium 200" />  
+                                        <span class="position-relative checkmark form-check w-100 p-0 bg-white border border-1 rounded-3 pt-5 pb-5">
+                                            <span class="badge bg-dark position-absolute left-0 top-0 mt-2 rounded-0 rounded-end fs-6 fw-light">+ €<span class="count">0</span>,-</span>
+                                            <span class="position-absolute d-flex align-items-center justify-content-center bottom-0 m-2">
+                                                <span class="material-icons check-icon uncheck rounded-circle border text-white bg-white">check</span>
+                                                <span class="material-icons check-icon checked rounded-circle bg-orange text-white">check</span>
+                                            </span>
+                                        </span>
+                                        <span class="d-block option-text lh-1">Premium 200</span>
+                                    </label> 
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="step step-3 w-100 p-3 px-4" data-step="3">
                         <div class="heading d-block mb-4">
@@ -852,6 +1002,5 @@
             </form>
         </div>
     </div>
-
 </body>
 </html>
