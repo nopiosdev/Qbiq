@@ -2,7 +2,7 @@
 var step = 1;
 var scale = 0.1;
 var per_Panel_width = 900; // 900mm – per mm 0.17px = 900 x 0.17 = 153px
-var per_Panel_minWidth = 200; // 300mm – per mm 0.17px = 300 x 0.17 = 51px
+var per_Panel_minWidth = 200; 
 var per_Panel_height = 3000; // 3000mm – per mm 0.12px = 3000 x 0.12 = 360px;
 var file_path = window.location.protocol == "file:" ? "assets/image/":"/assets/image/";
 
@@ -434,6 +434,48 @@ function ErrorSpan(text = ""){
     return `<span class="error-span text-danger d-block w-100">${text}</span>`
 }
 function Cartitem(data){
+    var billOfMaterial_HTML = "";
+    var billOfMaterial_items = "";
+    if(data.billOfMaterials.length > 0){
+        var grandTotal = 0;
+        data.billOfMaterials.forEach(function(item){
+            grandTotal = grandTotal + item.subtotal;
+            billOfMaterial_items += `<tr>
+                <td>${item.item}</td>
+                <td class="text-center">${item.length}</td>
+                <td class="text-center">${item.basis}</td>
+                <td class="text-center">${item.qty}</td>
+                <td class="text-center">€${item.unitprice.toLocaleString('en-US')}</td>
+                <td class="text-end">€${item.subtotal.toLocaleString('en-US')}</td>
+            </tr>`;
+        });
+        billOfMaterial_HTML = `<div class="row mb-3 mt-4">
+            <div class="col-md-12">
+                <h5>Bill of Materials (Materials Only)</h5>
+            </div>
+            <div class="col-md-12">
+                <table class="table table-bordered"> 
+                    <thead>
+                        <tr>
+                            <th class="">Items</th>
+                            <th class="text-center">Length</th>
+                            <th class="text-center">Basis</th>
+                            <th class="text-center">Qty</th>
+                            <th class="text-center">Units</th>
+                            <th class="text-end">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>${billOfMaterial_items}</tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5" class="text-end fw-bold">Grand Total</td>
+                            <td colspan="1" class="text-end fw-bold">${grandTotal > 0 ? "€"+grandTotal.toLocaleString('en-US'):""}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>`;
+    }
 
     return `<div class="d-flex w-100 cart-item border border-start-0 border-end-0 border-bottom-0 border-top-1 pt-4 pb-4" data-id="${data.id}">
         <div class="col-lg-2 col-md-2 col-sm-12 d-flex align-items-start justify-content-center">
@@ -532,6 +574,7 @@ function Cartitem(data){
                     </div> 
                 </div> 
             </div>
+            ${billOfMaterial_HTML}
             <div class="row mb-3">
                 <div class="col-lg-12 col-md-12 col-12 px-1">
                     <button type="button" class="d-flex align-items-center btn p-1 text text-orange">Details inklappen <span class="material-icons">remove</span> </button>
@@ -547,7 +590,7 @@ function Cartitem(data){
                         <span class="material-icons">add</span>
                     </span>
                 </span>
-                <span class="text text-dark fs-4">€${data.frametotal}</span>
+                <span class="text text-dark fs-4 fw-bold">€${data.frametotal}</span>
             </div>
         </div>
     </div>`;
@@ -651,6 +694,31 @@ function validate_nextstep_BTN(){
         $(".next-step-btn").removeAttr("disabled");
     }
 }
+function disabledEnabledDoorunitAndOtherMaterials(){
+    if(junctionCount() <= 0){
+        $(".radio-check-field[data-name=junction]").removeAttr("required");
+        $(".radio-check-field[data-name=supportblock]").removeAttr("required");
+        $(".junction-field, .supportblock-field").prop("disabled",true);
+        $(".junction-field, .supportblock-field").prop("checked",false).change(); 
+    }
+    if(junctionCount() > 0){
+        $(".radio-check-field[data-name=junction]").attr("required",true);
+        $(".radio-check-field[data-name=supportblock]").attr("required",true);
+        $(".junction-field, .supportblock-field").removeAttr("disabled");
+    }
+
+    $(".doorunits-field").each(function(){
+        $(this).removeAttr("disabled");
+        if(Number($(this).attr("data-singledoormin")) > Number($(".wall-width-field").val())){
+            if(Number($(this).val()) > 0 ){ 
+                $(this).prop("disabled",true);
+            }
+        }
+    });
+    if($(".doorunits-field:disabled").length > 0){
+        $(".doorunits-field[value=0]").prop("checked",true).change();
+    }
+}
 // Helper to redistribute panel widths
 function redistributePanels(total, count) {
     var panels = [];
@@ -715,55 +783,77 @@ function calcTotalData(wallWidthMm, wallHeightMm, frameTotal){
     var doorunits = $(".doorunits-field:checked").val() != undefined ? Number($(".doorunits-field:checked").val()) : 0; 
 
     var totalTrackLength = (wallWidthMm * 2) + (wallHeightMm * 2);
-    var tracksDimensionsText = "Top + Left + bottom + Right";
+    //var tracksDimensionsText = "Top + Left + bottom + Right";
     if(doorunits > 0){
         totalTrackLength = totalTrackLength - (Number($(".doordimensions-field").val()) * 2);
-        tracksDimensionsText = "Left + Right";
+        //tracksDimensionsText = "Left + Right";
         if(!$(".glass-between-door-tinker-side-field").prop("checked") && ($(".doorplacement-field:checked").val() == "left" || $(".doorplacement-field:checked").val() == "right")){
             totalTrackLength = totalTrackLength - wallHeightMm;
-            if($(".doorplacement-field:checked").val() == "left"){
-                tracksDimensionsText = "Top + bottom + Right";
-            }
-            else if($(".doorplacement-field:checked").val() == "right"){
-                tracksDimensionsText = "Top + Left + bottom";
-            } 
+            // if($(".doorplacement-field:checked").val() == "left"){
+            //     tracksDimensionsText = "Top + bottom + Right";
+            // }
+            // else if($(".doorplacement-field:checked").val() == "right"){
+            //     tracksDimensionsText = "Top + Left + bottom";
+            // } 
         }  
     }
 
+    var $glassType = $(".glasstype-field:checked");
     var $track = $(".track-field:checked");  
     var $beading = $(".beading-field:checked");  
     var $junction = $(".junction-field:checked");
+    var junctionQty = Math.ceil((junctionCount() * wallHeightMm) / $junction.attr("data-junctionlength")); 
     var $supportblock = $(".supportblock-field:checked");
+    var supportblockQty = (junctionCount() * 2);
+
+
         billOfMaterials = [
             {
-                "item": "Tracks ("+tracksDimensionsText+")",
-                "basis": totalTrackLength,
+                "item": "Glass Type "+$glassType.parent().find(".option-text").html(),
+                "length": $(".walltype-field:checked").attr("data-panelwidth")+" mm",
+                "basis": $glassType.attr("data-label").split("mm")[0]+" mm",
+                "qty": calculatedPanelCount,
+                "unitprice": Number($glassType.val()),
+                "subtotal": Number($glassType.val()) * calcPanelCount()
+            },
+            {
+                "item": "Tracks (perimeter)",
+                "length": $track.attr("data-tracklength")+" mm",
+                "basis": totalTrackLength+" mm",
                 "qty": Math.ceil(totalTrackLength / $track.attr("data-tracklength")),
                 "unitprice": $track.val(),
                 "subtotal": $track.length > 0 ? Math.ceil(totalTrackLength / $track.attr("data-tracklength")) * $track.val() : 0
             },
             {
-                "item": "Beading ("+tracksDimensionsText+")",
-                "basis": totalTrackLength,
+                "item": "Beading (perimeter)",
+                "length": $beading.attr("data-beadinglength")+" mm",
+                "basis": totalTrackLength+" mm",
                 "qty": Math.ceil(totalTrackLength / $beading.attr("data-beadinglength")),
                 "unitprice": $beading.val(),
                 "subtotal": $beading.length > 0 ? Math.ceil(totalTrackLength / $beading.attr("data-beadinglength")) * $beading.val() : 0
-            },
-            {
+            }
+        ];
+
+        if(junctionQty > 0){
+            billOfMaterials.push({
                 "item": "Junctions (vertical seams)",
-                "basis": junctionCount() * wallHeightMm,
+                "length": $junction.attr("data-junctionlength")+" mm",
+                "basis": (junctionCount() * wallHeightMm) +" mm",
                 "qty": Math.ceil((junctionCount() * wallHeightMm) / $junction.attr("data-junctionlength")),
                 "unitprice": $junction.val(),
                 "subtotal": $junction.length > 0 ? Math.ceil((junctionCount() * wallHeightMm) / $junction.attr("data-junctionlength")) * $junction.val() : 0
-            },
-            {
+            });
+        }
+        if(supportblockQty > 0){
+            billOfMaterials.push({
                 "item": "Support Blocks",
+                "length": "2 pcs",
                 "basis": "pcs",
                 "qty": (junctionCount() * 2),
                 "unitprice": $supportblock.val(),
                 "subtotal": $supportblock.length > 0 ? (junctionCount() * 2) * $supportblock.val() : 0
-            }
-        ];
+            });
+        }
 
     return {
         "id": Math.random().toString(36).substr(2, 8),
@@ -772,7 +862,7 @@ function calcTotalData(wallWidthMm, wallHeightMm, frameTotal){
         "walllength": wallHeightMm,
         "walltype": $(".walltype-field:checked").attr("data-label")??"",
         "glasstype": $(".glasstype-field:checked").attr("data-label")??"",
-        "doorunits": $(".doorunits-field:checked").attr("data-label")??"",
+        "doorunits":  Number($(".doorunits-field:checked").val()) > 0 ? $(".doorunits-field:checked").attr("data-label")??"" : "No door",
         "directionofrotation": $(".directionofrotation-field:checked").attr("data-label")??"",
         "doorsill": $(".doorsill-field:checked").attr("data-label")??"",
         "lock": $(".lock-field:checked").attr("data-label")??"",
@@ -861,40 +951,47 @@ function calcTotal(addtoCart = false){
         var that = $(this);  
         var trackLength = Number(that.attr("data-tracklength") != undefined ? that.attr("data-tracklength"): 0);
         if(trackLength > 0){ 
-            that.parents("label").find(".count").html(Math.ceil(totalTrackLength / trackLength) * that.val());
+            var qty = Math.ceil(totalTrackLength / trackLength);
+            that.parents("label").find(".count").html(qty * that.val());
+            that.parents("label").find(".temp-count").html("Price: "+that.val()+", Qty: "+qty+", Length: "+trackLength+" mm");
         }
     }); 
     $(".beading-field").each(function(){
         var that = $(this);  
         var beadingLength = Number(that.attr("data-beadinglength") != undefined ? that.attr("data-beadinglength"): 0);
         if(beadingLength > 0){ 
-            that.parents("label").find(".count").html(Math.ceil(totalTrackLength / beadingLength) * that.val());
+            var qty = Math.ceil(totalTrackLength / beadingLength);
+            that.parents("label").find(".count").html(qty * that.val());
+            that.parents("label").find(".temp-count").html("Price: "+that.val()+", Qty: "+qty+", Length: "+beadingLength+" mm");
         }
     }); 
     $(".junction-field").each(function(){
         var that = $(this);  
         var junctionLength = Number(that.attr("data-junctionlength") != undefined ? that.attr("data-junctionlength"): 0);
         if(junctionLength > 0){ 
-            that.parents("label").find(".count").html(Math.ceil((junctionCount() * wallHeightMm) / junctionLength) * that.val());
+            var qty = Math.ceil((junctionCount() * wallHeightMm) / junctionLength);
+            that.parents("label").find(".count").html(qty * that.val());
+            that.parents("label").find(".temp-count").html("Price: "+that.val()+", Qty: "+qty+", Length: "+junctionLength+" mm");
         }
     });
     $(".supportblock-field").each(function(){
         var that = $(this);   
-        // that.parents("label").find(".count").html(((calculatedPanelCount - 1) * 2) * that.val());
-        that.parents("label").find(".count").html((junctionCount() * 2) * that.val());
+        var qty = junctionCount() * 2;
+        that.parents("label").find(".count").html(qty * that.val());
+        that.parents("label").find(".temp-count").html("Price: "+that.val()+", Qty: "+qty+", Pcs: 2");
     }); 
 
     if($(".track-field:checked").length > 0){
-        $(".glass-frame").addClass("track");
+        $(".design-frame-wrapper").addClass("track");
     }
     if($(".beading-field:checked").length > 0){
-        $(".glass-frame").addClass("beading");
+        $(".design-frame-wrapper").addClass("beading");
     }
     if($(".junction-field:checked").length > 0){
-        $(".glass-frame").addClass("junction");
+        $(".design-frame-wrapper").addClass("junction");
     }
     if($(".supportblock-field:checked").length > 0){
-        $(".glass-frame").addClass("supportblock");
+        $(".design-frame-wrapper").addClass("supportblock");
     }
     
 
@@ -942,7 +1039,7 @@ function calcTotal(addtoCart = false){
                 var cart_item_data = calcTotalData(wallWidthMm, wallHeightMm, frameTotal);
                 storedCartItems.push(cart_item_data);
                 localStorage.setItem("cartItems", JSON.stringify(storedCartItems));
-                //window.location.replace("cart.html");
+                window.location.replace("cart.html");
             }
         });
     } 
@@ -1227,7 +1324,7 @@ function switchSteps(x = true){
 }
 function createCanvas(callback = function(data){}){
     if(window.location.protocol != "file:"){
-        var canvaPlayGround = document.querySelector("#glassFrame");
+        var canvaPlayGround = document.querySelector(".design-board");
         document.querySelector("#canvasResult").innerHTML = "";
         html2canvas(canvaPlayGround,{
             "backgroundColor" : "transparent",
@@ -1269,6 +1366,7 @@ $(document).on("keyup",".wall-width-field, .wall-length-field",function(){
     var height = $(".wall-length-field").val() != "" ? Number($(".wall-length-field").val()) : per_Panel_height;
     var max = that.attr("max");
     var min = that.attr("min");
+    disabledEnabledDoorunitAndOtherMaterials();
     formValidation(".step.step-1",true); 
     if((width < Number($(".wall-width-field").attr("min")) || width > Number($(".wall-width-field").attr("max"))) || (height < Number($(".wall-length-field").attr("min")) || height > Number($(".wall-length-field").attr("max")))){
         formValidation(".step.step-1") 
@@ -1299,17 +1397,25 @@ $(document).on("change keyup",".doorunits-field, .doordimensions-field, .doorpla
 
     if(that.hasClass("doorunits-field")){ 
         $(".door-offset-field").attr("checked",false).change();
-        $(".doordimensions-field").removeAttr("required");
+        $(".doordimensions-field").removeAttr("required"); 
 
         if(that.prop("checked") && that.val() != 0){
-            $(".door-units-options").removeClass("d-none").addClass("d-block");
-            $(".doordimensions-field").attr("required",true);
-            /* door-units-options each loop */
-            $(".door-units-options input[type=radio]").each(function(){
-                if($("input[name="+$(this).attr("name")+"]:checked").length == 0){
-                    $("input[name="+$(this).attr("name")+"]:first").prop("checked",true).change();   
-                }
-            });
+            if(Number($(".doorunits-field:checked").attr("data-singledoormin")) <= Number($(".wall-width-field").val())){
+                $(".door-units-options").removeClass("d-none").addClass("d-block");
+                $(".doordimensions-field").attr("required",true);
+                $(".doortype-field[value=singledoor]").attr("data-doormin",that.attr("data-singledoormin"));
+                $(".doortype-field[value=singledoor]").attr("data-doormax",that.attr("data-singledoormax"));
+                $(".doortype-field[value=doubledoor]").attr("data-doormin",that.attr("data-doubledoormin"));
+                $(".doortype-field[value=doubledoor]").attr("data-doormax",that.attr("data-doubledoormax"));
+                /* door-units-options each loop */
+                $(".door-units-options input[type=radio]").each(function(){
+                    if($("input[name="+$(this).attr("name")+"]:checked").length == 0){
+                        $("input[name="+$(this).attr("name")+"]:first").prop("checked",true).change();   
+                    }
+                });
+            } else{
+                $(".doorunits-field[value=0]").prop("checked",true).change();
+            }
         } else{
             $(".door-units-options, .door-offset-box").removeClass("d-block").addClass("d-none");
             $(".doordimensions-field").val($(".doordimensions-field").attr("min"));
@@ -1413,14 +1519,14 @@ $(document).on("change keyup click",".doorsill-field, .lock-field, .doorhandle-f
             $(".glass-frame .glass-item.door .door").css("--door-color", "#333");
             $(".glass-frame .glass-item.door").css({"background-color": ""});
             $(".glass-frame .glass-item.door .door-glass").removeAttr("style");
-            $(".design-panel .glass-frame").removeAttr("style");
+            $(".design-panel .design-frame-wrapper").removeAttr("style");
         } else {
             $(".find-color-accordion ul li").removeClass("active");  // Remove active from all
             that.addClass("active");  // Add active to clicked li
             $(".glass-frame .glass-item.door .door").css("--door-color", that.attr("data-color"));
             $(".glass-frame .glass-item.door").css({"background-color": that.attr("data-color")});
             $(".glass-frame .glass-item.door .door-glass").css({"border-color": that.attr("data-color")});
-            $(".design-panel .glass-frame").css({"outline-color": that.attr("data-color")}); 
+            $(".design-panel .design-frame-wrapper").css({"border-color": that.attr("data-color")}); 
         } 
     }
     else if(that.hasClass("doorhandle-field")){

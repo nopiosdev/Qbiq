@@ -17,6 +17,8 @@
 /* Firefox */
 .no-updown-arrow { -moz-appearance: textfield; }
 
+span.temp-count{ font-size: 0.8rem; }
+
 /* custom-radio */
 .custom-radio .uncheck{ display: block;color: #d9d9d9; }
 .custom-radio .checked{ display: none;color: #d9d9d9; }
@@ -50,6 +52,9 @@
 /* glass-designer css start */
 .glass-designer{display: flex;width: 100%;height: calc(100vh - 109px);font-family: "Sarabun", sans-serif;font-weight: 400;font-style: normal;}
 
+/* design-board */
+.design-board{ display: block; padding: 50px; }
+
 /* steps-nav css start */
 .steps-nav{position: relative;display: block;width: 100%;min-height: 55px;background-color: #fff;padding: 0px 20px;box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);}
 .steps-nav ul{ position: relative;overflow: hidden;overflow-x: auto;list-style-type: none;display: flex;justify-content: center;padding: 0px;margin: 0px auto;align-items: center;height: 100%;max-width: 1000px;gap: 10px;}
@@ -75,36 +80,39 @@
 .designer-canvas .design-panel{ display: flex;justify-content: center;align-items: center; width: 100%;height: 100%;background-color: #f7f7f7; }
 /* .designer-canvas .design-panel .design-frame-wrapper.blur .glass-frame, .designer-canvas .design-panel .design-frame-wrapper.blur .dimension{ filter: blur( 10px); }
 .designer-canvas .design-panel .design-frame-wrapper.blur:after{content: "";position: absolute;top: 50%;left:50%;transform: translate(-50%,-50%);font-weight: bold;background-image: url("/assets/image/broken_icon.png");background-repeat: no-repeat;background-position: center;background-size: 50%;width: 100%;height: 100%;} */
+
 .glass-frame{ display: flex;align-items: center;justify-content: stretch;position: relative;transition: 0.2s; border: none;box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2);zoom: 1.5; }
-.glass-frame.track{outline-width: 4px;outline-style: solid;outline-color: #333;}
-.glass-frame.beading{border: 1px solid #444;border-style: ridge;}
-.glass-frame.junction .glass-item{ border-left-color: #1581BC;  }
-.glass-frame.supportblock .glass-item:first-child .support-block:before,.glass-frame.supportblock .glass-item:first-child .support-block:after{ display: none; }
-.glass-frame.supportblock .glass-item .support-block:before,.glass-frame.supportblock .glass-item .support-block:after{content:"";width: auto;height: auto;position: absolute; border-top: 3.5px solid var(--block-color);border-bottom: 3.5px solid var(--block-color);border-left: 3.5px solid var(--block-color);border-right: 3.5px solid var(--block-color);padding: 0px;margin: 0px;z-index: 9;}
-.glass-frame.supportblock .glass-item .support-block:before{ left: -4px;;top: 0px; }
-.glass-frame.supportblock .glass-item .support-block:after{ left: -4px;bottom: 0px; }
+.design-frame-wrapper.track{border-width: 5px;border-style: solid;border-color: #333;}
+.design-frame-wrapper.beading .glass-frame{border: 1px solid #444;border-style: ridge;}
+.design-frame-wrapper.junction .glass-item{ border-left-color: #1581BC;  }
+.design-frame-wrapper.supportblock .glass-item:first-child .support-block:before,
+.design-frame-wrapper.supportblock .glass-item:first-child .support-block:after{ display: none; }
+.design-frame-wrapper.supportblock .glass-item .support-block:before,
+.design-frame-wrapper.supportblock .glass-item .support-block:after{content:"";width: auto;height: auto;position: absolute;background-color: var(--block-color); border-top: 3.5px solid var(--block-color);border-bottom: 3.5px solid var(--block-color);border-left: 3.5px solid var(--block-color);border-right: 3.5px solid var(--block-color);padding: 0px;margin: 0px;z-index: 9;}
+.design-frame-wrapper.supportblock .glass-item .support-block:before{ left: -4px;;top: 0px; }
+.design-frame-wrapper.supportblock .glass-item .support-block:after{ left: -4px;bottom: 0px; }
 
 .glass-item.door ~ .glass-item .support-block{ display : none }
 .glass-item.door ~ .glass-item ~ .glass-item .support-block{ display: inline-block; }
 
-.glass-frame.junction .glass-item.door ~ .glass-item{ border-left: none; }
-.glass-frame.junction .glass-item.door ~ .glass-item ~ .glass-item{ border-left: 1.5px solid #1581BC; }
+.design-frame-wrapper.junction .glass-item.door ~ .glass-item{ border-left: none; }
+.design-frame-wrapper.junction .glass-item.door ~ .glass-item ~ .glass-item{ border-left: 1.5px solid #1581BC; }
 
-.glass-frame:not(.door-has-offset).door-on-left{ border-left: none; }
-.glass-frame:not(.door-has-offset).door-on-right{ border-right: none; }
+.design-frame-wrapper:not(.door-has-offset).door-on-left{ border-left: none; }
+.design-frame-wrapper:not(.door-has-offset).door-on-right{ border-right: none; }
 
 
 /* design-frame-wrapper */
 .design-frame-wrapper{ position: relative; }
 .dimension{position: absolute;width: 100%;}
 .dimension[data-content=""]{  display: none; }
-.dimension:after{content: attr(data-content);display: inline-block;position: absolute;left: 50%;top: 50%;transform: translate(-50%, -50%);font-size: 15px;color: #000;width: auto;text-align: center;background-color: #f7f7f7;padding: 0px 7px;margin: 0 auto;z-index: 9;}
+.dimension:after{content: attr(data-content);display: inline-block;position: absolute;left: 50%;top: 50%;transform: translate(-50%, -50%);font-size: 15px;color: #000;width: auto;text-align: center;background-color: #f7f7f7;border-radius: 30px;padding: 0px 12px;margin: 0 auto;z-index: 9;}
 
 .wall-width-dimension{top: -25px;display: block;width: 100%;}
 .wall-width-dimension:before{content:"";position: absolute;width: 100%;height: 1px;background-color: #666;top: 50%;left: 0px;transform: translate(0% , -50%);}
 
 .wall-height-dimension{top: 0px;left: -25px;width: 1px;height: 100%;display: block;padding: 0px;background-color: #666; z-index: 9; } 
-.wall-height-dimension:after{position: relative;left: -40%;top: 50%;padding: 0px 5px;white-space: nowrap;height: 25px;transform: rotate(-90deg) translate(0%, -140%);}
+.wall-height-dimension:after{position: relative;left: -40%;top: 50%;padding: 0px 12px;white-space: nowrap;height: 25px;transform: rotate(-90deg) translate(0%, -170%);}
 
 /* glass css start */
 .glass-item{ position: relative;transition: 0.2s;padding: 0px; border: 0px;min-height: 300px;min-width: 90px;background: linear-gradient(to right, #e6f7ff, #ffffff);border-left: 1.5px solid transparent; }
@@ -157,6 +165,8 @@ input[data-soundproofing="true"] ~ .checkmark{background-image: url(/assets/imag
 
 .glass-item.door.double-door .door:last-child:before{ left: auto; right: -1px;top: 5%; }
 .glass-item.door.double-door .door:last-child:after{ left: auto; right: -1px;bottom: 5%; }
+
+.custom-radio input[type="radio"][disabled] ~ .checkmark{ cursor: not-allowed; opacity: 0.3; } 
 
 
 /* cart page css */
