@@ -10,421 +10,117 @@ var panelFrameColors = [
     {
         "name": "Wit",
         "colors": [
-            {
-              "hex": "#E9E0D2",
-              "name": "Crémewit",
-              "ral": "RAL 9001"
-            },
-            {
-              "hex": "#D6D5CB",
-              "name": "Grijswit",
-              "ral": "RAL 9002"
-            },
-            {
-              "hex": "#ECECE7",
-              "name": "Signaalwit",
-              "ral": "RAL 9003"
-            },
-            {
-              "hex": "#F1EDE1",
-              "name": "Zuiverwit",
-              "ral": "RAL 9010"
-            },
-            {
-              "hex": "#F8F2E1",
-              "name": "Ultrareine zone wit",
-              "ral": "RAL 9012"
-            },
-            {
-              "hex": "#F1F1EA",
-              "name": "Verkeerswit",
-              "ral": "RAL 9016"
-            }
+            {"hex": "#E9E0D2", "name": "Crémewit", "ral": "RAL 9001", "price": 0},
+            {"hex": "#D6D5CB", "name": "Grijswit", "ral": "RAL 9002", "price": 105},
+            {"hex": "#ECECE7", "name": "Signaalwit", "ral": "RAL 9003", "price": 110},
+            {"hex": "#F1EDE1", "name": "Zuiverwit", "ral": "RAL 9010", "price": 115},
+            {"hex": "#F8F2E1", "name": "Ultrareine zone wit", "ral": "RAL 9012", "price": 120},
+            {"hex": "#F1F1EA", "name": "Verkeerswit", "ral": "RAL 9016", "price": 125}
         ]
     },
     {
         "name": "Zwart",
         "colors": [
-            {
-              "hex": "#000000",
-              "name": "True Black",
-              "ral": "RAL 9005"
-            },
-            {
-              "hex": "#0A0A0A",
-              "name": "Obsidian Black",
-              "ral": "RAL 9006"
-            },
-            {
-              "hex": "#1C1C1C",
-              "name": "Carbon Shadow",
-              "ral": "RAL 9007"
-            },
-            {
-              "hex": "#2B2B2B",
-              "name": "Graphite Night",
-              "ral": "RAL 9008"
-            },
-            {
-              "hex": "#3D3D3D",
-              "name": "Ash Black",
-              "ral": "RAL 9009"
-            },
-            {
-              "hex": "#4F4F4F",
-              "name": "Slate Black",
-              "ral": "RAL 9010"
-            },
-            {
-              "hex": "#5A5A5A",
-              "name": "Smoke Charcoal",
-              "ral": "RAL 9011"
-            },
-            {
-              "hex": "#6E6E6E",
-              "name": "Iron Dust",
-              "ral": "RAL 9012"
-            },
-            {
-              "hex": "#1A1A1A",
-              "name": "Midnight Steel",
-              "ral": "RAL 9013"
-            },
-            {
-              "hex": "#121212",
-              "name": "Deep Void",
-              "ral": "RAL 9014"
-            }
+            {"hex": "#000000", "name": "True Black", "ral": "RAL 9005", "price": 0},
+            {"hex": "#0A0A0A", "name": "Obsidian Black", "ral": "RAL 9006", "price": 135},
+            {"hex": "#1C1C1C", "name": "Carbon Shadow", "ral": "RAL 9007", "price": 140},
+            {"hex": "#2B2B2B", "name": "Graphite Night", "ral": "RAL 9008", "price": 145},
+            {"hex": "#3D3D3D", "name": "Ash Black", "ral": "RAL 9009", "price": 150},
+            {"hex": "#4F4F4F", "name": "Slate Black", "ral": "RAL 9010", "price": 155},
+            {"hex": "#5A5A5A", "name": "Smoke Charcoal", "ral": "RAL 9011", "price": 160},
+            {"hex": "#6E6E6E", "name": "Iron Dust", "ral": "RAL 9012", "price": 165},
+            {"hex": "#1A1A1A", "name": "Midnight Steel", "ral": "RAL 9013", "price": 170},
+            {"hex": "#121212", "name": "Deep Void", "ral": "RAL 9014", "price": 175}
         ]
     },
     {
         "name": "Grijs",
         "colors": [
-            {
-              "hex": "#808080",
-              "name": "Classic Gray",
-              "ral": "RAL 7000"
-            },
-            {
-              "hex": "#A9A9A9",
-              "name": "Dark Gray",
-              "ral": "RAL 7001"
-            },
-            {
-              "hex": "#C0C0C0",
-              "name": "Silver Mist",
-              "ral": "RAL 7002"
-            },
-            {
-              "hex": "#D3D3D3",
-              "name": "Light Gray",
-              "ral": "RAL 7003"
-            },
-            {
-              "hex": "#B0B0B0",
-              "name": "Concrete Dust",
-              "ral": "RAL 7004"
-            },
-            {
-              "hex": "#999999",
-              "name": "Industrial Smoke",
-              "ral": "RAL 7005"
-            },
-            {
-              "hex": "#696969",
-              "name": "Dim Gray",
-              "ral": "RAL 7006"
-            },
-            {
-              "hex": "#585858",
-              "name": "Shadow Steel",
-              "ral": "RAL 7007"
-            },
-            {
-              "hex": "#E0E0E0",
-              "name": "Fog Gray",
-              "ral": "RAL 7008"
-            },
-            {
-              "hex": "#F5F5F5",
-              "name": "Cloud Gray",
-              "ral": "RAL 7009"
-            }
+            {"hex": "#808080", "name": "Classic Gray", "ral": "RAL 7000", "price": 100},
+            {"hex": "#A9A9A9", "name": "Dark Gray", "ral": "RAL 7001", "price": 105},
+            {"hex": "#C0C0C0", "name": "Silver Mist", "ral": "RAL 7002", "price": 110},
+            {"hex": "#D3D3D3", "name": "Light Gray", "ral": "RAL 7003", "price": 115},
+            {"hex": "#B0B0B0", "name": "Concrete Dust", "ral": "RAL 7004", "price": 120},
+            {"hex": "#999999", "name": "Industrial Smoke", "ral": "RAL 7005", "price": 125},
+            {"hex": "#696969", "name": "Dim Gray", "ral": "RAL 7006", "price": 130},
+            {"hex": "#585858", "name": "Shadow Steel", "ral": "RAL 7007", "price": 135},
+            {"hex": "#E0E0E0", "name": "Fog Gray", "ral": "RAL 7008", "price": 140},
+            {"hex": "#F5F5F5", "name": "Cloud Gray", "ral": "RAL 7009", "price": 145}
         ]
     },
     {
         "name": "Bruin",
         "colors": [
-            {
-              "hex": "#8B4513",
-              "name": "Saddle Brown",
-              "ral": "RAL 8002"
-            },
-            {
-              "hex": "#A52A2A",
-              "name": "Brown",
-              "ral": "RAL 8011"
-            },
-            {
-              "hex": "#D2691E",
-              "name": "Chocolate",
-              "ral": "RAL 8003"
-            },
-            {
-              "hex": "#CD853F",
-              "name": "Peru",
-              "ral": "RAL 8004"
-            },
-            {
-              "hex": "#F4A460",
-              "name": "Sandy Brown",
-              "ral": "RAL 8007"
-            },
-            {
-              "hex": "#D2B48C",
-              "name": "Tan",
-              "ral": "RAL 1001"
-            },
-            {
-              "hex": "#BC8F8F",
-              "name": "Rosy Brown",
-              "ral": "RAL 8009"
-            },
-            {
-              "hex": "#DEB887",
-              "name": "Burlywood",
-              "ral": "RAL 1011"
-            },
-            {
-              "hex": "#3E2723",
-              "name": "Dark Brown",
-              "ral": "RAL 8017"
-            },
-            {
-              "hex": "#8B3A3A",
-              "name": "Firebrick Brown",
-              "ral": "RAL 8018"
-            }
+            {"hex": "#8B4513", "name": "Saddle Brown", "ral": "RAL 8002", "price": 100},
+            {"hex": "#A52A2A", "name": "Brown", "ral": "RAL 8011", "price": 105},
+            {"hex": "#D2691E", "name": "Chocolate", "ral": "RAL 8003", "price": 110},
+            {"hex": "#CD853F", "name": "Peru", "ral": "RAL 8004", "price": 115},
+            {"hex": "#F4A460", "name": "Sandy Brown", "ral": "RAL 8007", "price": 120},
+            {"hex": "#D2B48C", "name": "Tan", "ral": "RAL 1001", "price": 125},
+            {"hex": "#BC8F8F", "name": "Rosy Brown", "ral": "RAL 8009", "price": 130},
+            {"hex": "#DEB887", "name": "Burlywood", "ral": "RAL 1011", "price": 135},
+            {"hex": "#3E2723", "name": "Dark Brown", "ral": "RAL 8017", "price": 140},
+            {"hex": "#8B3A3A", "name": "Firebrick Brown", "ral": "RAL 8018", "price": 145}
         ]
     },
     {
         "name": "Blauw",
         "colors": [
-            {
-              "hex": "#0000FF",
-              "name": "Blue",
-              "ral": "RAL 5005"
-            },
-            {
-              "hex": "#1E90FF",
-              "name": "Dodger Blue",
-              "ral": "RAL 5012"
-            },
-            {
-              "hex": "#4169E1",
-              "name": "Royal Blue",
-              "ral": "RAL 5007"
-            },
-            {
-              "hex": "#6495ED",
-              "name": "Cornflower Blue",
-              "ral": "RAL 5015"
-            },
-            {
-              "hex": "#00BFFF",
-              "name": "Deep Sky Blue",
-              "ral": "Custom-Blue-01"
-            },
-            {
-              "hex": "#4682B4",
-              "name": "Steel Blue",
-              "ral": "RAL 5011"
-            },
-            {
-              "hex": "#5F9EA0",
-              "name": "Cadet Blue",
-              "ral": "Custom-Blue-02"
-            },
-            {
-              "hex": "#ADD8E6",
-              "name": "Light Blue",
-              "ral": "Custom-Blue-03"
-            },
-            {
-              "hex": "#00008B",
-              "name": "Dark Blue",
-              "ral": "RAL 5000"
-            },
-            {
-              "hex": "#191970",
-              "name": "Midnight Blue",
-              "ral": "Custom-Blue-04"
-            }
+            {"hex": "#0000FF", "name": "Blue", "ral": "RAL 5005", "price": 100},
+            {"hex": "#1E90FF", "name": "Dodger Blue", "ral": "RAL 5012", "price": 105},
+            {"hex": "#4169E1", "name": "Royal Blue", "ral": "RAL 5007", "price": 110},
+            {"hex": "#6495ED", "name": "Cornflower Blue", "ral": "RAL 5015", "price": 115},
+            {"hex": "#00BFFF", "name": "Deep Sky Blue", "ral": "Custom-Blue-01", "price": 120},
+            {"hex": "#4682B4", "name": "Steel Blue", "ral": "RAL 5011", "price": 125},
+            {"hex": "#5F9EA0", "name": "Cadet Blue", "ral": "Custom-Blue-02", "price": 130},
+            {"hex": "#ADD8E6", "name": "Light Blue", "ral": "Custom-Blue-03", "price": 135},
+            {"hex": "#00008B", "name": "Dark Blue", "ral": "RAL 5000", "price": 140},
+            {"hex": "#191970", "name": "Midnight Blue", "ral": "Custom-Blue-04", "price": 145}
         ]
     },
     {
         "name": "Rood",
         "colors": [
-            {
-              "hex": "#FF0000",
-              "name": "Pure Red",
-              "ral": "RAL 3020"
-            },
-            {
-              "hex": "#D10000",
-              "name": "Crimson Blaze",
-              "ral": "RAL 3000"
-            },
-            {
-              "hex": "#B22222",
-              "name": "Firebrick Red",
-              "ral": "RAL 3002"
-            },
-            {
-              "hex": "#DC143C",
-              "name": "Crimson Flame",
-              "ral": "RAL 3018"
-            },
-            {
-              "hex": "#E34234",
-              "name": "Vermilion Heat",
-              "ral": "RAL 2002"
-            },
-            {
-              "hex": "#C41E3A",
-              "name": "Cardinal Red",
-              "ral": "RAL 3003"
-            },
-            {
-              "hex": "#8B0000",
-              "name": "Dark Ruby",
-              "ral": "RAL 3004"
-            },
-            {
-              "hex": "#FF4C4C",
-              "name": "Soft Scarlet",
-              "ral": "Custom-Red-01"
-            },
-            {
-              "hex": "#FF6347",
-              "name": "Tomato Tint",
-              "ral": "Custom-Red-02"
-            },
-            {
-              "hex": "#FFA07A",
-              "name": "Light Salmon Red",
-              "ral": "Custom-Red-03"
-            }
+            {"hex": "#FF0000", "name": "Pure Red", "ral": "RAL 3020", "price": 0},
+            {"hex": "#D10000", "name": "Crimson Blaze", "ral": "RAL 3000", "price": 105},
+            {"hex": "#B22222", "name": "Firebrick Red", "ral": "RAL 3002", "price": 110},
+            {"hex": "#DC143C", "name": "Crimson Flame", "ral": "RAL 3018", "price": 115},
+            {"hex": "#E34234", "name": "Vermilion Heat", "ral": "RAL 2002", "price": 120},
+            {"hex": "#C41E3A", "name": "Cardinal Red", "ral": "RAL 3003", "price": 125},
+            {"hex": "#8B0000", "name": "Dark Ruby", "ral": "RAL 3004", "price": 130},
+            {"hex": "#FF4C4C", "name": "Soft Scarlet", "ral": "Custom-Red-01", "price": 135},
+            {"hex": "#FF6347", "name": "Tomato Tint", "ral": "Custom-Red-02", "price": 140},
+            {"hex": "#FFA07A", "name": "Light Salmon Red", "ral": "Custom-Red-03", "price": 145}
         ]
     },
     {
         "name": "Groen",
         "colors": [
-            {
-              "hex": "#008000",
-              "name": "Pure Green",
-              "ral": "RAL 6000"
-            },
-            {
-              "hex": "#006400",
-              "name": "Dark Forest",
-              "ral": "Custom-Green-01"
-            },
-            {
-              "hex": "#32CD32",
-              "name": "Lime Green",
-              "ral": "Custom-Green-02"
-            },
-            {
-              "hex": "#00FF00",
-              "name": "Neon Green",
-              "ral": "Custom-Green-03"
-            },
-            {
-              "hex": "#228B22",
-              "name": "Forest Green",
-              "ral": "Custom-Green-04"
-            },
-            {
-              "hex": "#ADFF2F",
-              "name": "Green Yellow",
-              "ral": "Custom-Green-05"
-            },
-            {
-              "hex": "#7CFC00",
-              "name": "Lawn Green",
-              "ral": "Custom-Green-06"
-            },
-            {
-              "hex": "#9ACD32",
-              "name": "Yellow Green",
-              "ral": "Custom-Green-07"
-            },
-            {
-              "hex": "#6B8E23",
-              "name": "Olive Drab",
-              "ral": "Custom-Green-08"
-            },
-            {
-              "hex": "#556B2F",
-              "name": "Dark Olive Green",
-              "ral": "Custom-Green-09"
-            }
+            {"hex": "#008000", "name": "Pure Green", "ral": "RAL 6000", "price": 0},
+            {"hex": "#006400", "name": "Dark Forest", "ral": "Custom-Green-01", "price": 105},
+            {"hex": "#32CD32", "name": "Lime Green", "ral": "Custom-Green-02", "price": 110},
+            {"hex": "#00FF00", "name": "Neon Green", "ral": "Custom-Green-03", "price": 115},
+            {"hex": "#228B22", "name": "Forest Green", "ral": "Custom-Green-04", "price": 120},
+            {"hex": "#ADFF2F", "name": "Green Yellow", "ral": "Custom-Green-05", "price": 125},
+            {"hex": "#7CFC00", "name": "Lawn Green", "ral": "Custom-Green-06", "price": 130},
+            {"hex": "#9ACD32", "name": "Yellow Green", "ral": "Custom-Green-07", "price": 135},
+            {"hex": "#6B8E23", "name": "Olive Drab", "ral": "Custom-Green-08", "price": 140},
+            {"hex": "#556B2F", "name": "Dark Olive Green", "ral": "Custom-Green-09", "price": 145}
         ]
     },
     {
         "name": "Geel",
         "colors": [
-            {
-              "hex": "#FFFF00",
-              "name": "Yellow",
-              "ral": "RAL 1023"
-            },
-            {
-              "hex": "#FFD700",
-              "name": "Gold",
-              "ral": "RAL 1032"
-            },
-            {
-              "hex": "#F0E68C",
-              "name": "Khaki",
-              "ral": "Custom-Yellow-01"
-            },
-            {
-              "hex": "#FFFACD",
-              "name": "Lemon Chiffon",
-              "ral": "Custom-Yellow-02"
-            },
-            {
-              "hex": "#FFFFE0",
-              "name": "Light Yellow",
-              "ral": "Custom-Yellow-03"
-            },
-            {
-              "hex": "#FFEB3B",
-              "name": "Yellow Bright",
-              "ral": "Custom-Yellow-04"
-            },
-            {
-              "hex": "#F9A825",
-              "name": "Mustard",
-              "ral": "RAL 1005"
-            },
-            {
-              "hex": "#FFCC00",
-              "name": "Amber",
-              "ral": "Custom-Yellow-05"
-            },
-            {
-              "hex": "#FFB300",
-              "name": "Goldenrod",
-              "ral": "Custom-Yellow-06"
-            },
-            {
-              "hex": "#F2C300",
-              "name": "Daffodil Yellow",
-              "ral": "Custom-Yellow-07"
-            }
+            {"hex": "#FFFF00", "name": "Yellow", "ral": "RAL 1023", "price": 0},
+            {"hex": "#FFD700", "name": "Gold", "ral": "RAL 1032", "price": 105},
+            {"hex": "#F0E68C", "name": "Khaki", "ral": "Custom-Yellow-01", "price": 110},
+            {"hex": "#FFFACD", "name": "Lemon Chiffon", "ral": "Custom-Yellow-02", "price": 115},
+            {"hex": "#FFFFE0", "name": "Light Yellow", "ral": "Custom-Yellow-03", "price": 120},
+            {"hex": "#FFEB3B", "name": "Yellow Bright", "ral": "Custom-Yellow-04", "price": 125},
+            {"hex": "#F9A825", "name": "Mustard", "ral": "RAL 1005", "price": 130},
+            {"hex": "#FFCC00", "name": "Amber", "ral": "Custom-Yellow-05", "price": 135},
+            {"hex": "#FFB300", "name": "Goldenrod", "ral": "Custom-Yellow-06", "price": 140},
+            {"hex": "#F2C300", "name": "Daffodil Yellow", "ral": "Custom-Yellow-07", "price": 145}
         ]
     }
 ];
@@ -610,17 +306,29 @@ function PanelColorAccorItem(accorId = "accordionExample", heading = "Accor Head
         </div>
     </div>`;
 }
-function PanelColorListItem(color = "#000", name = "Black Color", ral = "0001"){
-    return `<li class="list-group-item panel-frame-color d-flex align-items-center justify-content-between fs-6 gap-3" data-color="${color}" data-label="${name+" "+ral}">
-        <span class="d-flex align-items-center w-100 gap-3">
-            <span style="background-color: ${color};height: 16px;width: 32px;" class="d-inline-block rounded-pill"></span>
-            <span class="d-flex align-items-center gap-2">
-                <span class="text-dark text-capitalize">${name}</span>
-                <span class="text text-uppercase" style="color: #999999;font-size: 14px;">${ral}</span>
+function PanelColorListItem(color = "#000", name = "Black Color", ral = "0001", price = 0){
+    return `<li class="list-group-item panel-frame-color d-flex align-items-center justify-content-between fs-6 gap-3" data-id="${btoa(color+""+name+""+ral)}" data-color="${color}" data-label="${name+" "+ral}" data-price="${price}">
+        <span class="d-flex align-items-center justify-content-between w-100 gap-1">
+            <span class="d-flex align-items-center w-100 gap-3">
+                <span style="background: ${color};height: 16px;width: 32px;" class="d-inline-block rounded-pill"></span>
+                <span class="d-flex align-items-center gap-2">
+                    <span class="text-dark text-capitalize">${name}</span>
+                    <span class="text text-uppercase" style="color: #999999;font-size: 14px;">${ral}</span>
+                </span>
             </span>
+            <span class="text text-orange price" style="font-size: 14px;">€${price}</span>
         </span>
         <span class="material-icons text-orange fs-5 active-icon">check_circle</span>
     </li>`;
+}
+function defaultColorPill(x){
+    return `<span class="d-flex align-items-center gap-2 border border-2 p-1 px-2 bg-white color-pill ${ x.type != undefined && x.type == "custom" ? `custom` : "" }" data-id="${btoa(x.hex+""+x.name+""+x.ral)}">
+        <span style="background: ${x.hex};height: 30px;width: 32px;" class="d-inline-block rounded-2"></span>
+        <span class="d-flex flex-column align-items-start gap-0">
+            <span class=" text-dark text-capitalize ">${x.name}</span>
+            <span class="text-sm text-uppercase" style="color: #999999;font-size: 12px;margin-top: -5px;">${x.ral}</span>
+        </span>
+    </span>`;
 }
 function GlassPanel(){
     return `<div class="glass-item">
@@ -633,7 +341,7 @@ function GlassDoor(){
         <span class="door-handle">
             <img src="${file_path}standard_door-handle.svg" />
         </span>
-    </div></div>`;
+    </div><div class="door-spacing"></div></div>`;
 }
 
 /* functions */
@@ -748,6 +456,7 @@ function junctionCount(){
 
     return junction;
 }
+ 
 function calcTotalData(wallWidthMm, wallHeightMm, frameTotal){
     var billOfMaterials = [];
     var calculatedPanelCount = calcPanelCount();
@@ -758,6 +467,7 @@ function calcTotalData(wallWidthMm, wallHeightMm, frameTotal){
     if(doorunits > 0){
         totalTrackLength = totalTrackLength - (Number($(".doordimensions-field").val()) * 2);
         //tracksDimensionsText = "Left + Right";
+        totalTrackLength = totalTrackLength + (wallHeightMm * 2);
         if(!$(".glass-between-door-tinker-side-field").prop("checked") && ($(".doorplacement-field:checked").val() == "left" || $(".doorplacement-field:checked").val() == "right")){
             totalTrackLength = totalTrackLength - wallHeightMm;
             // if($(".doorplacement-field:checked").val() == "left"){
@@ -776,18 +486,19 @@ function calcTotalData(wallWidthMm, wallHeightMm, frameTotal){
     var $junction = $(".junction-field:checked");
     var junctionQty = Math.ceil((junctionCount() * wallHeightMm) / $junction.attr("data-junctionlength"));
     var $supportblock = $(".supportblock-field:checked");
-    var supportblockQty = (junctionCount() * 2);
+    var supportblockQty = (calcPanelCount() * 2);
 
     var $doorUnit = $(".doorunits-field:checked");
     var $doorsill = $(".doorsill-field:checked");
     var $doorlock = $(".lock-field:checked");
     var $doorhandle = $(".doorhandle-field:checked");
 
-    var $panelFrameColor = $(".panel-frame-color.active");
+    var $panelFrameColor = $(".panel-frame-color.active"); 
     var $finishcolor = $(".finishcolor-field:checked");
 
     var $measuring = $(".measuring-field:checked");
     var $delivery = $(".delivery-field:checked");
+    
 
 
     billOfMaterials = [
@@ -840,9 +551,9 @@ function calcTotalData(wallWidthMm, wallHeightMm, frameTotal){
             "item": "Support Blocks",
             "length": "2 pcs",
             "basis": "pcs",
-            "qty": (junctionCount() * 2),
+            "qty": (calcPanelCount() * 2),
             "unitprice": $supportblock.val(),
-            "subtotal": $supportblock.length > 0 ? (junctionCount() * 2) * $supportblock.val() : 0
+            "subtotal": $supportblock.length > 0 ? (calcPanelCount() * 2) * $supportblock.val() : 0
         });
     }
 
@@ -886,8 +597,8 @@ function calcTotalData(wallWidthMm, wallHeightMm, frameTotal){
         "length": "",
         "basis": "",
         "qty": "",
-        "unitprice": 0,
-        "subtotal": 0
+        "unitprice": $panelFrameColor.length > 0 ? Number($panelFrameColor.attr("data-price")): 0,
+        "subtotal": $panelFrameColor.length > 0 ? Number($panelFrameColor.attr("data-price")): 0
     },
     {
         "item": "Finish Color ("+$finishcolor.attr("data-label")+")",
@@ -1007,6 +718,7 @@ function calcTotal(addtoCart = false){
     var totalTrackLength = (wallWidthMm * 2) + (wallHeightMm * 2);
     if(doorunits > 0){
         totalTrackLength = totalTrackLength - (Number($(".doordimensions-field").val()) * 2);
+        totalTrackLength = totalTrackLength + (wallHeightMm * 2);
         if(!$(".glass-between-door-tinker-side-field").prop("checked") && ($(".doorplacement-field:checked").val() == "left" || $(".doorplacement-field:checked").val() == "right")){
             totalTrackLength = totalTrackLength - wallHeightMm;
         }
@@ -1041,7 +753,7 @@ function calcTotal(addtoCart = false){
     });
     $(".supportblock-field").each(function(){
         var that = $(this);
-        var qty = junctionCount() * 2;
+        var qty = calcPanelCount() * 2;
         that.parents("label").find(".count").html(qty * that.val());
         that.parents("label").find(".temp-count").html("Price: "+that.val()+", Qty: "+qty+", Pcs: 2");
     });
@@ -1068,20 +780,21 @@ function calcTotal(addtoCart = false){
         if(Number($(".doorunits-field:checked").val()) > 0){
             //totalPanels = totalPanels - wallType - glasstype;
         }
+        var doorBottomSpacing_Field = $(".door-bottom-spacing-field").val();
+        $('.glass-item.door .door-spacing').css({ "height": (Number(doorBottomSpacing_Field) * 0.1)+"px" })
     }
 
     var trackValue = $(".track-field:checked").length > 0 ? Math.ceil(totalTrackLength / $(".track-field:checked").attr("data-tracklength")) * $(".track-field:checked").val() : 0;
     var beadingValue = $(".beading-field:checked").length > 0 ? Math.ceil(totalTrackLength / $(".beading-field:checked").attr("data-beadinglength")) * $(".beading-field:checked").val() : 0;
 
-    //var junctionValue = $(".junction-field:checked").length > 0 ? Math.ceil(((calculatedPanelCount - 1) * wallHeightMm) / $(".junction-field:checked").attr("data-junctionlength")) * $(".junction-field:checked").val() : 0;
     var junctionValue = $(".junction-field:checked").length > 0 ? Math.ceil((junctionCount() * wallHeightMm) / $(".junction-field:checked").attr("data-junctionlength")) * $(".junction-field:checked").val() : 0;
-    //var supportValue = $(".supportblock-field:checked").length > 0 ? ((calculatedPanelCount - 1) * 2) * $(".supportblock-field:checked").val() : 0;
-    var supportValue = $(".supportblock-field:checked").length > 0 ? (junctionCount() * 2) * $(".supportblock-field:checked").val() : 0;
+    var supportValue = $(".supportblock-field:checked").length > 0 ? (calcPanelCount() * 2) * $(".supportblock-field:checked").val() : 0;
     var otherAccessories = trackValue + beadingValue + junctionValue + supportValue;
 
     var measuring = $(".measuring-field:checked").val() != undefined ? Number($(".measuring-field:checked").val()) : 0;
     var delivery = $(".delivery-field:checked").val() != undefined ? Number($(".delivery-field:checked").val()) : 0;
-    var frameTotal = totalPanels + otherAccessories + doorunits + measuring + delivery;
+    var frameColorPrice = $(".panel-frame-color.active").length > 0 ? Number($(".panel-frame-color.active").attr("data-price")): 0;
+    var frameTotal = totalPanels + otherAccessories + doorunits + measuring + delivery + frameColorPrice;
 
     $(".form-total").html(frameTotal);
 
@@ -1276,7 +989,7 @@ function createGlassPanel(){
         var panelsCount = Math.max(0, calculatedPanelCount - nonPanelSlots);
 
         // total width available for panels = wallWidth - widths occupied by door and offset slots
-        var widthForPanels = wallWidthMm - doorWidth - (offsetEnabled ? doorOffset : 0);
+        var widthForPanels = (wallWidthMm - doorWidth) - (offsetEnabled ? doorOffset : 0);
 
         // Edge safety
         if (widthForPanels < panelsCount * minW) {
@@ -1322,21 +1035,18 @@ function createGlassPanel(){
         }
         else if (doorPlacement === "left") {
             // For left, offset (if any) appears left to the door (as per your rule)
+            // If offsetEnabled and divideGlassesEvenly true, we will place half-offset before panels as spacer
+            // offset on left if present
             if (offsetEnabled) {
-                if (divideGlassesEvenly) {
-                    // when dividing, add half-offset before door, half-offset after door
-                    finalSlots.push({type:"offset", width: Math.round(doorOffset/2)});
-                    finalSlots.push({type:"door", width:doorWidth});
-                    finalSlots.push({type:"offset", width: Math.round(doorOffset/2)});
-                } else {
-                    finalSlots.push({type:"offset", width:doorOffset}); // left side offset
-                    finalSlots.push({type:"door", width:doorWidth});
-                }
-            } else {
-                finalSlots.push({type:"door", width:doorWidth});
+                finalSlots.push({type:"offset", width: divideGlassesEvenly ? Math.round(doorOffset/2) : doorOffset});
             }
-            // then append all panels to the right in the order they came
+            // door
+            finalSlots.push({type:"door", width:doorWidth});
+            // panels
             for (var i = 0; i < panelSizes.length; i++) finalSlots.push({type:"panel", width:panelSizes[i]});
+            if (divideGlassesEvenly && offsetEnabled) {
+                finalSlots.push({type:"offset", width: Math.round(doorOffset/2)});
+            }
         }
         else if (doorPlacement === "right") {
             // For right, panels first then door (and offset on the right side)
@@ -1536,10 +1246,23 @@ $(document).on("change",".walltype-field, .glasstype-field, .track-field, .beadi
         }
     }
     else{
+        if(that.hasClass("glasstype-field")){
+            var $glassField_NODE = $(".glasstype-field:checked");
+            if($glassField_NODE.length  > 0){
+                var accasories_Array = $glassField_NODE.attr("data-accasories").split(",");
+                if(accasories_Array.length > 0){
+                    $(".beading-block .custom-radio").eq(Number(accasories_Array[0]) - 1).find("input").prop("checked",true);
+                    $(".track-block .custom-radio").eq(Number(accasories_Array[1]) - 1).find("input").prop("checked",true);
+                    $(".junction-block .custom-radio").eq(Number(accasories_Array[2]) - 1).find("input").prop("checked",true);
+                    $(".supportblock-block .custom-radio").eq(Number(accasories_Array[3]) - 1).find("input").prop("checked",true);
+                    //$(".beading-block,.track-block,.junction-block,.supportblock-block").addClass("d-block").removeClass("d-none");
+                }
+            }
+        }
         calcTotal();
     }
 });
-$(document).on("change keyup",".doorunits-field, .doordimensions-field, .doorplacement-field, .door-offset-field, .glass-between-door-tinker-side-field, .divide-glasses-evenly-field, .doortype-field, .directionofrotation-field",function(e){
+$(document).on("change keyup",".doorunits-field, .doordimensions-field, .doorplacement-field, .door-offset-field, .glass-between-door-tinker-side-field, .divide-glasses-evenly-field, .doortype-field, .directionofrotation-field, .door-bottom-spacing-field",function(e){
     var that = $(this);
     var valid = false;
 
@@ -1644,6 +1367,9 @@ $(document).on("change keyup",".doorunits-field, .doordimensions-field, .doorpla
     if(that.hasClass("directionofrotation-field")){
         $(".glass-frame .glass-item.door").addClass(that.val() == "left" ? "left":"right").removeClass(that.val() == "left" ? "right":"left");
     }
+    if(that.hasClass("door-bottom-spacing-field")){
+        valid = true;
+    }
 
     if(valid){
         createGlassPanel();
@@ -1695,6 +1421,17 @@ $(document).on("change keyup click",".doorsill-field, .lock-field, .doorhandle-f
     }
     calcTotal();
 });
+$(document).on("click",".default-colors-palette .color-pill",function(){
+    var $t = $(this);
+    $(".default-colors-palette .color-pill").removeClass("border-orange");
+    $t.addClass("border-orange");
+    if($t.hasClass("custom")){
+        $(".frame-color-palette").addClass("d-block").removeClass("d-none");
+    } else{
+        $(".frame-color-palette").removeClass("d-block").addClass("d-none");
+        $(".frame-color-palette .panel-frame-color[data-id='"+$t.attr("data-id")+"']").click();
+    }
+});
 $(document).on("click",".next-step-btn:not(.add-to-cart-btn), .previous-step-btn",function(){
     if($(this).hasClass("next-step-btn")){
         if(validateCurrentStep()){
@@ -1736,13 +1473,18 @@ $(function(){
     $(".design-panel .glass-frame").html(GlassPanel());
 
     var accor_HTML = "";
+    var defaultColorsHTML = "";
     panelFrameColors.forEach(function(item){
         var listItem_HTML = "";
+        defaultColorsHTML += defaultColorPill(item.colors[0]);
         item.colors.forEach(function(listItem){
-            listItem_HTML += PanelColorListItem(listItem.hex, listItem.name, listItem.ral);
+            listItem_HTML += PanelColorListItem(listItem.hex, listItem.name, listItem.ral, listItem.price);
         });
         accor_HTML += PanelColorAccorItem("accordionExample", item.name, listItem_HTML);
     });
+    defaultColorsHTML += defaultColorPill({ hex: 'linear-gradient(90deg,rgba(131, 58, 180, 1) 0%, rgba(253, 29, 29, 1) 50%, rgba(252, 176, 69, 1) 100%)', name: "Custom", ral: "", price: "", type: "custom" });
+    /* default color palette */
+    $("#defaultColorsPalette").html(defaultColorsHTML);
     /* find-color-accordion */
     $(".find-color-accordion").html(accor_HTML);
 });
