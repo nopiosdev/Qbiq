@@ -847,7 +847,7 @@ function setWallSizing(){
             $wallHeight.parent().find(".sizing-length-hint").html(`Min ${wall_Attr.minheight} mm, max ${wall_Attr.maxheight} mm`);
     }
 }
-/* Helper: equal-split with min/max per-slot using a water-filling approach */
+
 function _equalSplitWithBounds(total, count, minW, maxW) {
     var arr = [];
     if (count <= 0) return arr;
@@ -915,8 +915,6 @@ function _equalSplitWithBounds(total, count, minW, maxW) {
     }
     return intArr;
 }
-
-/* Helper to redistribute panel widths (keeps function name) */
 function redistributePanels(total, count) {
     var panels = [];
     if (count <= 0) return panels;
@@ -949,7 +947,6 @@ function redistributePanels(total, count) {
 
     return panels;
 }
-
 function createGlassPanel(){
 
     // Calculation:
@@ -986,16 +983,15 @@ function createGlassPanel(){
         // base: one door replaces one panel
         var nonPanelSlots = 1; // door
         if(offsetEnabled) nonPanelSlots += 1; // offset occupies a slot (we will treat it separately)
-        var panelsCount = Math.max(0, calculatedPanelCount - nonPanelSlots);
 
         // total width available for panels = wallWidth - widths occupied by door and offset slots
         var widthForPanels = (wallWidthMm - doorWidth) - (offsetEnabled ? doorOffset : 0);
 
+        var panelsCount = 0;
+
         // Edge safety
-        if (widthForPanels < panelsCount * minW) {
-            // Not enough width — allow panelsCount to reduce (collapse panels into fewer slots)
-            // reduce panelsCount until fits or to zero
-            while (panelsCount > 0 && widthForPanels < panelsCount * minW) panelsCount--;
+        if (widthForPanels > 0) {
+            panelsCount = Math.max(1, Math.ceil(widthForPanels / maxW))
         }
         // If panelsCount becomes zero, remaining width will be just door + offset (we'll still create nothing else)
 
@@ -1145,6 +1141,7 @@ function createGlassPanel(){
     setDimention(wallWidthMm, wallHeightMm);
     calcTotal();
 }
+
 function validateCurrentStep(){
     var valid = false;
     $(".steps-nav .step-nav-"+step).removeClass("completed");
