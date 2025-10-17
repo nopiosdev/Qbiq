@@ -426,6 +426,10 @@ function disabledEnabledDoorunitAndOtherMaterials(){
     if($(".doorunits-field:disabled").length > 0){
         $(".doorunits-field[value=0]").prop("checked",true).change();
     }
+    
+    if($(".glasstype-field:checked").length > 0){
+        $(".glasstype-field:checked").change();
+    }
 }
 function junctionCount(){
     var junction = 0;
@@ -467,9 +471,10 @@ function calcTotalData(wallWidthMm, wallHeightMm, frameTotal){
     if(doorunits > 0){
         totalTrackLength = totalTrackLength - (Number($(".doordimensions-field").val()) * 2);
         //tracksDimensionsText = "Left + Right";
-        totalTrackLength = totalTrackLength + (wallHeightMm * 2);
+        //totalTrackLength = totalTrackLength + (wallHeightMm * 2);
         if(!$(".glass-between-door-tinker-side-field").prop("checked") && ($(".doorplacement-field:checked").val() == "left" || $(".doorplacement-field:checked").val() == "right")){
-            totalTrackLength = totalTrackLength - wallHeightMm;
+            //totalTrackLength = totalTrackLength - wallHeightMm;
+            
             // if($(".doorplacement-field:checked").val() == "left"){
             //     tracksDimensionsText = "Top + bottom + Right";
             // }
@@ -498,6 +503,7 @@ function calcTotalData(wallWidthMm, wallHeightMm, frameTotal){
 
     var $measuring = $(".measuring-field:checked");
     var $delivery = $(".delivery-field:checked");
+    var $doorSpacing = $(".door-bottom-spacing-field");
     
 
 
@@ -549,8 +555,8 @@ function calcTotalData(wallWidthMm, wallHeightMm, frameTotal){
     if(supportblockQty > 0){
         billOfMaterials.push({
             "item": "Support Blocks",
-            "length": "2 pcs",
-            "basis": "pcs",
+            "length": "",
+            "basis": "",
             "qty": (calcPanelCount() * 2),
             "unitprice": $supportblock.val(),
             "subtotal": $supportblock.length > 0 ? (calcPanelCount() * 2) * $supportblock.val() : 0
@@ -589,6 +595,14 @@ function calcTotalData(wallWidthMm, wallHeightMm, frameTotal){
             "qty": 1,
             "unitprice": Number($doorhandle.val()),
             "subtotal": Number($doorhandle.val())
+        },
+        {
+            "item": "Door Bottom Spacing",
+            "length": "-"+$doorSpacing.val()+"mm",
+            "basis": "",
+            "qty": "",
+            "unitprice": 0,
+            "subtotal": 0
         });
     }
 
@@ -718,9 +732,9 @@ function calcTotal(addtoCart = false){
     var totalTrackLength = (wallWidthMm * 2) + (wallHeightMm * 2);
     if(doorunits > 0){
         totalTrackLength = totalTrackLength - (Number($(".doordimensions-field").val()) * 2);
-        totalTrackLength = totalTrackLength + (wallHeightMm * 2);
+        //totalTrackLength = totalTrackLength + (wallHeightMm * 2); 
         if(!$(".glass-between-door-tinker-side-field").prop("checked") && ($(".doorplacement-field:checked").val() == "left" || $(".doorplacement-field:checked").val() == "right")){
-            totalTrackLength = totalTrackLength - wallHeightMm;
+            //totalTrackLength = totalTrackLength - wallHeightMm;
         }
     }
 
@@ -817,7 +831,8 @@ function calcTotal(addtoCart = false){
                 var cart_item_data = calcTotalData(wallWidthMm, wallHeightMm, frameTotal);
                 storedCartItems.push(cart_item_data);
                 localStorage.setItem("cartItems", JSON.stringify(storedCartItems));
-                window.location.replace("cart.html");
+                //window.location.replace("cart.html");
+                window.open("cart.html", "_blank");
             }
         });
     }
@@ -995,11 +1010,20 @@ function createGlassPanel(){
         }
         // If panelsCount becomes zero, remaining width will be just door + offset (we'll still create nothing else)
 
+        if (doorPlacement === "center") {
+            // detect odd number when door is on center
+            if (panelsCount % 2 !== 0){
+                panelsCount = panelsCount + 1;
+            }   
+        }
+
+
         // If panelsCount > 0, distribute equally
         var panelSizes = panelsCount > 0 ? redistributePanels(widthForPanels, panelsCount) : [];
 
         // Now build finalSlots depending on placement and offset configuration
         if (doorPlacement === "center") {
+
             // split panels evenly left/right by count
             var leftCount = Math.floor(panelSizes.length / 2);
             var leftPanels = panelSizes.slice(0, leftCount);
@@ -1262,6 +1286,7 @@ $(document).on("change",".walltype-field, .glasstype-field, .track-field, .beadi
 $(document).on("change keyup",".doorunits-field, .doordimensions-field, .doorplacement-field, .door-offset-field, .glass-between-door-tinker-side-field, .divide-glasses-evenly-field, .doortype-field, .directionofrotation-field, .door-bottom-spacing-field",function(e){
     var that = $(this);
     var valid = false;
+    var Wall_width = $(".wall-width-field").val() != "" ? Number($(".wall-width-field").val()): per_Panel_width;
 
     if(that.hasClass("doorunits-field")){
         $(".door-offset-field").attr("checked",false).change();
@@ -1308,12 +1333,15 @@ $(document).on("change keyup",".doorunits-field, .doordimensions-field, .doorpla
         valid = true;
         if(that.hasClass("doorplacement-field")){
             $(".door-offset-box").removeClass("d-block").addClass("d-none");
-            if(that.val() == "left" || that.val() == "right"){
-                $(".door-offset-box").removeClass("d-none").addClass("d-block");
-            } else{
-                //$(".door-offset-field").prop("checked",false);
-                $(".glass-between-door-tinker-side-field").prop("checked",false);
-                $(".glass-between-door-tinker-side-field").change();
+            var isOffsetAvailble = Wall_width - Number($(".doordimensions-field").val()); 
+            if(isOffsetAvailble >= per_Panel_width){
+                if(that.val() == "left" || that.val() == "right"){
+                    $(".door-offset-box").removeClass("d-none").addClass("d-block");
+                } else{
+                    //$(".door-offset-field").prop("checked",false);
+                    $(".glass-between-door-tinker-side-field").prop("checked",false);
+                    $(".glass-between-door-tinker-side-field").change();
+                }
             }
         }
         if(that.hasClass("door-offset-field")){
