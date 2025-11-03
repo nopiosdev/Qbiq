@@ -106,6 +106,8 @@ span.temp-count{ font-size: 0.8rem; }
 .design-frame-wrapper:not(.door-has-offset).door-on-right{ border-right: none; }
 
 
+
+
 /* design-frame-wrapper */
 .design-frame-wrapper{ position: relative; }
 .dimension{position: absolute;width: 100%;}

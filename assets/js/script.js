@@ -478,33 +478,29 @@ function junctionCount(){
 }
 function supportBlockCount(){
     var calc_value = 0;
-    var exactPanelCount = 0;
-    var wallWidthMm = $(".wall-width-field").val() != "" ? $(".wall-width-field").val(): 0;
-    var doorunits = $(".doorunits-field:checked").val() != undefined ? Number($(".doorunits-field:checked").val()) : 0;
-    var doorplacement = $(".doorplacement-field:checked").val() != undefined ? $(".doorplacement-field:checked").val(): "";
-    var doorOffset = $(".glass-between-door-tinker-side-field").prop("checked");
-    var divideGlassEvenly = $(".divide-glasses-evenly-field").prop("checked");
-    var doordimensions = Number($(".doordimensions-field").val());
-    if(doorunits > 0){
-        exactPanelCount = wallWidthMm - doordimensions;
-        calc_value = Math.ceil(exactPanelCount/per_Panel_width); 
-        if(doorplacement == "center"){
-            if (calc_value % 2 !== 0){
-                calc_value = calc_value + 1;
-            }
-        } else{
-            if(doorOffset){ 
-                if (calc_value % 2 !== 0){
-                    calc_value = calc_value + 1;
-                }
-                if(divideGlassEvenly){
-                    calc_value = calc_value + 1;
-                }
-            }
-        }
-    } else{
-        calc_value = wallWidthMm / per_Panel_width;
-    }
+    // var exactPanelCount = 0;
+    // var wallWidthMm = $(".wall-width-field").val() != "" ? $(".wall-width-field").val(): 0;
+    // var doorunits = $(".doorunits-field:checked").val() != undefined ? Number($(".doorunits-field:checked").val()) : 0;
+    // var doorplacement = $(".doorplacement-field:checked").val() != undefined ? $(".doorplacement-field:checked").val(): "";
+    // var doorOffset = $(".glass-between-door-tinker-side-field").prop("checked");
+    // var divideGlassEvenly = $(".divide-glasses-evenly-field").prop("checked");
+    // var doordimensions = Number($(".doordimensions-field").val());
+    // if(doorunits > 0){
+    //     exactPanelCount = wallWidthMm - doordimensions;
+    //     calc_value = Math.ceil(exactPanelCount/per_Panel_width); 
+    //     if(doorplacement == "center"){
+    //         if (calc_value % 2 !== 0){
+    //             calc_value = calc_value + 1;
+    //         }
+    //     } else{
+    //         if(doorOffset){  
+    //             calc_value = calc_value + 1;
+    //         }
+    //     }
+    // } else{
+    //     calc_value = wallWidthMm / per_Panel_width;
+    // }
+    calc_value = $(".glass-frame .glass-item:not(.door)").length;
     
     return Math.ceil(calc_value);
 } 
@@ -519,10 +515,10 @@ function calcTotalData(wallWidthMm, wallHeightMm, frameTotal){
     if(doorunits > 0){
         /* calc totalTrackLength */
         totalTrackLength = totalTrackLength - (Number($(".doordimensions-field").val()) * 2);
-        totalTrackLength = totalTrackLength + (wallHeightMm * 2); 
+        //totalTrackLength = totalTrackLength + (wallHeightMm * 2); 
         /* no offset*/
         if(!$(".glass-between-door-tinker-side-field").prop("checked") && ($(".doorplacement-field:checked").val() == "left" || $(".doorplacement-field:checked").val() == "right")){
-            totalTrackLength = totalTrackLength - wallHeightMm;
+            //totalTrackLength = totalTrackLength - wallHeightMm;
         }
 
         /* calc totalBeadingLength */
@@ -784,10 +780,10 @@ function calcTotal(addtoCart = false){
     if(doorunits > 0){
         /* calc totalTrackLength */
         totalTrackLength = totalTrackLength - (Number($(".doordimensions-field").val()) * 2);
-        totalTrackLength = totalTrackLength + (wallHeightMm * 2); 
+        //totalTrackLength = totalTrackLength + (wallHeightMm * 2); 
         /* no offset*/
         if(!$(".glass-between-door-tinker-side-field").prop("checked") && ($(".doorplacement-field:checked").val() == "left" || $(".doorplacement-field:checked").val() == "right")){
-            totalTrackLength = totalTrackLength - wallHeightMm;
+            //totalTrackLength = totalTrackLength - wallHeightMm;
         }
 
         /* calc totalBeadingLength */
@@ -1554,6 +1550,7 @@ $(document).on("keyup", ".search-color-field", function() {
         });
     }
 });
+
 $(function(){
     $(".design-panel .glass-frame").html(GlassPanel());
 
