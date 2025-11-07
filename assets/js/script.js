@@ -523,7 +523,7 @@ function calcTotalData(wallWidthMm, wallHeightMm, frameTotal){
             "item": "Wall Type ("+$wallType.attr("data-label")+")",
             "length": "",
             "basis": "",
-            "qty": 1,
+            "qty": calculatedPanelCount,
             "unitprice": Number($wallType.val()),
             "subtotal": Number($wallType.val()) * calculatedPanelCount
         },
