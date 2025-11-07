@@ -4,6 +4,7 @@ var scale = 0.1;
 var per_Panel_width = 900; // 900mm – per mm 0.17px = 900 x 0.17 = 153px
 var per_Panel_minWidth = 200;
 var per_Panel_height = 3000; // 3000mm – per mm 0.12px = 3000 x 0.12 = 360px;
+var createdPanels = [];
 var file_path = window.location.protocol == "file:" ? "assets/image/":"/assets/image/";
 
 var panelFrameColors = [
@@ -403,6 +404,7 @@ function validate_nextstep_BTN(){
     }
 }
 function disabledEnabledDoorunitAndOtherMaterials(){
+    
     if(junctionCount() <= 0){
         $(".radio-check-field[data-name=junction]").removeAttr("required");
         $(".radio-check-field[data-name=supportblock]").removeAttr("required");
@@ -426,50 +428,38 @@ function disabledEnabledDoorunitAndOtherMaterials(){
     if($(".doorunits-field:disabled").length > 0){
         $(".doorunits-field[value=0]").prop("checked",true).change();
     }
-
     if($(".glasstype-field:checked").length > 0){
         $(".glasstype-field:checked").change();
     }
 }
 function junctionCount(){
     var junction = 0;
-    var calculatedPanelCount = calcPanelCount();
+    var calculatedPanelCount = createdPanels.filter(x => x.type == "panel").length;
     var doorunits = $(".doorunits-field:checked").val() != undefined ? Number($(".doorunits-field:checked").val()) : 0;
     var doorplacement = $(".doorplacement-field:checked").val() != undefined ? $(".doorplacement-field:checked").val(): "";
     var divideGlassEvenly = $(".divide-glasses-evenly-field").prop("checked");
-    if(doorunits > 0){
-        if(calculatedPanelCount > 2){
-            if(doorplacement != "center"){
-                //console.log("not center ",calculatedPanelCount - 1);
-                if(!divideGlassEvenly){
-                    junction = calculatedPanelCount - 1;
-                } else{
-                    junction = calculatedPanelCount;
-                }
+
+    function junctionNumber(doorplacement, divideGlassEvenly, calculatedPanelCount){
+        var junctionNumber = 0;
+        if(doorplacement != "center"){
+            //console.log("not center ",calculatedPanelCount - 1);
+            if(!divideGlassEvenly){
+                junctionNumber = calculatedPanelCount - 1;
             } else{
-                //console.log("center ",calculatedPanelCount - 2);
-                if (calculatedPanelCount % 2 !== 0){
-                    calculatedPanelCount = calculatedPanelCount + 1;
-                }
-                junction = calculatedPanelCount - 2;
+                junctionNumber = calculatedPanelCount;
             }
         } else{
-            if(doorplacement != "center"){
-                //console.log("not center ",calculatedPanelCount - 1);
-                if(!divideGlassEvenly){
-                    junction = calculatedPanelCount - 1;
-                } else{
-                    junction = calculatedPanelCount;
-                }
-            } else{
-                //console.log("center ",calculatedPanelCount - 2);
-                if (calculatedPanelCount % 2 !== 0){
-                    calculatedPanelCount = calculatedPanelCount + 1;
-                }
-                junction = calculatedPanelCount - 2;
+            //console.log("center ",calculatedPanelCount - 2);
+            if (calculatedPanelCount % 2 !== 0){
+                calculatedPanelCount = calculatedPanelCount + 1;
             }
+            junctionNumber = calculatedPanelCount - 2;
         }
+        return junctionNumber;
+    }
 
+    if(doorunits > 0){
+        junction = junctionNumber(doorplacement, divideGlassEvenly, calculatedPanelCount);
     } else{
         junction = calculatedPanelCount - 1;
     }
@@ -477,32 +467,7 @@ function junctionCount(){
     return junction;
 }
 function supportBlockCount(){
-    var calc_value = 0;
-    // var exactPanelCount = 0;
-    // var wallWidthMm = $(".wall-width-field").val() != "" ? $(".wall-width-field").val(): 0;
-    // var doorunits = $(".doorunits-field:checked").val() != undefined ? Number($(".doorunits-field:checked").val()) : 0;
-    // var doorplacement = $(".doorplacement-field:checked").val() != undefined ? $(".doorplacement-field:checked").val(): "";
-    // var doorOffset = $(".glass-between-door-tinker-side-field").prop("checked");
-    // var divideGlassEvenly = $(".divide-glasses-evenly-field").prop("checked");
-    // var doordimensions = Number($(".doordimensions-field").val());
-    // if(doorunits > 0){
-    //     exactPanelCount = wallWidthMm - doordimensions;
-    //     calc_value = Math.ceil(exactPanelCount/per_Panel_width); 
-    //     if(doorplacement == "center"){
-    //         if (calc_value % 2 !== 0){
-    //             calc_value = calc_value + 1;
-    //         }
-    //     } else{
-    //         if(doorOffset){  
-    //             calc_value = calc_value + 1;
-    //         }
-    //     }
-    // } else{
-    //     calc_value = wallWidthMm / per_Panel_width;
-    // }
-    calc_value = $(".glass-frame .glass-item:not(.door)").length;
-    
-    return Math.ceil(calc_value);
+    return Math.ceil($(".glass-frame .glass-item:not(.door)").length);
 } 
 function calcTotalData(wallWidthMm, wallHeightMm, frameTotal){
     var billOfMaterials = [];
@@ -571,20 +536,20 @@ function calcTotalData(wallWidthMm, wallHeightMm, frameTotal){
             "subtotal": Number($glassType.val()) * calcPanelCount()
         },
         {
-            "item": "Tracks (perimeter)",
-            "length": $track.attr("data-tracklength")+" mm",
-            "basis": totalTrackLength+" mm",
-            "qty": Math.ceil(totalTrackLength / $track.attr("data-tracklength")),
-            "unitprice": $track.val(),
-            "subtotal": $track.length > 0 ? Math.ceil(totalTrackLength / $track.attr("data-tracklength")) * $track.val() : 0
-        },
-        {
             "item": "Beading (perimeter)",
             "length": $beading.attr("data-beadinglength")+" mm",
             "basis": totalBeadingLength+" mm",
             "qty": Math.ceil(totalBeadingLength / $beading.attr("data-beadinglength")),
             "unitprice": $beading.val(),
             "subtotal": $beading.length > 0 ? Math.ceil(totalBeadingLength / $beading.attr("data-beadinglength")) * $beading.val() : 0
+        },
+        {
+            "item": "Tracks (perimeter)",
+            "length": $track.attr("data-tracklength")+" mm",
+            "basis": totalTrackLength+" mm",
+            "qty": Math.ceil(totalTrackLength / $track.attr("data-tracklength")),
+            "unitprice": $track.val(),
+            "subtotal": $track.length > 0 ? Math.ceil(totalTrackLength / $track.attr("data-tracklength")) * $track.val() : 0
         }
     ];
 
@@ -856,15 +821,29 @@ function calcTotal(addtoCart = false){
     }
 
     var trackValue = $(".track-field:checked").length > 0 ? Math.ceil(totalTrackLength / $(".track-field:checked").attr("data-tracklength")) * $(".track-field:checked").val() : 0;
-    var beadingValue = $(".beading-field:checked").length > 0 ? Math.ceil(totalTrackLength / $(".beading-field:checked").attr("data-beadinglength")) * $(".beading-field:checked").val() : 0;
+    var beadingValue = $(".beading-field:checked").length > 0 ? Math.ceil(totalBeadingLength / $(".beading-field:checked").attr("data-beadinglength")) * $(".beading-field:checked").val() : 0;
 
     var junctionValue = $(".junction-field:checked").length > 0 ? Math.ceil((junctionCount() * wallHeightMm) / $(".junction-field:checked").attr("data-junctionlength")) * $(".junction-field:checked").val() : 0;
     var supportValue = $(".supportblock-field:checked").length > 0 ? (supportBlockCount() * 2) * $(".supportblock-field:checked").val() : 0;
+
+    console.log("trackValue ",trackValue);
+    console.log("beadingValue ",beadingValue);
+    console.log("junctionValue ",junctionValue);
+    console.log("supportValue ",supportValue);
+
     var otherAccessories = trackValue + beadingValue + junctionValue + supportValue;
 
     var measuring = $(".measuring-field:checked").val() != undefined ? Number($(".measuring-field:checked").val()) : 0;
     var delivery = $(".delivery-field:checked").val() != undefined ? Number($(".delivery-field:checked").val()) : 0;
     var frameColorPrice = $(".panel-frame-color.active").length > 0 ? Number($(".panel-frame-color.active").attr("data-price")): 0;
+
+    console.log("totalPanels ",totalPanels);
+    console.log("otherAccessories ",otherAccessories);
+    console.log("doorunits ",doorunits);
+    console.log("measuring ",measuring);
+    console.log("delivery ",delivery);
+    console.log("frameColorPrice ",frameColorPrice);
+
     var frameTotal = totalPanels + otherAccessories + doorunits + measuring + delivery + frameColorPrice;
 
     $(".form-total").html(frameTotal);
@@ -1218,6 +1197,7 @@ function createGlassPanel(){
         $(".design-panel .glass-frame").append(GlassPanel_NODE);
     });
 
+    createdPanels = finalSlots;
     setDimention(wallWidthMm, wallHeightMm);
     calcTotal();
 }
@@ -1301,13 +1281,14 @@ $(document).on("keyup",".wall-width-field, .wall-length-field",function(){
     var height = $(".wall-length-field").val() != "" ? Number($(".wall-length-field").val()) : per_Panel_height;
     var max = that.attr("max");
     var min = that.attr("min");
-    disabledEnabledDoorunitAndOtherMaterials();
+    
     formValidation(".step.step-1",true);
     if((width < Number($(".wall-width-field").attr("min")) || width > Number($(".wall-width-field").attr("max"))) || (height < Number($(".wall-length-field").attr("min")) || height > Number($(".wall-length-field").attr("max")))){
         formValidation(".step.step-1")
     } else{
         createGlassPanel()
     }
+    disabledEnabledDoorunitAndOtherMaterials();
 });
 $(document).on("change",".walltype-field, .glasstype-field, .track-field, .beading-field, .junction-field, .supportblock-field",function(){
     var that = $(this);
